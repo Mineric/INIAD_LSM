@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os 
+from drf_firebase_auth.utils import map_firebase_uid_to_username
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,6 +34,9 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'api',
+    'rest_framework',
+    'drf_firebase_auth',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -70,6 +75,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'app.wsgi.application'
 
+CORS_ORIGIN_ALLOW_ALL = True   
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -120,6 +126,44 @@ AUTH_USER_MODEL = 'api.ExpandedUser'
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+KEYFILES_DIR = os.path.join(BASE_DIR, 'keyfiles')
+FIREBASE_KEY = 'auth-dev-f4445-firebase-adminsdk-dmmcz-0cbc56ec54.json'
+FIREBASE_PATH = os.path.join(KEYFILES_DIR, FIREBASE_KEY)
+
+REST_FRAMEWORK = {
+  'DEFAULT_AUTHENTICATION_CLASSES': [
+    'rest_framework.authentication.SessionAuthentication',
+    'drf_firebase_auth.authentication.FirebaseAuthentication',
+  ]
+}
+
+DRF_FIREBASE_AUTH = {
+    # allow anonymous requests without Authorization header set
+    'ALLOW_ANONYMOUS_REQUESTS': os.getenv('ALLOW_ANONYMOUS_REQUESTS', False),
+    # path to JSON file with firebase secrets
+    'FIREBASE_SERVICE_ACCOUNT_KEY':
+        os.getenv('FIREBASE_SERVICE_ACCOUNT_KEY', FIREBASE_PATH),
+    # allow creation of new local user in db
+    'FIREBASE_CREATE_LOCAL_USER':
+        os.getenv('FIREBASE_CREATE_LOCAL_USER', True),
+    # attempt to split firebase user.display_name and set local user
+    # first_name and last_name
+    'FIREBASE_ATTEMPT_CREATE_WITH_DISPLAY_NAME':
+        os.getenv('FIREBASE_ATTEMPT_CREATE_WITH_DISPLAY_NAME', True),
+    # commonly JWT or Bearer (e.g. JWT <token>)
+    'FIREBASE_AUTH_HEADER_PREFIX':
+        os.getenv('FIREBASE_AUTH_HEADER_PREFIX', 'JWT'),
+    # verify that JWT has not been revoked
+    'FIREBASE_CHECK_JWT_REVOKED':
+        os.getenv('FIREBASE_CHECK_JWT_REVOKED', True),
+    # require that firebase user.email_verified is True
+    'FIREBASE_AUTH_EMAIL_VERIFICATION':
+        os.getenv('FIREBASE_AUTH_EMAIL_VERIFICATION', False),
+    # function should accept firebase_admin.auth.UserRecord as argument
+    # and return str
+    'FIREBASE_USERNAME_MAPPING_FUNC': map_firebase_uid_to_username
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
