@@ -2,8 +2,8 @@ from django.urls import path, include
 from .views import *
 from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
-router.register ('DashBoard', DashBoardViewSet, basename = 'DashBoard')
-router.register ('Course', CourseViewSet, basename = 'Course')
+router.register ('Dashboard', DashBoardViewSet, basename = 'dashboard')
+router.register ('Courses', CourseViewSet, basename = 'courses')
 urlpatterns = [
     path ('viewset/', include(router.urls)),
 ]
