@@ -21,8 +21,8 @@ from collections import namedtuple
 class DashBoardViewSet (viewsets.ViewSet):
     def return_tuple_fields(self):
         return (namedtuple (
-            'DashBoard', (   
-                'student', 
+            'DashBoard',
+                ('student', 
                 'schools', 
                 'courses', 
                 'lessons', 
