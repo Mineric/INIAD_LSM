@@ -18,7 +18,7 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
         if fields is not None:
             # Drop any fields that are not specified in the `fields` argument.
             allowed = set()
-            if type (fields) == type ('str'): # H: foll-proof
+            if type (fields) == type ('str'): # H: fool-proof
                 allowed = set(list([fields]))
             else: allowed = set(fields)
             existing = set(self.fields)
@@ -26,12 +26,12 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
             for field_name in existing - allowed:
                 self.fields.pop(field_name)
     
-class StudentSerializer (serializers.ModelSerializer):
+class StudentSerializer (DynamicFieldsModelSerializer):
     class Meta:
         model = Student
         fields = "__all__"
         
-class SchoolSerializer (serializers.ModelSerializer):
+class SchoolSerializer (DynamicFieldsModelSerializer):
     class Meta:
         model = School
         fields = "__all__"
@@ -42,12 +42,12 @@ class CourseSerializer (DynamicFieldsModelSerializer):
         fields = "__all__"
         
         
-class LessonSerializer (serializers.ModelSerializer):
+class LessonSerializer (DynamicFieldsModelSerializer):
     class Meta:
         model = Lesson
         fields = "__all__"
         
-class TaskSerializer (serializers.ModelSerializer):
+class TaskSerializer (DynamicFieldsModelSerializer):
     class Meta:
         model = Task
         fields = "__all__"
@@ -56,6 +56,22 @@ class DashBoardSerializer (serializers.Serializer):
     
     student = StudentSerializer(many=True)
     schools = SchoolSerializer (many=True)
-    courses = CourseSerializer (many=True, fields = ("course_name","course_description"))
-    lessons = LessonSerializer (many=True)
-    tasks   = TaskSerializer (many=True)
+    courses = CourseSerializer (
+        many=True,
+        fields = (
+            "course_name",
+            "course_description",
+            "lecturers",
+            "date_start",
+            "date_end"
+            )
+        )
+    lessons = LessonSerializer (
+        many = True,
+        fields = (
+            "lesson_name",
+            "date_start",
+            "date_end"
+        )
+    )
+    tasks  = TaskSerializer (many=True)
