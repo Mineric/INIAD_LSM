@@ -17,17 +17,21 @@ from django.shortcuts import get_object_or_404
 from collections import namedtuple
 # Create your views here.
 
-DashBoard = namedtuple (
-    'DashBoard', 
-    ('student', 
-     'schools', 
-     'courses', 
-     'lessons', 
-     'tasks')
-    )
+
 class DashBoardViewSet (viewsets.ViewSet):
+    def return_tuple_fields(self):
+        return (namedtuple (
+            'DashBoard', (   
+                'student', 
+                'schools', 
+                'courses', 
+                'lessons', 
+                'tasks')
+            )
+        )
     def list(self, request):
-        dashboard = DashBoard(
+        
+        dashboard = self.return_tuple_fields()(
             student = Student.objects.all(),
             schools = School.objects.all(),
             courses = Course.objects.all(),
