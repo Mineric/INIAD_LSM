@@ -4,14 +4,15 @@ from rest_framework import serializers
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     """
-    A ModelSerializer that takes an additional `fields` argument that
-    controls which fields should be displayed.
+    A ModelSerializer that 
+        - takes an additional `fields` argument that controls which fields should be displayed.
+        - takes an additional `exlude_fields` argument that controls which fields should NOT be displayed.
     """
 
     def __init__(self, *args, **kwargs):
         # Don't pass the 'fields' arg up to the superclass
         fields = kwargs.pop('fields', None)
-
+        exclude_fields = kwargs.pop('exclude_fields', None)
         # Instantiate the superclass normally
         super(DynamicFieldsModelSerializer, self).__init__(*args, **kwargs)
 
@@ -25,6 +26,14 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
 
             for field_name in existing - allowed:
                 self.fields.pop(field_name)
+        
+        if exclude_fields is not None:
+            not_allowed = set()
+            if type (not_allowed) == type ('str'): # H: fool-proof
+                not_allowed = set(list([exclude_fields]))
+            else: not_allowed =set (exclude_fields)
+            for field_name in exclude_fields:
+                self.fields.pop (field_name)
     
 class StudentSerializer (DynamicFieldsModelSerializer):
     class Meta:
@@ -74,4 +83,9 @@ class DashBoardSerializer (serializers.Serializer):
             "date_end"
         )
     )
-    tasks  = TaskSerializer (many=True)
+    tasks  = TaskSerializer (
+        many=True,
+        exclude_fields = (
+            "student_id",
+            )
+        )
