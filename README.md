@@ -70,7 +70,8 @@ Create a virtual environment:
 python -m venv venv
 ```
 The second `venv` is the name of the virtual environment. It can be anything you want.
-OPen a virtual environment:
+
+Activate a virtual environment:
 ```
 source venv/bin/activate
 ```
