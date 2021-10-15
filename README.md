@@ -74,6 +74,8 @@ The second `venv` is the name of the virtual environment. It can be anything you
 Activate a virtual environment:
 ```
 source venv/bin/activate
+
+venv\Scripts\activate (for window)
 ```
 
 # Pip
