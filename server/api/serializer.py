@@ -6,7 +6,7 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     """
     A ModelSerializer that 
         - takes an additional `fields` argument that controls which fields should be displayed.
-        - takes an additional `exlude_fields` argument that controls which fields should NOT be displayed.
+        - takes an additional `exclude_fields` argument that controls which fields should NOT be displayed.
     """
 
     def __init__(self, *args, **kwargs):
