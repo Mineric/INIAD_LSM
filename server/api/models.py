@@ -16,15 +16,24 @@ class ExpandedUser(AbstractUser):
         LECTURER = "LT", "Lecturer"
     current_user_role = models.CharField(max_length=2, choices=USER_ROLE.choices, default=USER_ROLE.STUDENT)
 
+    def save(self, *args, **kwargs):
+        if not self.id:
+            super().save(self, *args, **kwargs)
+            current_user_role = self.USER_ROLE.choices.STUDENT
+            user = ExpandedUser.objects.filter(id=self.id)
+            student = Student.objects.create(user=user)
+            lecturer = Lecturer.objects.create(user=user)
+
+
 class Student(models.Model):
-    user_id = models.OneToOneField(
+    user = models.OneToOneField(
         ExpandedUser,
         on_delete=models.CASCADE,
         primary_key=True
     )
 
 class Lecturer(models.Model):
-    user_id = models.OneToOneField(
+    user = models.OneToOneField(
         ExpandedUser,
         on_delete=models.CASCADE,
         primary_key=True
@@ -37,8 +46,8 @@ class School(models.Model):
 class Course(models.Model):
     name = models.CharField(max_length = NAME_MAX_LENGTH)
     description = models.TextField()
-    school_id = models.ForeignKey(School, on_delete=models.CASCADE)
-    lecturers= models.ManyToManyField(Lecturer)
+    school = models.ForeignKey(School, on_delete=models.CASCADE)
+    lecturers = models.ManyToManyField(Lecturer)
     storage_url = models.URLField(max_length=URL_MAX_LENGTH) # drive, box, etc.
     date_start = models.DateTimeField(default=timezone.now)
     date_end = models.DateTimeField(default=timezone.now)
@@ -59,8 +68,8 @@ class Lesson(models.Model):
 class Task(models.Model):
     task_name = models.CharField(max_length=NAME_MAX_LENGTH)
     deadline = models.DateTimeField(default=timezone.now)
-    student_id = models.ForeignKey(Student, on_delete=CASCADE)
-    lesson_id = models.ForeignKey(Lesson, on_delete=CASCADE)
+    student = models.ForeignKey(Student, on_delete=CASCADE)
+    lesson = models.ForeignKey(Lesson, on_delete=CASCADE)
     class OPEN_STATUS(models.IntegerChoices):
         YES = 1, "yes"
         NO = 0, "no"
