@@ -20,7 +20,7 @@ import inspect
 
 def get_declared_fields (SerializerClass):
     '''
-    a function that return a tuple of  (declared attributes/fields of a multi-model serializer class)
+    a function that return a tuple of  (declared) attributes/fields of a multi-model serializer class)
     expressed as multiple steps for reusability
     '''
     attributes = inspect.getmembers(SerializerClass, lambda a:not(inspect.isroutine(a)))
