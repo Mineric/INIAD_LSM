@@ -26,15 +26,14 @@ def get_declared_fields (SerializerClass):
     attributes = inspect.getmembers(SerializerClass, lambda a:not(inspect.isroutine(a)))
     attributes = tuple ([a[1] for a in attributes if a[0] == '_declared_fields'])
     
-    return list (attributes[0].keys())
+    return tuple (attributes[0].keys())
 class DashBoardViewSet (viewsets.ViewSet):
     def return_tuple_fields(self):
         tuple_fields = get_declared_fields(DashBoardSerializer)
         return (namedtuple (
             'DashBoard', tuple_fields)
         )
-    def list(self, request):
-        
+    def list(self, request):      
         dashboard = self.return_tuple_fields()(
             students = Student.objects.all(),
             schools = School.objects.all(),
@@ -43,7 +42,7 @@ class DashBoardViewSet (viewsets.ViewSet):
             tasks = Task.objects.all()
         )
         serializer = DashBoardSerializer(dashboard)
-        print (get_declared_fields(DashBoardSerializer))
+        
         return Response(serializer.data)
     
 class CourseViewSet (viewsets.ViewSet):
