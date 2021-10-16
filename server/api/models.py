@@ -40,8 +40,8 @@ class Course(models.Model):
     school_id = models.ForeignKey(School, on_delete=models.CASCADE)
     lecturers= models.ManyToManyField(Lecturer)
     storage_url = models.URLField(max_length=URL_MAX_LENGTH) # drive, box, etc.
-    date_start = models.DateTimeField(default=timezone.now)
-    date_end = models.DateTimeField(default=timezone.now)
+    date_start = models.DateField(auto_now= True)
+    date_end = models.DateField(auto_now= True)
 
     class OPEN_STATUS(models.IntegerChoices):
         YES = 1, "yes"

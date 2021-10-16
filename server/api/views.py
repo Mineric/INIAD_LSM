@@ -48,5 +48,6 @@ class DashBoardViewSet (viewsets.ViewSet):
 class CourseViewSet (viewsets.ViewSet):
     def list (self, request):
         courses = Course.objects.all()
-        serializer = CourseSerializer(courses, many = True, fields = ('course_name',))
+        serializer = CourseSerializer(courses, many = True, fields = ('course_name','date_start'))
         return Response (serializer.data)
+        print (courses)
