@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 
-import LinkNext from '../../comps/LinkNext';
+import { LinkNext } from '../../comps/LinkNext';
 import { AccountLayout } from '../../comps/accounts/AccountLayout';
 import { userService, alertService } from '../../services';
 

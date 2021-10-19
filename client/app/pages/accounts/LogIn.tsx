@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 
-import LinkNext from '../../comps/LinkNext';
+import { LinkNext } from '../../comps/LinkNext';
 import { AccountLayout } from '../../comps/accounts/AccountLayout';
 import { userService, alertService } from '../../services';
 
@@ -23,7 +23,7 @@ function Login() {
     const { register, handleSubmit, formState } = useForm(formOptions);
     const { errors } = formState;
 
-    function onSubmit({ username, password }) {
+    function onSubmit({ username, password }: {username: string, password: string}) {
         return userService.login(username, password)
             .then(() => {
                 // get return url from query parameters or default to '/'
