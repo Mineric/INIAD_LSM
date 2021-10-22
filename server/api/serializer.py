@@ -63,7 +63,6 @@ class TaskSerializer (DynamicFieldsModelSerializer):
         fields = "__all__"
         
 class DashBoardSerializer (serializers.Serializer):
-    
     students = StudentSerializer(many=True)
     schools = SchoolSerializer (many=True)
     courses = CourseSerializer (
