@@ -130,7 +130,7 @@ AUTH_USER_MODEL = 'api.ExpandedUser'
 STATIC_URL = '/static/'
 
 KEYFILES_DIR = os.path.join(BASE_DIR, 'keyfiles')
-FIREBASE_KEY = 'auth-dev-f4445-firebase-adminsdk-dmmcz-0cbc56ec54.json'
+FIREBASE_KEY = 'iniad-lsm-firebase-adminsdk-mqv7a-02a4c53f89.json'
 FIREBASE_PATH = os.path.join(KEYFILES_DIR, FIREBASE_KEY)
 
 REST_FRAMEWORK = {
