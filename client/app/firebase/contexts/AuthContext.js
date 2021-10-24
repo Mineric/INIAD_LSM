@@ -20,6 +20,7 @@ export function AuthProvider({ children }) {
   }
 
   function logout() {
+    localStorage.removeItem("idToken"); // temporary solution for logout
     return auth.signOut()
   }
 
