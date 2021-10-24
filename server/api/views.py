@@ -2,10 +2,11 @@ from django.shortcuts import render
 from rest_framework import generics
 from rest_framework import permissions
 from rest_framework.views import APIView
-import api.models as models
-import api.serializers as serializers
+
 from .models import *
+from django.forms.models import model_to_dict
 from .serializer import *
+from .serializers import *
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -23,13 +24,13 @@ from collections import namedtuple
 import inspect
 # Create your views here.
 class CreateCourseView(generics.CreateAPIView):
-    queryset = models.Course.objects.all()
-    serializer_class = serializers.CourseSerializer
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
     # permission_classes = [permissions.IsAuthenticated]
 
 class CreateSchoolView(generics.CreateAPIView):
-    queryset = models.School.objects.all()
-    serializer_class = serializers.SchoolSerializer
+    queryset = School.objects.all()
+    serializer_class = SchoolSerializer
 
 def get_declared_fields (SerializerClass):
     '''
@@ -64,3 +65,15 @@ class CourseViewSet (viewsets.ViewSet):
         courses = Course.objects.all()
         serializer = CourseSerializer(courses, many = True, fields = ('course_name',))
         return Response (serializer.data)
+
+# Users
+class WhoAmIView(APIView):
+    """ Simple endpoint to test auth """
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, format=None):
+        """ Return request.user and request.auth """
+        return Response({
+            'request.user': model_to_dict(request.user),
+            'request.auth': request.auth
+        })

@@ -74,3 +74,4 @@ class Task(models.Model):
         YES = 1, "yes"
         NO = 0, "no"
     is_done = models.IntegerField(choices=OPEN_STATUS.choices, default=OPEN_STATUS.NO)
+
