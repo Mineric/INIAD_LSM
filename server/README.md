@@ -1,4 +1,13 @@
 # INIAD_LSM
+# Get ready
+Migrate `drf_firebase_auth`
+```
+./manage.py migrate drf_firebase_auth
+```
+If you are using WSl or Linux-like OS, update the server time:
+```
+sudo ntpdate -u in.pool.ntp.org
+```
 # Workflow
 The project mainly contains 2 branches: `main` and `dev`:
 * `main` branch: a stable branch
