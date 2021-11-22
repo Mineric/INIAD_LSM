@@ -2,7 +2,6 @@ from .models import *
 
 from rest_framework import serializers
 
-import inspect
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     """
     A ModelSerializer that 
@@ -89,3 +88,4 @@ class DashBoardSerializer (serializers.Serializer):
             "student_id",
             )
         )
+
