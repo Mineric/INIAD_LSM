@@ -10,6 +10,10 @@ from django.db.models.deletion import CASCADE
 NAME_MAX_LENGTH = 100
 URL_MAX_LENGTH = 200
 
+class OPEN_STATUS(models.IntegerChoices):
+    YES = 1, "yes"
+    NO = 0, "no"
+
 class ExpandedUser(AbstractUser):
     class USER_ROLE(models.TextChoices):
         STUDENT = "ST", "Student"
@@ -43,9 +47,6 @@ class Course(models.Model):
     date_start = models.DateTimeField(default=timezone.now)
     date_end = models.DateTimeField(default=timezone.now)
 
-    class OPEN_STATUS(models.IntegerChoices):
-        YES = 1, "yes"
-        NO = 0, "no"
     is_closed = models.IntegerField(choices=OPEN_STATUS.choices, default=OPEN_STATUS.NO)
     cost = models.FloatField()
     meeting_url = models.URLField(max_length=URL_MAX_LENGTH)
@@ -61,7 +62,24 @@ class Task(models.Model):
     deadline = models.DateTimeField(default=timezone.now)
     student_id = models.ForeignKey(Student, on_delete=CASCADE)
     lesson_id = models.ForeignKey(Lesson, on_delete=CASCADE)
-    class OPEN_STATUS(models.IntegerChoices):
-        YES = 1, "yes"
-        NO = 0, "no"
     is_done = models.IntegerField(choices=OPEN_STATUS.choices, default=OPEN_STATUS.NO)
+
+class AssignmentForm(models.Model):
+    lesson_id = models.ForeignKey(Lesson, on_delete=CASCADE)
+    Lecturer_id = models.ForeignKey(Lecturer, on_delete=CASCADE)
+    order = models.IntegerField(blank=False)
+    deadline = models.DateTimeField(default=timezone.now)
+    is_closed = models.IntegerField(choices=OPEN_STATUS.choices, default=OPEN_STATUS.NO)
+
+class AssignmentQuestion(models.Model):
+    question = models.TextField()
+    assignment_form_id = models.ForeignKey(AssignmentForm, on_delete=CASCADE)
+    order = models.IntegerField(blank=False)
+    score = models.IntegerField()
+    weight = models.IntegerField(default=100)
+
+class AssignmentAnswer(models.Model):
+    question_id = models.ForeignKey(AssignmentQuestion, on_delete=CASCADE)
+    answer = models.TextField()
+    student_id = models.ForeignKey(Student, on_delete=CASCADE)
+    score = models.IntegerField() # score = question_weight * answer_score
