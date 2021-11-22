@@ -74,7 +74,8 @@ class DashBoardSerializer (serializers.Serializer):
             "course_description",
             "lecturers",
             "date_start",
-            "date_end"
+            "date_end",
+            "course_image"
             )
         )
     lessons = LessonSerializer (

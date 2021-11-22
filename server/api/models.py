@@ -3,12 +3,16 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models.enums import Choices
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 from django.db.models.deletion import CASCADE
 # Create your models here.
 
 NAME_MAX_LENGTH = 100
 URL_MAX_LENGTH = 200
+
+def upload_to (instance, filename):
+    return 'course/{filename}'.format(filename = filename) #filename instead of post id because the post id is initialized after posting 
 
 class ExpandedUser(AbstractUser):
     class USER_ROLE(models.TextChoices):
@@ -42,7 +46,15 @@ class Course(models.Model):
     storage_url = models.URLField(max_length=URL_MAX_LENGTH) # drive, box, etc.
     date_start = models.DateField(auto_now= True)
     date_end = models.DateField(auto_now= True)
-
+    course_image = models.ImageField(
+        _("Image"), 
+        upload_to = upload_to, 
+        default = 'course/default.png', 
+        null = True
+    )
+    course_file = models.FileField(blank = True,
+                                   null = True, 
+                                   upload_to = upload_to)
     class OPEN_STATUS(models.IntegerChoices):
         YES = 1, "yes"
         NO = 0, "no"

@@ -51,3 +51,4 @@ class CourseViewSet (viewsets.ViewSet):
         serializer = CourseSerializer(courses, many = True, fields = ('course_name','date_start'))
         return Response (serializer.data)
         print (courses)
+        
