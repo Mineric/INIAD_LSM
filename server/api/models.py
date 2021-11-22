@@ -66,7 +66,7 @@ class Task(models.Model):
 
 class AssignmentForm(models.Model):
     lesson_id = models.ForeignKey(Lesson, on_delete=CASCADE)
-    Lecturer_id = models.ForeignKey(Lecturer, on_delete=CASCADE)
+    lecturer_id = models.ForeignKey(Lecturer, on_delete=CASCADE)
     order = models.IntegerField(blank=False)
     deadline = models.DateTimeField(default=timezone.now)
     is_closed = models.IntegerField(choices=OPEN_STATUS.choices, default=OPEN_STATUS.NO)
