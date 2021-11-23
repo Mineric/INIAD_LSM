@@ -75,14 +75,13 @@ class AssignmentQuestion(models.Model):
     question = models.TextField()
     assignment_form_id = models.ForeignKey(AssignmentForm, on_delete=CASCADE)
     order = models.IntegerField(blank=False)
-    score = models.IntegerField()
     weight = models.IntegerField(default=100)
     class QUESTION_TYPE(models.TextChoices):
         PARAGRAPH = "PA", "Paragraph"
         MULTIPLE_CHOICE = "MC", "Multiple choice"
         CHECK_BOX = "CB", "Check box"
     type = models.TextField(choices=QUESTION_TYPE.choices, default=QUESTION_TYPE.PARAGRAPH)
-    answer = models.TextField(default="")
+    answer = models.TextField(default="", null=True)
 
 class AssignmentAnswer(models.Model):
     question_id = models.ForeignKey(AssignmentQuestion, on_delete=CASCADE)

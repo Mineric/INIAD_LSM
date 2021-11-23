@@ -49,11 +49,15 @@ INSERT INTO api_expandeduser
 VALUES 
 	('password123', '20120618', TRUE, 'John_Doe','John', 'Doe', 'JohnDoexoxo@email.com', FALSE, TRUE, '20120618', 'ST'),
 	('password123', '20120618', TRUE, 'Jane_Doe','Jane', 'Doe', 'JaneDoexoxo@email.com', FALSE, TRUE, '20120618', 'ST'),
-	('password123', '20120618', TRUE, 'NeverGonnaGiveYouUp','Rick', 'Astley', 'nenvergonnaletyoudown@email.com', FALSE, TRUE, '20120618', 'ST')
+	('password123', '20120618', TRUE, 'NeverGonnaGiveYouUp','Rick', 'Astley', 'nenvergonnaletyoudown@email.com', FALSE, TRUE, '20120618', 'ST'),
+	('password123', '20120618', TRUE, 'Lemon','Yoshi', 'Konezu', 'yoshikonezu@email.com', FALSE, TRUE, '20120618', 'ST')
 ;
 
 INSERT into api_student
 VALUES (1),(2),(3);
+
+INSERT into api_lecturer
+VALUES (4);
 
 INSERT INTO api_task(task_name, deadline, is_done, lesson_id_id, student_id_id)
 VALUES 
@@ -65,6 +69,26 @@ VALUES
 ('Never gonna say goodbye','20211112',1,7,3),
 ('Never gonna tell a lie and hurt you','20211112',1,7,3)
 ;
+
+INSERT INTO api_assignmentform([order], deadline, is_closed, lesson_id_id, lecturer_id_id)
+VALUES 
+(1, '20221225', 0, 1, 4),
+(2, '20221225', 0, 1, 4),
+(3, '20221225', 0, 1, 4),
+(1, '20220820', 0, 2, 4),
+(2, '20220820', 0, 2, 4),
+(3, '20220820', 0, 2, 4);
+
+INSERT INTO api_assignmentquestion(question, [order], weight, assignment_form_id_id, type)
+VALUES
+('Definition of CPU', 1, 30, 1, 0),
+('CPU examples', 2, 30, 1, 0),
+('CPU prices research', 3, 30, 1, 0),
+('How CPU works', 1, 30, 2, 0),
+('How CPU was  created', 2, 30, 2, 0),
+('First CPU creation', 1, 30, 3, 0),
+('CPU stands for what?', 2, 30, 3, 0);
+
 
 
 

@@ -1,4 +1,5 @@
 from django.db.models import fields
+from django.utils import tree
 from .models import *
 
 from rest_framework import serializers
@@ -32,7 +33,7 @@ class AssignmentFormSerializer(DynamicFieldsModelSerializer):
         ))
 
     class Meta:
-        models = AssignmentForm
+        model = AssignmentForm
         fields = "__all__"
     
 class AssignmentFormWithAnswersSerializer(DynamicFieldsModelSerializer):
@@ -42,3 +43,11 @@ class AssignmentFormWithAnswersSerializer(DynamicFieldsModelSerializer):
         models = AssignmentForm
         fields = "__all__"
         depth = 2 # traverse to answer
+
+class LessonAssignmentFormsSerializer(serializers.Serializer):
+    assignment_forms = AssignmentFormSerializer(many=True, 
+        fields = (
+            'id'
+        ))
+
+    
