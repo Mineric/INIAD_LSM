@@ -73,7 +73,7 @@ class AssignmentForm(models.Model):
 
 class AssignmentQuestion(models.Model):
     question = models.TextField()
-    assignment_form_id = models.ForeignKey(AssignmentForm, on_delete=CASCADE)
+    assignment_form_id = models.ForeignKey(AssignmentForm, on_delete=CASCADE, related_name='assignment_questions')
     order = models.IntegerField(blank=False)
     weight = models.IntegerField(default=100)
     class QUESTION_TYPE(models.TextChoices):
