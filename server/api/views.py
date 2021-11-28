@@ -52,7 +52,7 @@ class CourseViewSet (viewsets.ViewSet):
         return Response (serializer.data)
         
 class LessonViewSet (viewsets.ViewSet):
-    visible_fields =  ('lesson_name', 'date_end', 'course_id') # used for editing fields in all methods 
+    visible_fields =  ('lesson_name','date_start', 'date_end', 'course_id') # used for editing fields in all methods 
     
     def list (self, request):
         lessons = Lesson.objects.all()
