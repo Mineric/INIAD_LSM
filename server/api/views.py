@@ -48,15 +48,25 @@ class DashBoardViewSet (viewsets.ViewSet):
 class CourseViewSet (viewsets.ViewSet):
     def list (self, request):
         courses = Course.objects.all() #query set
-        serializer = CourseSerializer(courses, many = True, fields = ('course_name','date_start'))
+        serializer = CourseSerializer(courses, many = True, fields = ('course_name','date_start','date_end', 'course_id'))
         return Response (serializer.data)
-        print (courses)
         
 class LessonViewSet (viewsets.ViewSet):
+    visible_fields =  ('lesson_name', 'date_end', 'course_id')
+    
     def list (self, request):
         lessons = Lesson.objects.all()
-        serializer = LessonSerializer(lessons, many = True)
+        serializer = LessonSerializer(lessons, many = True, fields = self.visible_fields)
         return Response (serializer.data)
     
-    def create (self, validated_data):
-        return Lesson.objects.create (**validated_data)
+    def create (self, request):
+        serializer = LessonSerializer(data = request.data)
+        
+        if serializer.is_valid ():
+            serializer.save()
+            
+            lessons = Lesson.objects.all()
+            serializer = LessonSerializer(lessons, many = True, fields = self.visible_fields
+            )
+            return Response (serializer.data)
+        return Response(serializer.errors)

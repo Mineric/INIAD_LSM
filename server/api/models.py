@@ -65,8 +65,8 @@ class Course(models.Model):
 class Lesson(models.Model):
     lesson_name = models.CharField(max_length=NAME_MAX_LENGTH)
     course_id = models.ForeignKey(Course, on_delete=CASCADE)
-    date_start = models.DateTimeField(default=timezone.now)
-    date_end = models.DateTimeField(default=timezone.now)
+    date_start = models.DateField(auto_now= True)
+    date_end = models.DateField(auto_now= True)
 
 class Task(models.Model):
     task_name = models.CharField(max_length=NAME_MAX_LENGTH)
