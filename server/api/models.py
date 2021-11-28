@@ -87,6 +87,7 @@ class Task(models.Model):
     lesson_id = models.ForeignKey(Lesson, on_delete=CASCADE)
     is_done = models.IntegerField(choices=OPEN_STATUS.choices, default=OPEN_STATUS.NO)
 
+
 class AssignmentForm(models.Model):
     lesson_id = models.ForeignKey(Lesson, on_delete=CASCADE)
     lecturer_id = models.ForeignKey(Lecturer, on_delete=CASCADE)
