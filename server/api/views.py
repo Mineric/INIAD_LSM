@@ -1,9 +1,13 @@
 from django.db.models import query
 from django.shortcuts import render
+from rest_framework import permissions
+from rest_framework.views import APIView
 
 from .models import *
+from django.forms.models import model_to_dict
 from .serializer import *
 from .assignment_serializer import *
+from .serializers import *
 
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
@@ -20,6 +24,14 @@ from django.shortcuts import get_object_or_404
 from collections import namedtuple
 import inspect
 # Create your views here.
+class CreateCourseView(generics.CreateAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+
+class CreateSchoolView(generics.CreateAPIView):
+    queryset = School.objects.all()
+    serializer_class = SchoolSerializer
 
 def get_declared_fields (SerializerClass):
     '''
@@ -126,3 +138,14 @@ class LessonAssignmentFormsViewSet(viewsets.GenericViewSet):
             return Response({"error": "wrong parameters"}, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     
+# Users
+class WhoAmIView(APIView):
+    """ Simple endpoint to test auth """
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, format=None):
+        """ Return request.user and request.auth """
+        return Response({
+            'request.user': model_to_dict(request.user),
+            'request.auth': request.auth
+        })

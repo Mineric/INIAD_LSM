@@ -87,18 +87,18 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Lecturer',
             fields=[
-                ('user_id', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='api.expandeduser')),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='api.expandeduser')),
             ],
         ),
         migrations.CreateModel(
             name='Student',
             fields=[
-                ('user_id', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='api.expandeduser')),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='api.expandeduser')),
             ],
         ),
         migrations.AddField(
             model_name='course',
-            name='school_id',
+            name='school',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.school'),
         ),
         migrations.CreateModel(
@@ -125,8 +125,8 @@ class Migration(migrations.Migration):
                 ('task_name', models.CharField(max_length=100)),
                 ('deadline', models.DateTimeField(default=django.utils.timezone.now)),
                 ('is_done', models.IntegerField(choices=[(1, 'yes'), (0, 'no')], default=0)),
-                ('lesson_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.lesson')),
-                ('student_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.student')),
+                ('lesson', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.lesson')),
+                ('student', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.student')),
             ],
         ),
         migrations.AddField(
