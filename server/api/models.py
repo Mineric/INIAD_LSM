@@ -51,9 +51,9 @@ class School(models.Model):
     school_description = models.TextField()
 
 class Course(models.Model):
-    name = models.CharField(max_length = NAME_MAX_LENGTH)
-    description = models.TextField(default = "course description text")
-    school = models.ForeignKey(School, on_delete=models.CASCADE)
+    course_name = models.CharField(max_length = NAME_MAX_LENGTH)
+    course_description = models.TextField(default = "course description text")
+    school_id = models.ForeignKey(School, on_delete=models.CASCADE)
     lecturers = models.ManyToManyField(Lecturer)
     storage_url = models.URLField(max_length=URL_MAX_LENGTH) # drive, box, etc.
     date_start = models.DateField(auto_now= True)
