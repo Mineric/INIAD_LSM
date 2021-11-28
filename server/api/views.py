@@ -52,3 +52,11 @@ class CourseViewSet (viewsets.ViewSet):
         return Response (serializer.data)
         print (courses)
         
+class LessonViewSet (viewsets.ViewSet):
+    def list (self, request):
+        lessons = Lesson.objects.all()
+        serializer = LessonSerializer(lessons, many = True)
+        return Response (serializer.data)
+    
+    def create (self, validated_data):
+        return Lesson.objects.create (**validated_data)
