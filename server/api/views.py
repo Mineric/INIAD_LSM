@@ -52,10 +52,19 @@ class CourseViewSet (viewsets.ViewSet):
         return Response (serializer.data)
         
 class LessonViewSet (viewsets.ViewSet):
-    visible_fields =  ('lesson_name', 'date_end', 'course_id')
+    visible_fields =  ('lesson_name', 'date_end', 'course_id') # used for editing fields in all methods 
     
     def list (self, request):
         lessons = Lesson.objects.all()
+        serializer = LessonSerializer(lessons, many = True, fields = self.visible_fields)
+        return Response (serializer.data)
+    
+    def list_all ():
+        """
+        (HIEU)list all the objects after editing something
+        maybe used after create(), destroy(), update(), etc
+        """
+        objects = Lesson.objects.all()
         serializer = LessonSerializer(lessons, many = True, fields = self.visible_fields)
         return Response (serializer.data)
     
@@ -64,9 +73,5 @@ class LessonViewSet (viewsets.ViewSet):
         
         if serializer.is_valid ():
             serializer.save()
-            
-            lessons = Lesson.objects.all()
-            serializer = LessonSerializer(lessons, many = True, fields = self.visible_fields
-            )
-            return Response (serializer.data)
+            self.list_all ()
         return Response(serializer.errors)
