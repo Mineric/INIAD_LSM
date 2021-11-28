@@ -52,7 +52,7 @@ class School(models.Model):
 
 class Course(models.Model):
     name = models.CharField(max_length = NAME_MAX_LENGTH)
-    description = models.TextField()
+    description = models.TextField(default = "course description text")
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     lecturers = models.ManyToManyField(Lecturer)
     storage_url = models.URLField(max_length=URL_MAX_LENGTH) # drive, box, etc.

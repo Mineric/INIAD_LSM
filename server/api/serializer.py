@@ -87,7 +87,7 @@ class DashBoardSerializer (serializers.Serializer):
     tasks  = TaskSerializer (
         many=True,
         exclude_fields = (
-            "student",
+            "student_id",
             )
         )
 
