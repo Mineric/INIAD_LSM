@@ -1,4 +1,13 @@
 # INIAD_LSM
+# Get ready
+Migrate `drf_firebase_auth`
+```
+./manage.py migrate drf_firebase_auth
+```
+If you are using WSl or Linux-like OS, update the server time:
+```
+sudo ntpdate -u in.pool.ntp.org
+```
 # Workflow
 The project mainly contains 2 branches: `main` and `dev`:
 * `main` branch: a stable branch
@@ -77,3 +86,8 @@ To write or update dependencies:
 ```
 pip freeze >> requirement.txt
 ```
+
+# About API
+We will be using `firebase` for our authentication.
+Since everything is already set up, you can casually access the `user` by `request.user` as usual.
+An example can be found in this link: https://github.com/garyburgmann/drf-firebase-auth/blob/master/testapp/api/views.py 

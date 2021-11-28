@@ -2,7 +2,6 @@ from .models import *
 
 from rest_framework import serializers
 
-import inspect
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     """
     A ModelSerializer that 
@@ -64,7 +63,6 @@ class TaskSerializer (DynamicFieldsModelSerializer):
         fields = "__all__"
         
 class DashBoardSerializer (serializers.Serializer):
-    
     students = StudentSerializer(many=True)
     schools = SchoolSerializer (many=True)
     courses = CourseSerializer (
@@ -89,6 +87,7 @@ class DashBoardSerializer (serializers.Serializer):
     tasks  = TaskSerializer (
         many=True,
         exclude_fields = (
-            "student_id",
+            "student",
             )
         )
+
