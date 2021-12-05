@@ -67,21 +67,22 @@ class CourseViewSet (viewsets.ViewSet):
         serializer = CourseSerializer(courses, many = True, fields = ('course_name','date_start','date_end', 'course_id'))
         return Response (serializer.data)
         
-class LessonViewSet (viewsets.ViewSet):
+class LessonViewSet (viewsets.GenericViewSet):
     visible_fields =  ('lesson_name','date_start', 'date_end', 'course_id') # used for editing fields in all methods 
-    
+    serializer_class = LessonSerializer
+    queryset = Lesson.objects.all()
     def list (self, request):
-        lessons = Lesson.objects.all()
-        serializer = LessonSerializer(lessons, many = True, fields = self.visible_fields)
+        objects = Lesson.objects.all()
+        serializer = LessonSerializer(objects, many = True, fields = self.visible_fields)
         return Response (serializer.data)
     
-    def list_all ():
+    def list_all (self):
         """
         (HIEU)list all the objects after editing something
         maybe used after create(), destroy(), update(), etc
         """
         objects = Lesson.objects.all()
-        serializer = LessonSerializer(lessons, many = True, fields = self.visible_fields)
+        serializer = LessonSerializer(objects, many = True, fields = self.visible_fields)
         return Response (serializer.data)
     
     def create (self, request):
@@ -89,9 +90,8 @@ class LessonViewSet (viewsets.ViewSet):
         
         if serializer.is_valid ():
             serializer.save()
-            self.list_all ()
+            return self.list_all () 
         return Response(serializer.errors)
-
 class AssignmentFormViewSet(viewsets.GenericViewSet):
     serializer_class = AssignmentFormSerializer
     # permission_classes = []
