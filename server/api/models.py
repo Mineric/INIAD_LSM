@@ -33,14 +33,14 @@ class ExpandedUser(AbstractUser):
 
 
 class Student(models.Model):
-    user = models.OneToOneField(
+    user_id = models.OneToOneField(
         ExpandedUser,
         on_delete=models.CASCADE,
         primary_key=True
     )
 
 class Lecturer(models.Model):
-    user = models.OneToOneField(
+    user_id = models.OneToOneField(
         ExpandedUser,
         on_delete=models.CASCADE,
         primary_key=True
