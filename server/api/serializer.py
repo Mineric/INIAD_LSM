@@ -50,7 +50,6 @@ class CourseSerializer (DynamicFieldsModelSerializer):
         model = Course
         fields = "__all__"
         
-        
 class LessonSerializer (DynamicFieldsModelSerializer):
     class Meta:
         model = Lesson
@@ -77,6 +76,7 @@ class DashBoardSerializer (serializers.Serializer):
     lessons = LessonSerializer (
         many = True,
         fields = (
+            "id",
             "lesson_name",
             "date_start",
             "date_end"
@@ -85,7 +85,7 @@ class DashBoardSerializer (serializers.Serializer):
     tasks  = TaskSerializer (
         many=True,
         exclude_fields = (
-            "student",
+            "student_id",
             )
         )
 

@@ -20,8 +20,8 @@ const AssignmentForm = ({ onSubmit, content }) => {
             {assignmentQuestions.map((question, index) => {
                 console.log("Assignment Form display: ", question.question)
                 return <div key={index}>
-                    <div>{index + 1}{". "}<TextDisplay rawEditorState={question.question}/></div>
-                    <TextEditor onUpdate={(newRawQuestionState) => {
+                    <div>Question{" "}{index + 1}{". "}<TextDisplay rawEditorState={question.question}/></div>
+                    <TextEditor onUpdate={(newRawAnswerState) => {
                         // const newAssignmentQuestions = assignmentQuestions
                         // newAssignmentQuestions[index].question = newRawQuestionState
                         // setAssignmentQuestions(newAssignmentQuestions)

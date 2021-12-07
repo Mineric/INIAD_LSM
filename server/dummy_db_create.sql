@@ -89,6 +89,9 @@ VALUES
 ('First CPU creation', 1, 30, 3, 0),
 ('CPU stands for what?', 2, 30, 3, 0);
 
+-- INSERT INTO api_assignmentanswer(answer, score, question_id_id, student_id_id)
+-- VALUES 
+-- ()
 
 
 

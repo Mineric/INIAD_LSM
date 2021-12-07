@@ -121,23 +121,22 @@ class AssignmentQuestionViewSet(viewsets.GenericViewSet):
         serializer.save(serializer)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-class LessonAssignmentFormsViewSet(viewsets.GenericViewSet):
-    serializer_class = LessonAssignmentFormsSerializer
-    queryset = AssignmentForm.objects.all()
+# class LessonAssignmentFormsViewSet(viewsets.GenericViewSet):
+#     serializer_class = LessonAssignmentFormsSerializer
+#     queryset = AssignmentForm.objects.all()
 
-    def retrieve(self, request, pk):
-        # lesson_id = request.query_params.get('lesson_id')
-        lesson_id = pk
-        if lesson_id is not None:
-            assignment_forms = AssignmentForm.objects.filter(lesson_id=lesson_id)
-            serializer = LessonAssignmentFormsSerializer(data={'assignment_forms': assignment_forms}, many=True)
-            serializer.is_valid()
-            print(serializer.data)
-            return Response(serializer.data)
-        else:
-            return Response({"error": "wrong parameters"}, status.HTTP_405_METHOD_NOT_ALLOWED)
+#     def retrieve(self, request, pk):
+#         # lesson_id = request.query_params.get('lesson_id')
+#         lesson_id = pk
+#         if lesson_id is not None:
+#             assignment_forms = AssignmentForm.objects.filter(lesson_id=lesson_id)
+#             serializer = LessonAssignmentFormsSerializer(data={'assignment_forms': assignment_forms}, many=True)
+#             serializer.is_valid()
+#             print(serializer.data)
+#             return Response(serializer.data)
+#         else:
+#             return Response({"error": "wrong parameters"}, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    
 # Users
 class WhoAmIView(APIView):
     """ Simple endpoint to test auth """

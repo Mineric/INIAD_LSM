@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { convertToRaw, convertFromRaw, EditorState, AtomicBlockUtils } from 'draft-js';
 // import { Editor } from 'react-draft-wysiwyg';
 import dynamic from 'next/dynamic'
@@ -7,6 +7,7 @@ const Editor = dynamic(
     { ssr: false }
   )
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import styles from  "../../css/text/TextEditor.css"
 
 // onUpdate: Update function to call everytime Editor State is updated
 //      return: raw JSON of Editor State
@@ -22,6 +23,14 @@ const TextEditor = ({ onUpdate, rawEditorState}) => {
             )
         }
     })()
+
+    useEffect(() => {
+        if(rawEditorState !== undefined && rawEditorState !== ""){
+            console.log("Inside useEffect ", rawEditorState)
+            setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(rawEditorState))))
+        }    
+            
+    }, [rawEditorState])
     
     
     const [uploadedImages, setUploadImages] = useState([]);  
@@ -92,9 +101,9 @@ const TextEditor = ({ onUpdate, rawEditorState}) => {
             <Editor
                 editorState={editorState}
                 onEditorStateChange={handleEditorChange}
-                // wrapperClassName="wrapper-class"
-                // editorClassName="editor-class"
-                // toolbarClassName="toolbar-class"
+                wrapperClassName={styles["wrapper-class"]}
+                editorClassName="editor-class"
+                toolbarClassName="toolbar-class"
                 toolbar={{
                     textAlign: { inDropdown: true },
                     image: {

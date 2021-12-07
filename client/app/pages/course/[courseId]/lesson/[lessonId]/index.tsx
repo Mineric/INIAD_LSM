@@ -81,10 +81,18 @@ const getData = [
     }
 ]
 
+// not final structure
 const answerData = [
     {
         "id": 1,
         "answer": '{"blocks":[{"key":"17d12","text":"CPU stands for C P U","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
+        "score": -1,
+        "question_id": 1,
+        "student_id": 10,        
+    },
+    {
+        "id": 2,
+        "answer": '{"blocks":[{"key":"17d12","text":"CPY stands for C P Y","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
         "score": -1,
         "question_id": 1,
         "student_id": 10,        
@@ -94,24 +102,25 @@ const answerData = [
 const Lesson = () => {
     const router = useRouter();
     const { lessonId, courseId } = router.query;
-    var [assignments, setAssignments] = useState(getData.sort((first, second) => {
-        if(first.order < second.order) return -1;
-        else if(first.order > second.order) return 1;
-        else return 0;
-    }))
+    // var [assignments, setAssignments] = useState(getData.sort((first, second) => {
+    //     if(first.order < second.order) return -1;
+    //     else if(first.order > second.order) return 1;
+    //     else return 0;
+    // }))
+    var [assignments, setAssignments] = useState(getData)
     const [currentAssignment, setCurrentAssignment] = useState((assignments.length > 0 ? 0 : -1));
     const [editMode, setEditMode] = useState(false)
 
     const onSave = (save, newRawAssignmentQuestionsState, assignmentIndex) => {
         if(save === true){
             let newAssignments = [...assignments];
+            newAssignments[assignmentIndex] = {...newAssignments[assignmentIndex]}
             newAssignments[assignmentIndex].assignment_questions = newRawAssignmentQuestionsState
             setAssignments(newAssignments)
             setEditMode(editMode === true ? false : true)
         } else { // if users decide not to save it
             setEditMode(editMode === true ? false : true)
         }
-        
     }
 
     return (
