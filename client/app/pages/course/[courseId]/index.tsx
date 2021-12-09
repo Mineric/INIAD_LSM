@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router"
+import Typography from "@mui/material/Typography"
 
 const getData = {
     "lessons": [
@@ -22,18 +23,23 @@ const Course = () => {
     const { courseId } = router.query;
     // get Data using courseId -> getData
     const {lessons, } = getData;
+    // this will be fetched by API later
+    // for now, we use dummy data
+    const courseName = "Computer Architecture"
+
 
     return (
         <>
             {lessons.map((item, index) => {
                 return (
-                    <div>
+                    <>
+                        
                         <Link 
                             href={"/course/[courseId]/lesson/[lessonId]"} 
                             as={`/course/${courseId}/lesson/${item.id}`} >
                             {`Lecture ${index + 1}: ${item.lesson_name}`}
                         </Link>
-                    </div>
+                    </>
                 )
             })
             }

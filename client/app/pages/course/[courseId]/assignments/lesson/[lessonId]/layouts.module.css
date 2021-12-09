@@ -1,0 +1,9 @@
+.page {
+    background: #0F0838;
+    height: 100%;
+    width: 100%;
+}
+
+.centerElement {
+    margin: auto
+}

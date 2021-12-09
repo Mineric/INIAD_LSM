@@ -1,0 +1,32 @@
+.wrapperClass {
+    padding: 1rem;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    border: 1px solid white;
+    border-radius: 5px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+    background-color: #EEEEEE;
+    width: 100%;
+}
+
+.editorClass {
+    background-color: #EEEEEE;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    min-height: 150px;
+    line-height: 50%;
+}
+
+.toolbarClass {
+    border: 1px solid #ccc;
+}
+
+.whiteText {
+    color: white;
+}

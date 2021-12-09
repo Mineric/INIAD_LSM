@@ -1,8 +1,10 @@
-import TextDisplay from "../../../../../../comps/text/TextDisplay"
+import TextDisplay from "../../../../../../../comps/text/TextDisplay"
 import { useState } from "react"
 import Button from "@mui/material/Button"
 import { Dialog, DialogContent, DialogActions} from "@mui/material"
 import QuestionEdit from "./QuestionEdit"
+import Grid from "@mui/material/Grid"
+import Typography from "@mui/material/Typography"
 
 const AssignmentFormEdit = ({ onSave, content }) => {
 
@@ -75,11 +77,11 @@ const AssignmentFormEdit = ({ onSave, content }) => {
     }
 
     return (
-        <>
+        <Grid container>
             {assignmentQuestions.map((question, index) => {
                 const dupQuestion = {...question}
-                return <div key={question.id}>
-                        <div>{index + 1}{". "}</div>
+                return <Grid item container key={question.id} xs={12}>
+                        <Typography variant="p" color="white">Question{" "}{index + 1}{". "}</Typography>
                         <QuestionEdit 
                             onUpdate={(newRawQuestionState) => {
                                 const newAssignmentQuestions = [...assignmentQuestions]
@@ -91,7 +93,7 @@ const AssignmentFormEdit = ({ onSave, content }) => {
                             duplicateQuestion = {() => {duplicateQuestion(index)}}
                             deleteQuestion = {() => {deleteQuestion(index)}}
                             rawEditorState={question.question}/>
-                    </div>
+                    </Grid>
             })}
 
             <Button onClick={() => {saveButtonOnClick(true)}}>Save changes</Button>
@@ -107,7 +109,7 @@ const AssignmentFormEdit = ({ onSave, content }) => {
             </Dialog>
 
             
-        </>
+        </Grid>
     )
 }
 

@@ -5,6 +5,10 @@ import AssignmentFormEdit from "./assignments/AssignmentFormEdit"
 
 import { useState } from "react"
 import { Button } from "@mui/material"
+import Typography from "@mui/material/Typography"
+import Grid from "@mui/material/Grid"
+import Box from "@mui/material/Box"
+import styles from "./layouts.module.css"
 
 const getData = [
     {
@@ -124,52 +128,76 @@ const Lesson = () => {
     }
 
     return (
-        <>  
-            <div>
-                <Link 
-                    href={"/course/[courseId]/"} 
-                    as={`/course/${courseId}/`}>
-                    Back to course page
-                </Link>
-            </div>
-            {/* Debug only */}
-            <p>Lesson: {lessonId}<br/>Couse: {courseId}</p>
-            {/* Chang edit mode */}
-            <Button onClick={() => {setEditMode(editMode === true ? false : true)}}>
-                {editMode === true ? "Stop edit" : "edit"}
-            </Button>
-            {/* List out assignments */}
-            {assignments.map((item, index) => {
-                return (<div key={item.id} onClick={() => {setCurrentAssignment(index)}}>{`Assignment ${index + 1}`}</div>)
-            })}
-            {  editMode === true ?
-                (
-                    assignments.map((item, index) => {
-                        return (
-                            <div key={item.id}>
-                                {currentAssignment == index ? (<AssignmentFormEdit onSave={(save, newEditorState) => {onSave(save, newEditorState, currentAssignment)}} content={item} />) : (<></>)}
-                            </div>
-                            )
-                    })
-                ) : 
-                (
-                    assignments.map((item, index) => {
-                        if(index == 0)  
-                            console.log("index " + item.assignment_questions[0].question)
-                        
-                        return (
-                        <div key={item.id}>
-                            {currentAssignment == index ? (<AssignmentForm onSubmit={(newEditorState) => {}} content={item} />) : (<></>)}
-                            
-                        </div>
-                        )
-                    })
+        <Box sx={{
+
+        }}>
+            <Grid container className={styles.page}>
+                <Grid item xs={12}>
+                    <Link 
+                        href={"/course/[courseId]/assignments"} 
+                        as={`/course/${courseId}/assignments`}>
+                        <Typography variant="p" color="white">Back to course page</Typography>
+                    </Link>
+                </Grid>
+                
+                <Grid item container xs={12}>
+                    <Grid item xs={4}></Grid>
+                    <Grid item xs={4}>
+                        <Typography variant="h5" color="white" marginLeft="5%">{`Lesson 1${lessonId} Assignments`}</Typography>
+                    </Grid>
+                    <Grid item xs={4}></Grid>
+                </Grid>
+                
+                <Grid container item xs={12}>
+                    <Grid container item xs={6}>
+                        {assignments.map((item, index) => {
+                            return (<Grid item xs={3} key={item.id} onClick={() => {setCurrentAssignment(index)}}>
+                                        <Typography variant="p" color="white" marginLeft="5%">{`Assignment ${index + 1}`}</Typography>
+                                    </Grid>)
+                        })}
+                    </Grid>
+                    {/* List out assignments */}
                     
-                )
-            }
-            
-            
-        </>
+                    {/* Chang edit mode */}
+                    <Grid item xs={6}>
+                        <Button onClick={() => {setEditMode(editMode === true ? false : true)}}>
+                            {editMode === true ? "Stop edit" : "edit"}
+                        </Button>
+                    </Grid>
+                </Grid>
+                
+                <Grid container item xs={12}>
+                    {/* <Grid item xs={1}></Grid> */}
+                    {/* <Grid item xs={10}> */}
+                        {  editMode === true ?
+                        (
+                            assignments.map((item, index) => {
+                                return (
+                                    <div key={item.id}>
+                                        {currentAssignment == index ? (<AssignmentFormEdit onSave={(save, newEditorState) => {onSave(save, newEditorState, currentAssignment)}} content={item} />) : (<></>)}
+                                    </div>
+                                    )
+                            })
+                        ) : 
+                        (
+                            assignments.map((item, index) => {
+                               
+                                return (
+                                <div key={item.id}>
+                                    {currentAssignment == index ? (<AssignmentForm onSubmit={(newEditorState) => {}} content={item} />) : (<></>)}
+                                    
+                                </div>
+                                )
+                            })
+                            
+                        )
+                    }
+                    {/* </Grid> */}
+                    {/* <Grid item xs={1}></Grid> */}
+                </Grid>
+            </Grid>
+        </Box>
+        
     )
 }
 

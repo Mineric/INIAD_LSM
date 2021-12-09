@@ -4,8 +4,9 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import TextEditor from "../../../../../../comps/text/TextEditor"
+import TextEditor from "../../../../../../../comps/text/TextEditor"
 import Button from "@mui/material/Button"
+import IconButton from '@mui/material/IconButton';
 import { useState } from "react"
 
 // icon
@@ -28,7 +29,7 @@ const QuestionEdit = ({ rawEditorState, onUpdate, addNewQuestion, duplicateQuest
     return (
         <>
             <TextEditor onUpdate={(newEditorState) => onUpdate(newEditorState)} rawEditorState={rawEditorState} />
-            <Button onClick={(e) => { openAddPopover(e) }}><AddCircleOutlineIcon /></Button>
+            <IconButton onClick={(e) => { openAddPopover(e) }}><AddCircleOutlineIcon style={{color: "#E5E5E5"}}/></IconButton>
             <Popover
                 // id={id}
                 open={Boolean(addQArchonEl)}
@@ -50,9 +51,9 @@ const QuestionEdit = ({ rawEditorState, onUpdate, addNewQuestion, duplicateQuest
                     </ListItemButton>
                 </List>
             </Popover>
-            <Button onClick={() => { duplicateQuestion() }}><ContentCopyIcon /></Button>
-            <Button onClick={() => { deleteQuestion() }}><DeleteForeverIcon /></Button>
-            <Divider />
+            <IconButton onClick={() => { duplicateQuestion() }}><ContentCopyIcon style={{color: "#E5E5E5"}}/></IconButton>
+            <IconButton onClick={() => { deleteQuestion() }}><DeleteForeverIcon style={{color: "#E5E5E5"}}/></IconButton>
+            <Divider sx={{ borderBottomWidth: 5 }} />
 
         </>
     )
