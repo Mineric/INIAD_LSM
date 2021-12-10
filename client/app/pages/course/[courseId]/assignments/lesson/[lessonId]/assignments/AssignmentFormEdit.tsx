@@ -81,18 +81,22 @@ const AssignmentFormEdit = ({ onSave, content }) => {
             {assignmentQuestions.map((question, index) => {
                 const dupQuestion = {...question}
                 return <Grid item container key={question.id} xs={12}>
-                        <Typography variant="p" color="white">Question{" "}{index + 1}{". "}</Typography>
-                        <QuestionEdit 
-                            onUpdate={(newRawQuestionState) => {
-                                const newAssignmentQuestions = [...assignmentQuestions]
-                                newAssignmentQuestions[index] = {...newAssignmentQuestions[index]}
-                                newAssignmentQuestions[index].question = newRawQuestionState
-                                setAssignmentQuestions(newAssignmentQuestions)
-                            }} 
-                            addNewQuestion = {() => {addNewQuestion(index, PARAGRAPH)}}
-                            duplicateQuestion = {() => {duplicateQuestion(index)}}
-                            deleteQuestion = {() => {deleteQuestion(index)}}
-                            rawEditorState={question.question}/>
+                        <Grid item xs={1} />
+                        <Grid item xs={10}>
+                            <Typography variant="p" color="white">Question{" "}{index + 1}{". "}</Typography>
+                            <QuestionEdit 
+                                onUpdate={(newRawQuestionState) => {
+                                    const newAssignmentQuestions = [...assignmentQuestions]
+                                    newAssignmentQuestions[index] = {...newAssignmentQuestions[index]}
+                                    newAssignmentQuestions[index].question = newRawQuestionState
+                                    setAssignmentQuestions(newAssignmentQuestions)
+                                }} 
+                                addNewQuestion = {() => {addNewQuestion(index, PARAGRAPH)}}
+                                duplicateQuestion = {() => {duplicateQuestion(index)}}
+                                deleteQuestion = {() => {deleteQuestion(index)}}
+                                rawEditorState={question.question}/>
+                        </Grid>
+                        <Grid item xs={1} />
                     </Grid>
             })}
 

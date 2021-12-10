@@ -4,6 +4,11 @@
     width: 100%;
 }
 
+.link:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 .centerElement {
     margin: auto
 }

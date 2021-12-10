@@ -1,6 +1,23 @@
 .page {
     background: #0F0838;
-    height: 100vh;
+}
+
+
+/* .page::after {
+    background: #0F0838;
+    position: absolute;
+    top: 0;
+    right: 0px;
+    width: 1000px;
+    height: 100%;
+    background-color: transparent;
+    box-shadow: 1000px 0px red;
+    content: "";
+    z-index: -1;
+} */
+
+.lessonBox:hover {
+    cursor: pointer;
 }
 
 .centerElement {

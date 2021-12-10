@@ -136,7 +136,7 @@ const Lesson = () => {
                     <Link 
                         href={"/course/[courseId]/assignments"} 
                         as={`/course/${courseId}/assignments`}>
-                        <Typography variant="p" color="white">Back to course page</Typography>
+                        <Typography variant="p" color="white" className={styles.link}>Back to course page</Typography>
                     </Link>
                 </Grid>
                 
@@ -152,7 +152,7 @@ const Lesson = () => {
                     <Grid container item xs={6}>
                         {assignments.map((item, index) => {
                             return (<Grid item xs={3} key={item.id} onClick={() => {setCurrentAssignment(index)}}>
-                                        <Typography variant="p" color="white" marginLeft="5%">{`Assignment ${index + 1}`}</Typography>
+                                        <Typography variant="p" color="white" marginLeft="5%" className={styles.link}>{`Assignment ${index + 1}`}</Typography>
                                     </Grid>)
                         })}
                     </Grid>
