@@ -3,12 +3,13 @@ import Link from "next/link"
 import AssignmentForm from "./assignments/AssignmentForm"
 import AssignmentFormEdit from "./assignments/AssignmentFormEdit"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@mui/material"
 import Typography from "@mui/material/Typography"
 import Grid from "@mui/material/Grid"
 import Box from "@mui/material/Box"
 import styles from "./layouts.module.css"
+import { IndeterminateCheckBoxRounded } from "@mui/icons-material"
 
 const getData = [
     {
@@ -98,7 +99,7 @@ const answerData = [
         "id": 2,
         "answer": '{"blocks":[{"key":"17d12","text":"CPY stands for C P Y","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
         "score": -1,
-        "question_id": 1,
+        "question_id": 2,
         "student_id": 10,        
     }
 ]
@@ -114,6 +115,12 @@ const Lesson = () => {
     var [assignments, setAssignments] = useState(getData)
     const [currentAssignment, setCurrentAssignment] = useState((assignments.length > 0 ? 0 : -1));
     const [editMode, setEditMode] = useState(false)
+    const [answers, setAnswers] = useState([]);
+    useEffect(() => {
+        setAnswers(answerData)
+    }, [])
+
+    // another useEffect to submit on answers state change
 
     const onSave = (save, newRawAssignmentQuestionsState, assignmentIndex) => {
         if(save === true){
@@ -121,10 +128,20 @@ const Lesson = () => {
             newAssignments[assignmentIndex] = {...newAssignments[assignmentIndex]}
             newAssignments[assignmentIndex].assignment_questions = newRawAssignmentQuestionsState
             setAssignments(newAssignments)
+            // update on server
+            
             setEditMode(editMode === true ? false : true)
+
         } else { // if users decide not to save it
             setEditMode(editMode === true ? false : true)
         }
+    }
+
+    const onSubmit = (newRawAnswerState, answerIndex) => {
+        let newAnswers = [...answers]
+        newAnswers[answerIndex] = {...newAnswers[answerIndex]}
+        newAnswers[answerIndex].answer = newRawAnswerState
+        setAnswers(newAnswers)
     }
 
     return (
@@ -184,7 +201,7 @@ const Lesson = () => {
                                
                                 return (
                                 <div key={item.id}>
-                                    {currentAssignment == index ? (<AssignmentForm onSubmit={(newEditorState) => {}} content={item} />) : (<></>)}
+                                    {currentAssignment == index ? (<AssignmentForm onSubmit={(newEditorState) => {onSubmit(newEditorState, currentAssignment)}} content={item} />) : (<></>)}
                                     
                                 </div>
                                 )

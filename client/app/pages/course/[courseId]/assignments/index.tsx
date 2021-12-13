@@ -31,7 +31,6 @@ const Course = () => {
     // for now, we use dummy data
     const courseName = "Computer Architecture"
 
-
     return (
         <Grid container className={styles.page}>
             <Grid item xs={12}>
