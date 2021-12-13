@@ -49,7 +49,7 @@ class DashBoardViewSet (viewsets.ViewSet):
         return (namedtuple (
             'DashBoard', tuple_fields)
         )
-    def list(self, request):
+    def list(self, request):      
         dashboard = self.return_tuple_fields()(
             students = Student.objects.all(),
             schools = School.objects.all(),
@@ -58,15 +58,41 @@ class DashBoardViewSet (viewsets.ViewSet):
             tasks = Task.objects.all()
         )
         serializer = DashBoardSerializer(dashboard)
-        print (get_declared_fields(DashBoardSerializer))
+        
         return Response(serializer.data)
     
 class CourseViewSet (viewsets.ViewSet):
     def list (self, request):
-        courses = Course.objects.all()
-        serializer = CourseSerializer(courses, many = True, fields = ('course_name',))
+        courses = Course.objects.all() #query set
+        serializer = CourseSerializer(courses, many = True, fields = ('course_name','date_start','date_end', 'course_id'))
         return Response (serializer.data)
-
+        
+class LessonViewSet (viewsets.GenericViewSet):
+    visible_fields =  ('lesson_name','date_start', 'date_end', 'course_id') # used for editing fields in all methods 
+    serializer_class = LessonSerializer
+    queryset = Lesson.objects.all()
+    def list (self, request):
+        objects = Lesson.objects.all()
+        serializer = LessonSerializer(objects, many = True, fields = self.visible_fields)
+        return Response (serializer.data)
+    
+    def list_all (self):
+        """
+        (HIEU)list all the objects after editing something
+        maybe used after create(), destroy(), update(), etc
+        """
+        objects = Lesson.objects.all()
+        serializer = LessonSerializer(objects, many = True, fields = self.visible_fields)
+        return Response (serializer.data)
+    
+    def create (self, request):
+        serializer = LessonSerializer(data = request.data)
+        
+        if serializer.is_valid ():
+            serializer.save()
+            return self.list_all () 
+        return Response(serializer.errors)
+        
 class AssignmentFormViewSet(viewsets.GenericViewSet):
     serializer_class = AssignmentFormSerializer
     # permission_classes = []
@@ -86,7 +112,7 @@ class AssignmentFormViewSet(viewsets.GenericViewSet):
         return queryset
 
     def list(self, request):
-        serializer = self.get_serializer(self.get_queryset(None), many=True)
+        serializer = self.get_serializer(self.get_queryset(), many=True)
         return Response(serializer.data)
 
 

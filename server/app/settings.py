@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 import os 
 from drf_firebase_auth.utils import map_firebase_uid_to_username
 
@@ -170,3 +171,6 @@ DRF_FIREBASE_AUTH = {
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_ROOT = os.path.join (BASE_DIR, 'media')
+MEDIA_URL = '/media/'

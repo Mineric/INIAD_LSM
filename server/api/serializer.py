@@ -46,6 +46,7 @@ class SchoolSerializer (DynamicFieldsModelSerializer):
         fields = "__all__"
     
 class CourseSerializer (DynamicFieldsModelSerializer):
+    # date_start = serializers.DateField()
     class Meta:
         model = Course
         fields = "__all__"
@@ -70,7 +71,8 @@ class DashBoardSerializer (serializers.Serializer):
             "course_description",
             "lecturers",
             "date_start",
-            "date_end"
+            "date_end",
+            "course_image"
             )
         )
     lessons = LessonSerializer (
