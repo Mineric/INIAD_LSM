@@ -22,6 +22,7 @@ class AssignmentQuestionWithAnswersSerializer(DynamicFieldsModelSerializer):
     class Meta:
         models = AssignmentQuestion
         fields = "__all__"
+ 
 
 class AssignmentFormSerializer(DynamicFieldsModelSerializer):
     assignment_questions = AssignmentQuestionSerializer(many=True,
@@ -35,7 +36,7 @@ class AssignmentFormSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = AssignmentForm
         fields = "__all__"
-    
+
 class AssignmentFormWithAnswersSerializer(DynamicFieldsModelSerializer):
     assignment_questions = AssignmentQuestionWithAnswersSerializer(many=True)
     

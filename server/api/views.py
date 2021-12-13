@@ -89,10 +89,14 @@ class AssignmentFormViewSet(viewsets.GenericViewSet):
         serializer = self.get_serializer(self.get_queryset(None), many=True)
         return Response(serializer.data)
 
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.save(serializer)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response({"error": "Cannot create resource"}, status=status.HTTP_400_BAD_REQUEST)
     
     @action(detail=True, methods=['get'])
     def list_by_lesson(self, request, pk=None):
