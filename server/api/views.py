@@ -92,6 +92,7 @@ class LessonViewSet (viewsets.GenericViewSet):
             serializer.save()
             return self.list_all () 
         return Response(serializer.errors)
+        
 class AssignmentFormViewSet(viewsets.GenericViewSet):
     serializer_class = AssignmentFormSerializer
     # permission_classes = []
