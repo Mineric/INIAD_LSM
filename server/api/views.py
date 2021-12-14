@@ -1,5 +1,6 @@
 from django.db.models import query
 from django.shortcuts import render
+from django.utils.translation import deactivate_all
 from rest_framework import permissions
 from rest_framework.views import APIView
 
@@ -146,10 +147,29 @@ class AssignmentQuestionViewSet(viewsets.GenericViewSet):
     serializer_class = AssignmentQuestionSerializer
     queryset = AssignmentQuestion.objects.all()
 
+    def list(self, request):
+        serializer = self.get_serializer(self.queryset, many=True)
+        return Response(serializer.data)
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.save(serializer)
+        serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    @action(detail=False, methods=['post'])
+    def update_bulk(self, request):
+        data = request.data
+        serializer = self.get_serializer(data=data, many=True)
+        print(serializer.is_valid())
+        print(serializer.errors)
+        if serializer.is_valid():
+            serializer.update(self.queryset, serializer.data)
+        else:
+            serializer = self.get_serializer(data=data)
+            if serializer.is_valid():
+                # data have id while serializer.data does not
+                serializer.update(serializer.data)
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
 # class LessonAssignmentFormsViewSet(viewsets.GenericViewSet):
 #     serializer_class = LessonAssignmentFormsSerializer

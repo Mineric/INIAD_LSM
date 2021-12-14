@@ -6,10 +6,23 @@ from rest_framework import serializers
 
 from .serializer import DynamicFieldsModelSerializer
 
+class AssignmentQuestionListSerializer(serializers.ListSerializer):
+    def update(self, query, validated_data):
+        for instance in validated_data:
+                AssignmentQuestion.objects.filter(id=instance["id"]).update(**instance)
+
 class AssignmentQuestionSerializer(DynamicFieldsModelSerializer):
+    id = serializers.IntegerField()
+
     class Meta:
+        list_serializer_class = AssignmentQuestionListSerializer
         model = AssignmentQuestion
         fields = "__all__"
+    
+    def update(self, validated_data):
+        AssignmentQuestion.objects.filter(id=validated_data["id"]).update(**validated_data)
+
+
 
 class AssignmentAnswerSerializer(DynamicFieldsModelSerializer):
     class Meta:
