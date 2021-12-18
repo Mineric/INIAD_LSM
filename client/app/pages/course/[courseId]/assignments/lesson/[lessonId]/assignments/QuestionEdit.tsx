@@ -32,7 +32,10 @@ const QuestionEdit = ({ rawEditorState, onUpdate, addNewQuestion, duplicateQuest
 
     return (
         <>
-            <TextEditor onUpdate={(newEditorState) => onUpdate(newEditorState)} rawEditorState={rawEditorState} />
+            { rawEditorState !== null ?
+                (<TextEditor onUpdate={(newEditorState) => onUpdate(newEditorState)} rawEditorState={rawEditorState} />)
+                : (<></>)
+            }
             <IconButton onClick={(e) => { openAddPopover(e) }}><AddCircleOutlineIcon className={classes.icon}/></IconButton>
             <Popover
                 // id={id}
@@ -57,7 +60,7 @@ const QuestionEdit = ({ rawEditorState, onUpdate, addNewQuestion, duplicateQuest
             </Popover>
             <IconButton onClick={() => { duplicateQuestion() }} ><ContentCopyIcon className={classes.icon}/></IconButton>
             <IconButton onClick={() => { deleteQuestion() }} ><DeleteForeverIcon  className={classes.icon}/></IconButton>
-            <Divider sx={{ borderBottomWidth: 5 }} />
+            <Divider sx={{ borderBottomWidth: 1}} className={classes.divider} />
 
         </>
     )
@@ -70,6 +73,9 @@ const useStyles = makeStyles({
             "color": "blue",
         }
     },
+    divider: {
+        "background": "white"
+    }
 })
 
 export default QuestionEdit;

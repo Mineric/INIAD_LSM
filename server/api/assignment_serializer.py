@@ -1,4 +1,5 @@
 from django.db.models import fields
+from django.db.models.query import InstanceCheckMeta
 from django.utils import tree
 from .models import *
 
@@ -7,12 +8,24 @@ from rest_framework import serializers
 from .serializer import DynamicFieldsModelSerializer
 
 class AssignmentQuestionListSerializer(serializers.ListSerializer):
+    # update
+    # create if not exist
     def update(self, query, validated_data):
+        return_instances = []
         for instance in validated_data:
+            if "id" in instance.keys():
+                # update return the number of rows being updated, not the object(s)
                 AssignmentQuestion.objects.filter(id=instance["id"]).update(**instance)
+                return_instances.append(AssignmentQuestion.objects.get(id=instance["id"]))
+            else:
+                # since the field in the model has the "_id" part and our original value of assignment form id was integer
+                instance["assignment_form_id_id"] = instance.pop("assignment_form_id")
+                i = AssignmentQuestion.objects.create(**instance)
+                return_instances.append(i)     
+        return return_instances
 
 class AssignmentQuestionSerializer(DynamicFieldsModelSerializer):
-    id = serializers.IntegerField()
+    id = serializers.IntegerField(required=False)
 
     class Meta:
         list_serializer_class = AssignmentQuestionListSerializer
@@ -20,9 +33,14 @@ class AssignmentQuestionSerializer(DynamicFieldsModelSerializer):
         fields = "__all__"
     
     def update(self, validated_data):
-        AssignmentQuestion.objects.filter(id=validated_data["id"]).update(**validated_data)
-
-
+        if "id" in validated_data.keys():
+            AssignmentQuestion.objects.filter(id=validated_data["id"]).update(**validated_data)
+            instance = AssignmentQuestion.objects.get(id=validated_data["id"])      
+        else:
+            # since the field in the model has the "_id" part and our original value of assignment form id was integer
+            validated_data["assignment_form_id_id"] = validated_data.pop("assignment_form_id")
+            instance = AssignmentQuestion.objects.create(**validated_data)
+        return instance
 
 class AssignmentAnswerSerializer(DynamicFieldsModelSerializer):
     class Meta:

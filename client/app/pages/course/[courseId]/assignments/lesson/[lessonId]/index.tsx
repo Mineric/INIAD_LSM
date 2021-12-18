@@ -9,7 +9,9 @@ import Typography from "@mui/material/Typography"
 import Grid from "@mui/material/Grid"
 import Box from "@mui/material/Box"
 import styles from "./layouts.module.css"
-import { IndeterminateCheckBoxRounded } from "@mui/icons-material"
+import { IndeterminateCheckBoxRounded, NewReleases, QuestionAnswer } from "@mui/icons-material"
+import AddIcon from '@mui/icons-material/Add';
+import { getAPIURL, fetchWrapper } from "../../../../../../helpers"
 
 const getData = [
     {
@@ -120,6 +122,23 @@ const Lesson = () => {
         setAnswers(answerData)
     }, [])
 
+    const createNewAssignment = () => {
+        const newAssignments = [...assignments];
+        newAssignments.push(
+            {
+                "id": (-1) * newAssignments.length,
+                "assignment_questions": [
+                ],
+                "order": 1,
+                "deadline": null,
+                "is_closed": 0,
+                "lesson_id": 1,
+                "lecturer_id": 4
+            },
+        )
+        setAssignments(newAssignments)
+    }
+
     // another useEffect to submit on answers state change
 
     const onSave = (save, newRawAssignmentQuestionsState, assignmentIndex) => {
@@ -128,9 +147,20 @@ const Lesson = () => {
             newAssignments[assignmentIndex] = {...newAssignments[assignmentIndex]}
             newAssignments[assignmentIndex].assignment_questions = newRawAssignmentQuestionsState
             setAssignments(newAssignments)
+            /* The assignments with id in format "t..." is newly created one without id */
             // update on server
-            
-            setEditMode(editMode === true ? false : true)
+            const UpdateURL =  getAPIURL("/viewset/assignment-question/update_bulk/")
+            fetchWrapper.post(UpdateURL, newAssignments.filter((question) => question.id && question.id.toString()[0] !== 't'))
+            // create on server
+            fetchWrapper.post(UpdateURL, newAssignments.filter((question) => question.id && question.id.toString()[0] !== 't').map((question) => {
+                const newQuestion = {...question};
+                delete newQuestion["id"];
+                return newQuestion;
+            })).then(data => {
+                console.log("Create: ", data);
+            })
+
+            setEditMode(editMode === true ? false : true);
 
         } else { // if users decide not to save it
             setEditMode(editMode === true ? false : true)
@@ -166,17 +196,27 @@ const Lesson = () => {
                 </Grid>
                 
                 <Grid container item xs={12}>
-                    <Grid container item xs={6}>
+                    <Grid container item xs={9}>
                         {assignments.map((item, index) => {
                             return (<Grid item xs={3} key={item.id} onClick={() => {setCurrentAssignment(index)}}>
                                         <Typography variant="p" color="white" marginLeft="5%" className={styles.link}>{`Assignment ${index + 1}`}</Typography>
                                     </Grid>)
                         })}
+                        <Grid item xs={3} key={'t1'} onClick={() => {createNewAssignment()}}>
+                            <Grid container direction="row" alignItems="center" marginLeft="5%">
+                                <Grid item>
+                                    <AddIcon sx={{"color": "white"}} />
+                                </Grid>
+                                <Grid item>                                       
+                                    <Typography variant="p" color="white" marginLeft="5%" className={styles.link}>New</Typography>
+                                </Grid>
+                            </Grid> 
+                        </Grid>
                     </Grid>
                     {/* List out assignments */}
                     
                     {/* Chang edit mode */}
-                    <Grid item xs={6}>
+                    <Grid item xs={3}>
                         <Button onClick={() => {setEditMode(editMode === true ? false : true)}}>
                             {editMode === true ? "Stop edit" : "edit"}
                         </Button>

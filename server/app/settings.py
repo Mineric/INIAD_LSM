@@ -77,7 +77,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'app.wsgi.application'
 
-CORS_ORIGIN_ALLOW_ALL = True   
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:3000",
+    "http://localhost:3000",
+]
+
+CORS_ALLOW_CREDENTIALS = True
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

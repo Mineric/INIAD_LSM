@@ -78,6 +78,24 @@ const AssignmentFormEdit = ({ onSave, content }) => {
 
     return (
         <Grid container>
+            <Grid item container key={'t1'} xs={12}>
+                <Grid item xs={1} />
+                <Grid item xs={10}>
+                    <QuestionEdit 
+                        onUpdate={(newRawQuestionState) => {
+                            const newAssignmentQuestions = [...assignmentQuestions]
+                            newAssignmentQuestions[index] = {...newAssignmentQuestions[index]}
+                            newAssignmentQuestions[index].question = newRawQuestionState
+                            setAssignmentQuestions(newAssignmentQuestions)
+                        }} 
+                        addNewQuestion = {() => {addNewQuestion(-1, PARAGRAPH)}}
+                        duplicateQuestion = {() => {duplicateQuestion(-1)}}
+                        deleteQuestion = {() => {deleteQuestion(-1)}}
+                        rawEditorState={null}
+                        />
+                </Grid>
+                <Grid item xs={1} />
+            </Grid>
             {assignmentQuestions.map((question, index) => {
                 const dupQuestion = {...question}
                 return <Grid item container key={question.id} xs={12}>
@@ -99,6 +117,7 @@ const AssignmentFormEdit = ({ onSave, content }) => {
                         <Grid item xs={1} />
                     </Grid>
             })}
+            
 
             <Button onClick={() => {saveButtonOnClick(true)}}>Save changes</Button>
             <Button onClick={() => {openDialog()}}>Done</Button>

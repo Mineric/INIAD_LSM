@@ -159,17 +159,26 @@ class AssignmentQuestionViewSet(viewsets.GenericViewSet):
     @action(detail=False, methods=['post'])
     def update_bulk(self, request):
         data = request.data
-        serializer = self.get_serializer(data=data, many=True)
-        print(serializer.is_valid())
-        print(serializer.errors)
-        if serializer.is_valid():
-            serializer.update(self.queryset, serializer.data)
-        else:
+        if not isinstance(data, list):
             serializer = self.get_serializer(data=data)
             if serializer.is_valid():
-                # data have id while serializer.data does not
-                serializer.update(serializer.data)
-        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+                instances = serializer.update(serializer.data)
+                # to return them
+                serializer = self.get_serializer(instance=instances)
+                return Response(serializer.data, status=status.HTTP_202_ACCEPTED) 
+            else:
+                print(serializer.errors)
+                return Response({'error': 'Cannot UPDATE or CREATE'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+        else:
+            serializer = self.get_serializer(data=data, many=True)
+            if serializer.is_valid():
+                instances = serializer.update(self.queryset, serializer.data)
+                # to return them
+                serializer = self.get_serializer(instance=instances, many=True)
+                return Response(serializer.data, status=status.HTTP_202_ACCEPTED) 
+            else:
+                print(serializer.errors)
+                return Response({'error': 'Cannot UPDATE or CREATE'}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 # class LessonAssignmentFormsViewSet(viewsets.GenericViewSet):
 #     serializer_class = LessonAssignmentFormsSerializer
