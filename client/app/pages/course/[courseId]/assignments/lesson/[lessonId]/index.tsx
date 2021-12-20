@@ -20,20 +20,26 @@ const getData = [
             {
                 "id": 1,
                 "question": '{"blocks":[{"key":"5v499","text":"Definition of CPU","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
+                "assignment_form_id": 1,
                 "order": 1,
-                "type": "0"
+                "weight": 100,
+                "type": "PA"
             },
             {
                 "id": 2,
                 "question": '{"blocks":[{"key":"6tr5i","text":"CPU examples","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
                 "order": 2,
-                "type": "0"
+                "assignment_form_id": 1,
+                "weight": 100,
+                "type": "PA"
             },
             {
                 "id": 3,
                 "question": '{"blocks":[{"key":"19a62","text":"CPU prices search","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
                 "order": 3,
-                "type": "0"
+                "assignment_form_id": 1,
+                "weight": 100,
+                "type": "PA"
             }
         ],
         "order": 1,
@@ -95,7 +101,7 @@ const answerData = [
         "answer": '{"blocks":[{"key":"17d12","text":"CPU stands for C P U","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
         "score": -1,
         "question_id": 1,
-        "student_id": 10,        
+        "student_id": 10, // will be replaced later in server        
     },
     {
         "id": 2,
@@ -117,8 +123,13 @@ const Lesson = () => {
     var [assignments, setAssignments] = useState(getData)
     const [currentAssignment, setCurrentAssignment] = useState((assignments.length > 0 ? 0 : -1));
     const [editMode, setEditMode] = useState(false)
+
     const [answers, setAnswers] = useState([]);
+    const [isPeriodUpdate, setIsPeriodUpdate] = useState(false);
+    const [isAnswerUpdate, setIsAnswerUpdate] = useState(false);
     useEffect(() => {
+        // will get the answer from server 
+        const RetrieveURL = "";
         setAnswers(answerData)
     }, [])
 
@@ -126,7 +137,6 @@ const Lesson = () => {
         const newAssignments = [...assignments];
         newAssignments.push(
             {
-                "id": (-1) * newAssignments.length,
                 "assignment_questions": [
                 ],
                 "order": 1,
@@ -141,27 +151,20 @@ const Lesson = () => {
 
     // another useEffect to submit on answers state change
 
-    const onSave = (save, newRawAssignmentQuestionsState, assignmentIndex) => {
-        if(save === true){
-            let newAssignments = [...assignments];
-            newAssignments[assignmentIndex] = {...newAssignments[assignmentIndex]}
-            newAssignments[assignmentIndex].assignment_questions = newRawAssignmentQuestionsState
-            setAssignments(newAssignments)
-            /* The assignments with id in format "t..." is newly created one without id */
+    const onSaveEditQuestions = (save, newRawAssignmentQuestionsState, assignmentIndex) => {
+        if(save === true){            
             // update on server
+            const updateData = newRawAssignmentQuestionsState
             const UpdateURL =  getAPIURL("/viewset/assignment-question/update_bulk/")
-            fetchWrapper.post(UpdateURL, newAssignments.filter((question) => question.id && question.id.toString()[0] !== 't'))
-            // create on server
-            fetchWrapper.post(UpdateURL, newAssignments.filter((question) => question.id && question.id.toString()[0] !== 't').map((question) => {
-                const newQuestion = {...question};
-                delete newQuestion["id"];
-                return newQuestion;
-            })).then(data => {
-                console.log("Create: ", data);
+            fetchWrapper.post(UpdateURL, updateData).then(data => {
+                // update data on client
+                let newAssignments = [...assignments];
+                newAssignments[assignmentIndex] = {...newAssignments[assignmentIndex]}
+                // data has IDs of newly created questions
+                newAssignments[assignmentIndex].assignment_questions = data
+                setAssignments(newAssignments)
             })
-
             setEditMode(editMode === true ? false : true);
-
         } else { // if users decide not to save it
             setEditMode(editMode === true ? false : true)
         }
@@ -171,6 +174,11 @@ const Lesson = () => {
         let newAnswers = [...answers]
         newAnswers[answerIndex] = {...newAnswers[answerIndex]}
         newAnswers[answerIndex].answer = newRawAnswerState
+
+        const UpdateURL = getAPIURL("") // URL for answer update
+        fetchWrapper.post(UpdateURL, updateData).then(data => {
+
+        })
         setAnswers(newAnswers)
     }
 
@@ -198,7 +206,7 @@ const Lesson = () => {
                 <Grid container item xs={12}>
                     <Grid container item xs={9}>
                         {assignments.map((item, index) => {
-                            return (<Grid item xs={3} key={item.id} onClick={() => {setCurrentAssignment(index)}}>
+                            return (<Grid item xs={3} key={index} onClick={() => {setCurrentAssignment(index)}}>
                                         <Typography variant="p" color="white" marginLeft="5%" className={styles.link}>{`Assignment ${index + 1}`}</Typography>
                                     </Grid>)
                         })}
@@ -230,18 +238,20 @@ const Lesson = () => {
                         (
                             assignments.map((item, index) => {
                                 return (
-                                    <div key={item.id}>
-                                        {currentAssignment == index ? (<AssignmentFormEdit onSave={(save, newEditorState) => {onSave(save, newEditorState, currentAssignment)}} content={item} />) : (<></>)}
+                                    <div key={index}>
+                                        {currentAssignment == index ? (<AssignmentFormEdit onSave={(save, newEditorState) => {onSaveEditQuestions(save, newEditorState, currentAssignment)}} content={item} assignmentFormId={item.id} />) : (<></>)}
                                     </div>
                                     )
                             })
                         ) : 
                         (
                             assignments.map((item, index) => {
-                               
                                 return (
-                                <div key={item.id}>
-                                    {currentAssignment == index ? (<AssignmentForm onSubmit={(newEditorState) => {onSubmit(newEditorState, currentAssignment)}} content={item} />) : (<></>)}
+                                <div key={index}>
+                                    {currentAssignment == index ? (<AssignmentForm 
+                                        onSubmit={(newEditorState) => {onSubmit(newEditorState, currentAssignment)}} 
+                                        content={item} 
+                                        answersState={} />) : (<></>)}
                                     
                                 </div>
                                 )

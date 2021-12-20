@@ -6,10 +6,10 @@ import Typography from "@mui/material/Typography"
 import Grid from "@mui/material/Grid"
 import styles from "./layouts.module.css"
 
-const AssignmentForm = ({ onSubmit, content }) => {
+const AssignmentForm = ({ onSubmit, content, answersState}) => {
 
     const assignmentQuestions = [...content.assignment_questions];
-
+    const answers = [...answersState]
     const deadline = content.deadline;
     const is_closed = content.is_closed;
     // const assignmentAnswerState = assignmentQuestions.map((e) => {return useState()})
@@ -28,7 +28,9 @@ const AssignmentForm = ({ onSubmit, content }) => {
                                 <Typography variant="p" color="white">Question{" "}{index + 1}{". "}</Typography>
                                 <TextDisplay rawEditorState={question.question}/>
                             </div>
-                            <TextEditor onUpdate={(newRawAnswerState) => {
+                            <TextEditor 
+                                rawEditorState={} 
+                                onUpdate={(newRawAnswerState) => {
                                 // const newAssignmentQuestions = assignmentQuestions
                                 // newAssignmentQuestions[index].question = newRawQuestionState
                                 // setAssignmentQuestions(newAssignmentQuestions)

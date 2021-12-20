@@ -6,7 +6,7 @@ import QuestionEdit from "./QuestionEdit"
 import Grid from "@mui/material/Grid"
 import Typography from "@mui/material/Typography"
 
-const AssignmentFormEdit = ({ onSave, content }) => {
+const AssignmentFormEdit = ({ onSave, content, assignmentFormId }) => {
 
     const [assignmentQuestions, setAssignmentQuestions] = useState([...content.assignment_questions]);
     const [openDialogState, setOpenDialogState] = useState(false);
@@ -38,21 +38,23 @@ const AssignmentFormEdit = ({ onSave, content }) => {
         setOpenDialogState(false);
     }
 
-    const PARAGRAPH = 0;
+    const PARAGRAPH = "PA";
 
     const addNewQuestion = (index, type) => {
         let newAssignmentQuestions = [...assignmentQuestions]
         const order = index + 1
+        // no need for id
         newAssignmentQuestions.splice(index + 1, 0, {
-            "id": "t" + questionNumber.toString(),
             "question": undefined,
             "order": order,
+            "assignment_form_id": assignmentFormId,
+            "weight": 100,
             "type": type,
         })
         // re-order and change order
         newAssignmentQuestions = newAssignmentQuestions.map((item, index) => {item.order = index; return item;})
         setAssignmentQuestions(newAssignmentQuestions);
-        setQuestionNumber(questionNumber + 1)
+        setQuestionNumber(questionNumber + 1);
     }
 
     const duplicateQuestion = (index) => {
@@ -98,7 +100,7 @@ const AssignmentFormEdit = ({ onSave, content }) => {
             </Grid>
             {assignmentQuestions.map((question, index) => {
                 const dupQuestion = {...question}
-                return <Grid item container key={question.id} xs={12}>
+                return <Grid item container key={index} xs={12}>
                         <Grid item xs={1} />
                         <Grid item xs={10}>
                             <Typography variant="p" color="white">Question{" "}{index + 1}{". "}</Typography>
