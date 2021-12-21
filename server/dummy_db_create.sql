@@ -22,7 +22,7 @@ VALUES
 INSERT INTO api_lesson (lesson_name, date_start, date_end, course_id_id)
 VALUES 
 	('01-CPU', '2012-06-18','2013-06-18', 1),
-	('02-Memory', '20211212', '20211212', 1),
+	('02-Memory', '2012-06-18', '2013-06-18', 1),
 	('03-Race Condition', '2012-06-18','2013-06-18', 1),
 	('Visualization', '2012-06-18','2013-06-18', 2),
 	('Statistical Test Review', '2012-06-18','2013-06-18', 2),
@@ -47,10 +47,10 @@ INSERT INTO api_expandeduser
 	date_joined,
 	current_user_role)
 VALUES 
-	('password123', '20120618', TRUE, 'John_Doe','John', 'Doe', 'JohnDoexoxo@email.com', FALSE, TRUE, '20120618', 'ST'),
-	('password123', '20120618', TRUE, 'Jane_Doe','Jane', 'Doe', 'JaneDoexoxo@email.com', FALSE, TRUE, '20120618', 'ST'),
-	('password123', '20120618', TRUE, 'NeverGonnaGiveYouUp','Rick', 'Astley', 'nenvergonnaletyoudown@email.com', FALSE, TRUE, '20120618', 'ST'),
-	('password123', '20120618', TRUE, 'Lemon','Yoshi', 'Konezu', 'yoshikonezu@email.com', FALSE, TRUE, '20120618', 'ST')
+	('password123', '2012-06-18', TRUE, 'John_Doe','John', 'Doe', 'JohnDoexoxo@email.com', FALSE, TRUE, '2012-06-18', 'ST'),
+	('password123', '2012-06-18', TRUE, 'Jane_Doe','Jane', 'Doe', 'JaneDoexoxo@email.com', FALSE, TRUE, '2012-06-18', 'ST'),
+	('password123', '2012-06-18', TRUE, 'NeverGonnaGiveYouUp','Rick', 'Astley', 'nenvergonnaletyoudown@email.com', FALSE, TRUE, '2012-06-18', 'ST'),
+	('password123', '2012-06-18', TRUE, 'Lemon','Yoshi', 'Konezu', 'yoshikonezu@email.com', FALSE, TRUE, '2012-06-18', 'ST')
 ;
 
 INSERT into api_student
@@ -70,15 +70,14 @@ VALUES
 ('Never gonna tell a lie and hurt you','2013-06-18',1,7,3)
 ;
 
-INSERT INTO api_assignmentform([order], deadline, is_closed, lesson_id_id, lecturer_id_id)
+INSERT INTO api_assignmentform([order], is_closed, lesson_id_id, lecturer_id_id)
 VALUES 
-(1, '20221225', 0, 1, 4),
-(2, '20221225', 0, 1, 4),
-(3, '20221225', 0, 1, 4),
-(1, '20220820', 0, 2, 4),
-(2, '20220820', 0, 2, 4),
-(3, '20220820', 0, 2, 4);
-
+(1, 0, 1, 4),
+(2, 0, 1, 4),
+(3, 0, 1, 4),
+(1, 0, 2, 4),
+(2, 0, 2, 4)
+;
 INSERT INTO api_assignmentquestion(question, [order], weight, assignment_form_id_id, type)
 VALUES
 ('Definition of CPU', 1, 30, 1, 0),
@@ -89,6 +88,23 @@ VALUES
 ('First CPU creation', 1, 30, 3, 0),
 ('CPU stands for what?', 2, 30, 3, 0);
 
+INSERT INTO api_assignmentanswer (answer, score, question_id_id, student_id_id)
+VALUES 
+('Dummy answer for Definition of CPU', 10, 1, 1),
+('Dummy answer for CPU examples', 10, 2, 1),
+('Dummy answer for CPU prices research',10, 3, 1),
+('Dummy answer for How CPU works', 10, 4, 1),
+('Dummy answer for How CPU was  created',10, 5, 1),
+('Dummy answer for First CPU creation', 10, 6, 1),
+('Dummy answer for CPU stands for what?', 10, 7, 1),
 
+('(2)Dummy answer for Definition of CPU', 10, 1, 2),
+('(2)Dummy answer for CPU examples', 10, 2, 2),
+('(2)Dummy answer for CPU prices research',10, 3, 2),
+('(2)Dummy answer for How CPU works', 10, 4, 2),
+('(2)Dummy answer for How CPU was  created',10, 5, 2),
+('(2)Dummy answer for First CPU creation', 10, 6, 2),
+('(2)Dummy answer for CPU stands for what?', 10, 7, 2)
+;
 
 
