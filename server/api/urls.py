@@ -10,8 +10,9 @@ router.register ('Courses', CourseViewSet, basename = 'courses')
 router.register ('Lessons', LessonViewSet, basename = 'lessons')
 router.register('assignment-form', AssignmentFormViewSet, basename='assignment-form')
 router.register('assignment-question', AssignmentQuestionViewSet, basename='assignment-question')
-# router.register('lesson-assignment-forms', LessonAssignmentFormsViewSet, basename='lesson-assignment-forms')
-
+router.register('lesson-assignment-forms', LessonAssignmentFormsViewSet, basename='lesson-assignment-forms')
+router.register ('question-with-answers', AssignmentQuestionWithAnswersViewset, basename='question-with-answers')
+router.register ('assignment-form-with-answers', AssignmentFormWithAnswersViewSet, basename='assignment-form-with-answers')
 urlpatterns = [
     path ('viewset/', include(router.urls)),
     path('create-course/', CreateCourseView.as_view()),
