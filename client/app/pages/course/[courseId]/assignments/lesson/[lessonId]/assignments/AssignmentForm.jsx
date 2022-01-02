@@ -6,10 +6,10 @@ import Typography from "@mui/material/Typography"
 import Grid from "@mui/material/Grid"
 import styles from "./layouts.module.css"
 
-const AssignmentForm = ({ onSubmit, content, answersState}) => {
+const AssignmentForm = ({ onSubmit, content, answersState, onUpdateAnswer}) => {
 
     const assignmentQuestions = [...content.assignment_questions];
-    const answers = [...answersState]
+    const [answers, setAnswer] = useState([...answersState])
     const deadline = content.deadline;
     const is_closed = content.is_closed;
     // const assignmentAnswerState = assignmentQuestions.map((e) => {return useState()})
@@ -29,11 +29,13 @@ const AssignmentForm = ({ onSubmit, content, answersState}) => {
                                 <TextDisplay rawEditorState={question.question}/>
                             </div>
                             <TextEditor 
-                                rawEditorState={} 
+                                // rawEditorState={} 
                                 onUpdate={(newRawAnswerState) => {
-                                // const newAssignmentQuestions = assignmentQuestions
-                                // newAssignmentQuestions[index].question = newRawQuestionState
-                                // setAssignmentQuestions(newAssignmentQuestions)
+                                    let newAnswers = [...answers]
+                                    newAnswers[index] = {...newAnswers[index]}
+                                    newAnswers[index].answer = {...newRawAnswerState}
+                                    setAnswer(newAnswers)
+                                    onUpdateAnswer(answers)
                             }}/>
                         </Grid>
                         <Grid item xs={1} />

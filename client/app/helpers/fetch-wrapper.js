@@ -100,11 +100,6 @@ function _delete(url) {
 
 async function getAuthHeader() {
     let token;
-    // try {
-    //     token = localStorage.getItem("idToken"); // remember to remove in on logout
-    // } catch(error){
-    //     console.log("Cannot get idToken");
-    // }
     if (!token) {
         try {
             token = await firebase.auth().currentUser.getIdToken( /* forceRefresh */ true);
@@ -112,22 +107,12 @@ async function getAuthHeader() {
             alert(e);
             return {};
         }
-
     }
     if (token) {
         return { 'Authorization': `JWT ${token}` };
     } else {
         return {};
     }
-    // const user = userService.userValue;
-    // const isLoggedIn = user && user.token;
-    // // const isApiUrl = url.startsWith(publicRuntimeConfig.apiUrl);
-    // if (isLoggedIn && isApiUrl ) {
-    //     return { Authorization: `JWT ${token}` };
-    // } else {
-    //     return {};
-    // }
-
 }
 
 function handleResponse(response) {

@@ -109,92 +109,6 @@ class LessonViewSet (viewsets.GenericViewSet):
             serializer.save()
             return self.list_all () 
         return Response(serializer.errors)
-        
-class AssignmentFormViewSet(viewsets.GenericViewSet):
-    serializer_class = AssignmentFormSerializer
-    # permission_classes = []
-
-    # only get assignment form of current teacher, and current lecture
-    def get_queryset(self):
-        # queryset = AssignmentForm.objects.all()
-        # lecturer = Lecturer.objects.filter(user_id=self.request.user.id)
-        # lesson_id = self.pk
-        # print(lecturer)
-        # # if lecturer is not None and lesson is not None:
-        # if lesson_id is not None: # for now 
-        #     # queryset = AssignmentQuestion.objects.filter(lecturer__in=lecturer, lesson_id=lesson_id)
-        #     queryset = AssignmentForm.objects.filter(lesson_id=lesson_id)
-        #     queryset = AssignmentQuestion.objects.filter(assignment_form_id__in=queryset)
-        queryset = AssignmentForm.objects.all()
-        return queryset
-
-    def list(self, request):
-        serializer = self.get_serializer(self.get_queryset(), many=True)
-        return Response(serializer.data)
-
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response({"error": "Cannot create resource"}, status=status.HTTP_400_BAD_REQUEST)
-    
-    @action(detail=True, methods=['get'])
-    def list_by_lesson(self, request, pk=None):
-        # print("---------------------------------")
-        # print(self.reverse_action('list-by-lesson', args=['1']))
-        # print("---------------------------------")
-        queryset = AssignmentForm.objects.all()
-        lecturer = Lecturer.objects.filter(user_id=self.request.user.id)
-        lesson_id = pk
-        # if lecturer is not None and lesson is not None:
-        if lesson_id is not None: # for now 
-            # queryset = AssignmentQuestion.objects.filter(lecturer__in=lecturer, lesson_id=lesson_id)
-            queryset = AssignmentForm.objects.filter(lesson_id=lesson_id)
-            print(queryset)
-            # queryset = AssignmentQuestion.objects.filter(assignment_form_id__in=queryset)
-            serializer = self.get_serializer(queryset, many=True)
-            return Response(serializer.data)
-        return Response({"error": "Data not found"}, status.HTTP_400_BAD_REQUEST)
-
-class AssignmentQuestionViewSet(viewsets.GenericViewSet):
-    serializer_class = AssignmentQuestionSerializer
-    queryset = AssignmentQuestion.objects.all()
-
-    def list(self, request):
-        serializer = self.get_serializer(self.queryset, many=True)
-        return Response(serializer.data)
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    @action(detail=False, methods=['post'])
-    def update_bulk(self, request):
-        data = request.data
-        if not isinstance(data, list):
-            serializer = self.get_serializer(data=data)
-            if serializer.is_valid():
-                instances = serializer.update(serializer.data)
-                # to return them
-                serializer = self.get_serializer(instance=instances)
-                return Response(serializer.data, status=status.HTTP_202_ACCEPTED) 
-            else:
-                print(serializer.errors)
-                return Response({'error': 'Cannot UPDATE or CREATE'}, status=status.HTTP_406_NOT_ACCEPTABLE)
-        else:
-            serializer = self.get_serializer(data=data, many=True)
-            if serializer.is_valid():
-                instances = serializer.update(self.queryset, serializer.data)
-                # to return them
-                serializer = self.get_serializer(instance=instances, many=True)
-                return Response(serializer.data, status=status.HTTP_202_ACCEPTED) 
-            else:
-                print(serializer.errors)
-                return Response({'error': 'Cannot UPDATE or CREATE'}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 # class LessonAssignmentFormsViewSet(viewsets.GenericViewSet):
 # # Assignment Views
@@ -277,12 +191,8 @@ class AssignmentQuestionViewSet(viewsets.GenericViewSet):
 #             return Response(serializer.data)
 #         else:
 #             return Response({"error": "wrong parameters"}, status.HTTP_405_METHOD_NOT_ALLOWED)
-<<<<<<< HEAD
-
-=======
 # # End of Assignment Views
     
->>>>>>> hcv_branch
 # Users
 class WhoAmIView(APIView):
     """ Simple endpoint to test auth """

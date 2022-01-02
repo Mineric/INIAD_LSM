@@ -1,6 +1,6 @@
 from datetime import time
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.db.models.enums import Choices
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -17,7 +17,17 @@ class OPEN_STATUS(models.IntegerChoices):
     YES = 1, "yes"
     NO = 0, "no"
 
+class ExpandedUserManager(UserManager):
+    def create_user(self, *args, **kwargs):
+        """
+        Create Student and Teacher role of an User
+        """
+        user = super().create_user(*args, **kwargs)
+        return user
+
 class ExpandedUser(AbstractUser):
+    objects = ExpandedUserManager()
+
     class USER_ROLE(models.TextChoices):
         STUDENT = "ST", "Student"
         LECTURER = "LT", "Lecturer"
@@ -26,11 +36,10 @@ class ExpandedUser(AbstractUser):
     def save(self, *args, **kwargs):
         if not self.id:
             super().save(self, *args, **kwargs)
-            current_user_role = self.USER_ROLE.choices.STUDENT
-            user = ExpandedUser.objects.filter(id=self.id)
-            student = Student.objects.create(user=user)
-            lecturer = Lecturer.objects.create(user=user)
-
+            current_user_role = self.USER_ROLE.choices[0] # STUDENT
+            user = ExpandedUser.objects.filter(id=self.id)[0] # [0] because of queryset 
+            student = Student.objects.create(user_id=user)
+            lecturer = Lecturer.objects.create(user_id=user)     
 
 class Student(models.Model):
     user_id = models.OneToOneField(
@@ -94,8 +103,6 @@ class AssignmentForm(models.Model):
     order = models.IntegerField(blank=False)
     deadline = models.DateTimeField(default=timezone.now, null= True)
     is_closed = models.IntegerField(choices=OPEN_STATUS.choices, default=OPEN_STATUS.NO)
-    
-    
 
 class AssignmentQuestion(models.Model):
     question = models.TextField()

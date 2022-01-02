@@ -11,7 +11,7 @@ DELETE FROM api_expandeduser;
 DELETE FROM api_student;
 DELETE FROM api_lecturer;
 
-DELETE FROM sqlite_sequence 
+DELETE FROM sqlite_sequence
 /*	where name in 
 		('api_course',
 		'sqlite_sequence',

@@ -7,6 +7,11 @@ from rest_framework import serializers
 
 from .serializer import DynamicFieldsModelSerializer
 
+"""
+The following 2 classes are about assignment questions update/create:
+(ListSerializer) Update in buld
+(NormalSerializer) Update singly
+"""
 class AssignmentQuestionListSerializer(serializers.ListSerializer):
     # update
     # create if not exist
@@ -42,11 +47,34 @@ class AssignmentQuestionSerializer(DynamicFieldsModelSerializer):
             instance = AssignmentQuestion.objects.create(**validated_data)
         return instance
 
+class AssignmentAnswerListSerializer(serializers.ListSerializer):
+    # update
+    # create if not exist
+    # def update(self, query, validated_data):
+    #     return_instances = []
+    #     for instance in validated_data:
+    #         if "id" in instance.keys():
+    #             # update return the number of rows being updated, not the object(s)
+    #             AssignmentQuestion.objects.filter(id=instance["id"]).update(**instance)
+    #             return_instances.append(AssignmentQuestion.objects.get(id=instance["id"]))
+    #         else:
+    #             # since the field in the model has the "_id" part and our original value of assignment form id was integer
+    #             instance["assignment_form_id_id"] = instance.pop("assignment_form_id")
+    #             i = AssignmentQuestion.objects.create(**instance)
+    #             return_instances.append(i)     
+    #     return return_instances
+    pass
+
 class AssignmentAnswerSerializer(DynamicFieldsModelSerializer):
     class Meta:
+        list_serializer_class = AssignmentAnswerListSerializer
         model = AssignmentAnswer
         fields = "__all__"
         # depth = 1
+
+    def retrieve_by_lesson(self, lesson, student):
+        # return AssignmentAnswer.objects.filter(question_id__assignment_form_id__lesson_id=lesson, student_id=student)
+        return AssignmentAnswer.objects.filter(question_id__assignment_form_id__lesson_id=lesson)
 
 class AssignmentQuestionWithAnswersSerializer(DynamicFieldsModelSerializer):
     """
@@ -90,10 +118,8 @@ class AssignmentFormWithAnswersSerializer(DynamicFieldsModelSerializer):
         # depth = 2 # traverse to answer
     assignment_questions = AssignmentQuestionWithAnswersSerializer(many=True)
     
-    
     def create (self, validated_data):
         return
-    
     
 class LessonAssignmentFormsSerializer(serializers.Serializer):
     """
