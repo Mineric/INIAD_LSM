@@ -18,6 +18,7 @@ import StarIcon from '@mui/icons-material/Star';
 import * as React from 'react';
 
 import coursesData from '../pages/api/courses';
+import courses from '../pages/api/courses';
 
 interface Courses {
     name: string;
@@ -40,18 +41,18 @@ const labels: { [index: string]: string } = {
     5: 'Excellent+',
   };
 
-const c = {name:"python", lecturer: "Mr. Smith", date: "2021, Sept 10", id: 12, attendees: 4};
+// const c = {name:"python", lecturer: "Mr. Smith", date: "2021, Sept 10", id: 12, attendees: 4};
 
 
-// const courses = async () => {
-//     const res = await fetch('http://127.0.0.1:8000/viewset/Courses/');
-//     const data = await res.json();
+const c = async () => {
+    const res = await fetch('http://127.0.0.1:8000/viewset/Courses/');
+    const data = await res.json();
     
-//     console.log
-//     return {
-//       props: { c: data }
-//     }
-//   }
+    console.log
+    return {
+      props: { c: data }
+    }
+  }
 
 export default function CourseCard() {
 
@@ -78,7 +79,7 @@ export default function CourseCard() {
                         />
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="div">
-                            {coursesData.name}
+                            {courses.name}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
                             {course.lecturer}
