@@ -73,6 +73,20 @@ To run server locally:
 python manage.py runserver
 ```
 
+# Virtual Environment
+Create a virtual environment:
+```
+python -m venv venv
+```
+The second `venv` is the name of the virtual environment. It can be anything you want.
+
+Activate a virtual environment:
+```
+source venv/bin/activate
+
+venv\Scripts\activate (for window)
+```
+
 # Pip
 To install some modules:
 ```
