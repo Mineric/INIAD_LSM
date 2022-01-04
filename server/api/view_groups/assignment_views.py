@@ -125,7 +125,6 @@ class AssignmentAnswerViewSet(viewsets.GenericViewSet):
     
     @action(detail=True, methods=['get'])
     def list_by_lesson(self, request, pk=None):
-        queryset = AssignmentAnswer.objects.all()
         try:
             student = Student.objects.filter(user_id__id=request.user.id)[0]
         except Exception as e:
@@ -136,6 +135,26 @@ class AssignmentAnswerViewSet(viewsets.GenericViewSet):
         if student is not None and lesson_id is not None: # for now 
             serializer = self.get_serializer()
             queryset = serializer.retrieve_by_lesson(lesson, student)
+            print(queryset)
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(serializer.data)
+        return Response({"error": "Data not found"}, status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['get'])
+    def list_all_by_lesson(self, request, pk=None):
+        queryset = AssignmentAnswer.objects.all()
+        user_id = request.user.id
+        try:
+            lecturer = Lecturer.objects.filter(user_id__id=user_id)[0]
+        except Exception as e:
+            return Response({"error": "Not authorized to get the answers."}, status.HTTP_400_BAD_REQUEST)
+        lesson_id = pk
+        # lesson = Lesson.objects.get(id=lesson_id, course_id__lecturers=lecturer)
+        lesson = Lesson.objects.get(id=lesson_id)
+        # if lecturer is not None and lesson is not None:
+        if lecturer is not None and lesson: # for now 
+            serializer = self.get_serializer()
+            queryset = serializer.retrieve_all_by_lesson(lesson)
             print(queryset)
             serializer = self.get_serializer(queryset, many=True)
             return Response(serializer.data)
@@ -157,28 +176,5 @@ class AssignmentAnswerViewSet(viewsets.GenericViewSet):
         else:
             print(serializer.errors)
             return Response({'error': 'Cannot UPDATE or CREATE'}, status=status.HTTP_406_NOT_ACCEPTABLE)
-
-
-class LessonAssignmentFormsViewSet(viewsets.GenericViewSet):
-    """
-    Hieu: to show all the assignment forms from a lessons
-    """
-    serializer_class = LessonAssignmentFormsSerializer
-    queryset = AssignmentForm.objects.all()
-    def list (self, request):
-        serializer = self.get_serializer(self.get_queryset(), many=True)
-        return Response(serializer.data)
-
-    # def retrieve(self, request, pk):
-    #     # lesson_id = request.query_params.get('lesson_id')
-    #     lesson_id = pk
-    #     if lesson_id is not None:
-    #         assignment_forms = AssignmentForm.objects.filter(lesson_id=lesson_id)
-    #         serializer = LessonAssignmentFormsSerializer(data={'assignment_forms': assignment_forms}, many=True)
-    #         serializer.is_valid()
-    #         print(serializer.data)
-    #         return Response(serializer.data)
-    #     else:
-    #         return Response({"error": "wrong parameters"}, status.HTTP_405_METHOD_NOT_ALLOWED)
-        
+ 
 # End of Assignment Views

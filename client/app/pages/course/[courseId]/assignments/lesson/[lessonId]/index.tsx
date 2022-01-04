@@ -162,7 +162,24 @@ const Lesson = () => {
     ...]
     */
     const [answers, setAnswers] = useState([]);
-
+    /* Sync update from server and update from client*/
+    const getMergeAnswers = (newAnswers) => {
+        let oldAnswers = [...answers];
+        let mergeAnswers = [];
+        oldAnswers.forEach((answer) => {
+            let newAnswer = newAnswers.find(a => a.question_id === answer.question_id)
+            newAnswer = {...newAnswer}
+            if('id' in answer && !('id' in newAnswer))
+                newAnswer.id = answer.id;
+            mergeAnswers.push(newAnswer)
+        })
+        newAnswers.forEach((answer) => {
+            if(!oldAnswers.find(a => a.question_id === answer.question_id)){
+                mergeAnswers.push(answer)
+            }
+        })
+        return mergeAnswers;
+    }
     /* When to update data on server */ 
     const [isAnswerUpdate, setIsAnswerUpdate] = useState(false);
     // Reference: https://overreacted.io/making-setinterval-declarative-with-react-hooks/
@@ -171,7 +188,7 @@ const Lesson = () => {
         if(isAnswerUpdate === true){
             const updateURL = getAPIURL("/viewset/assignment-answer/update_bulk/")
             fetchWrapper.post(updateURL, answers).then((data) => {
-                console.log("Update server: ", data)
+                setAnswers(getMergeAnswers(data))
                 setIsAnswerUpdate(false);
             })
         }
@@ -183,10 +200,10 @@ const Lesson = () => {
         // will get the answer from server 
         const RetrieveURL = getAPIURL(`/viewset/assignment-answer/${lessonId}/list_by_lesson/`);
         fetchWrapper.get(RetrieveURL).then((answerData) => {
-            setAnswers(answerData)
+            if(answerData){            
+                setAnswers(answerData)
+            }
         })
-        console.log("Begin answers: ", answerData)
-        
         /* Set update interval for answer */
         const updateDataInterval = setInterval(() => {savedUpdateAnswerInterval.current()}, 3000)
         return () => {
@@ -221,7 +238,6 @@ const Lesson = () => {
     }
 
     // another useEffect to submit on answers state change
-
     const onSaveEditQuestions = (save, newRawAssignmentQuestionsState, assignmentIndex) => {
         if(save === true){            
             // update on server
@@ -250,21 +266,20 @@ const Lesson = () => {
     const onSubmit = (newRawAnswerState, answerIndex) => {
         const UpdateURL = getAPIURL("") // URL for answer update
         fetchWrapper.post(UpdateURL, updateData).then(data => {
-
+            setAnswers(getMergeAnswers(data))
         })
-        setAnswers(newAnswers)
     }
 
     /* Update answers of 1 Assignment in 1 Form*/
     const onUpdateAnswers = (newAnswersState) => {
-        setAnswers(newAnswersState)
+        setAnswers(getMergeAnswers(newAnswersState))
         if(isAnswerUpdate === false)
             setIsAnswerUpdate(true);
+        
     }
 
     return (
         <Box sx={{
-
         }}>
             <Grid container className={styles.page}>
                 <Grid item xs={12}>

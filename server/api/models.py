@@ -128,6 +128,6 @@ class AssignmentAnswer(models.Model):
     keeps a student's answer for a question (AssignmentQuestion Class)
     """
     question_id = models.ForeignKey(AssignmentQuestion, on_delete=CASCADE, related_name='assignment_answer')
-    answer = models.TextField(default="", null=True)
+    answer = models.TextField(default="", blank=True, null=True)
     student_id = models.ForeignKey(Student, on_delete=CASCADE)
     score = models.IntegerField() # score = question_weight * answer_score

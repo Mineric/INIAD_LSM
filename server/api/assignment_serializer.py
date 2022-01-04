@@ -78,6 +78,9 @@ class AssignmentAnswerSerializer(DynamicFieldsModelSerializer):
     def retrieve_by_lesson(self, lesson, student):
         return AssignmentAnswer.objects.filter(question_id__assignment_form_id__lesson_id=lesson, student_id=student)
        
+    def retrieve_all_by_lesson(self, lesson):
+        return AssignmentAnswer.objects.filter(question_id__assignment_form_id__lesson_id=lesson)
+
 class AssignmentQuestionWithAnswersSerializer(DynamicFieldsModelSerializer):
     """
     Hieu: This class serializes: 

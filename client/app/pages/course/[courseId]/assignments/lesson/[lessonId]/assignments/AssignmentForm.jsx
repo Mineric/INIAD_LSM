@@ -19,12 +19,13 @@ const AssignmentForm = ({ onSubmit, content, lessonAnswersState, onUpdateAnswer}
 
     const findAnswer = (question_id) => {
         const answer = answers.find(answer => answer.question_id === question_id)
-        if(answer && answer.answer) return answer.answer;
+        if(answer) return answer.answer;
         else return undefined;
     }
 
     const replaceAnswer = (question_id, newAnswerState) => {
         const answerIndex = answers.findIndex(answer => answer.question_id === question_id);
+        console.log("Answer index: ", answerIndex)
         if(answerIndex !== -1){
             let newAnswers = [...answers]
             newAnswers[answerIndex] = {...newAnswers[answerIndex]} // avoid implicit reference
@@ -57,7 +58,7 @@ const AssignmentForm = ({ onSubmit, content, lessonAnswersState, onUpdateAnswer}
                             <TextEditor 
                                 rawEditorState={findAnswer(question.id)} 
                                 onUpdate={(newRawAnswerState) => {
-                                    replaceAnswer(question.id)                                    
+                                    replaceAnswer(question.id, newRawAnswerState)                                    
                             }}/>
                         </Grid>
                         <Grid item xs={1} />
