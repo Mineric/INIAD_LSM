@@ -3,13 +3,13 @@ import Link from "next/link"
 import AssignmentForm from "./assignments/AssignmentForm"
 import AssignmentFormEdit from "./assignments/AssignmentFormEdit"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@mui/material"
 import Typography from "@mui/material/Typography"
 import Grid from "@mui/material/Grid"
 import Box from "@mui/material/Box"
 import styles from "./layouts.module.css"
-import { IndeterminateCheckBoxRounded, NewReleases, QuestionAnswer } from "@mui/icons-material"
+import { AlignVerticalCenterTwoTone, IndeterminateCheckBoxRounded, NewReleases, QuestionAnswer } from "@mui/icons-material"
 import AddIcon from '@mui/icons-material/Add';
 import { getAPIURL, fetchWrapper } from "../../../../../../helpers"
 
@@ -97,85 +97,61 @@ const getData = [
 // not final structure
 const answerData = [
     {
-        "id": 1,
-        "answersContent": [
-            {
-                "id": 1,
-                "answer": '{"blocks":[{"key":"17d12","text":"CPU stands for C P U","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
-                "score": -1,
-                "question_id": 1,
-                "student_id": 10, // will be replaced later in server        
-            },
-            {
-                "id": 2,
-                "answer": '{"blocks":[{"key":"17d12","text":"CPY stands for C P Y","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
-                "score": -1,
-                "question_id": 2,
-                "student_id": 10,        
-            },
-            {
-                "id": 3,
-                "answer": '{"blocks":[{"key":"17d12","text":"CPU stands for C P U","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
-                "score": -1,
-                "question_id": 1,
-                "student_id": 10, // will be replaced later in server        
-            },
-        ]
+        "answer": '{"blocks":[{"key":"17d12","text":"CPU stands for C P U","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
+        "score": -1,
+        "question_id": 1,
     },
     {
-        "id": 2,
-        "answersContent": [
-            {
-                "id": 1,
-                "answer": '{"blocks":[{"key":"17d12","text":"CPU stands for C P U","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
-                "score": -1,
-                "question_id": 1,
-                "student_id": 10, // will be replaced later in server        
-            },
-            {
-                "id": 2,
-                "answer": '{"blocks":[{"key":"17d12","text":"CPY stands for C P Y","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
-                "score": -1,
-                "question_id": 2,
-                "student_id": 10,        
-            }
-        ]
+        "answer": '{"blocks":[{"key":"17d12","text":"CPU stands for C P U","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
+        "score": -1,
+        "question_id": 3,
     },
     {
-        "id": 3,
-        "answersContent": [
-            {
-                "id": 1,
-                "answer": '{"blocks":[{"key":"17d12","text":"CPU stands for C P U","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
-                "score": -1,
-                "question_id": 1,
-                "student_id": 10, // will be replaced later in server        
-            },
-            {
-                "id": 2,
-                "answer": '{"blocks":[{"key":"17d12","text":"CPY stands for C P Y","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
-                "score": -1,
-                "question_id": 2,
-                "student_id": 10,        
-            }
-        ]
+        "answer": '{"blocks":[{"key":"17d12","text":"CPU stands for C P U","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
+        "score": -1,
+        "question_id": 4,
     },
-    
+    {
+        "answer": '{"blocks":[{"key":"17d12","text":"CPY stands for C P Y","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
+        "score": -1,
+        "question_id": 5,
+    },
+    {
+        "answer": '{"blocks":[{"key":"17d12","text":"CPU stands for C P U","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
+        "score": -1,
+        "question_id": 6,
+    },
+    {
+        "answer": '{"blocks":[{"key":"17d12","text":"CPY stands for C P Y","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
+        "score": -1,
+        "question_id": 7,
+    }
 ]
 
 const Lesson = () => {
     const router = useRouter();
     const { lessonId, courseId } = router.query;
 
-    const [assignments, setAssignments] = useState(getData)
+    // const [assignments, setAssignments] = useState(getData)
+    const [assignments, setAssignments] = useState([])
+
     const [currentAssignment, setCurrentAssignment] = useState((assignments.length > 0 ? 0 : -1));
     const [editMode, setEditMode] = useState(false)
 
+    useEffect(() => {
+        const listURL = getAPIURL(`/viewset/assignment-form/${lessonId}/list_by_lesson/`)
+        fetchWrapper.get(listURL).then((data) => {
+            if(data){
+                setAssignments(data);
+                console.log("Lesson data: ", data);
+            } else{
+                alert("Cannot get assignment form of this lesson.")
+            }
+        })
+    }, [])
+
     /*
     answers: [
-        {
-            id: Assignment_id, 
-            answersContent: [
                 {
                     id: Answer_id,
                     answer: answer_content,
@@ -183,60 +159,65 @@ const Lesson = () => {
                     question_id: corresponding question ID,
                     student_id: student id, 
                 }
-            ...]
-        }
     ...]
     */
-    const [answers, setAnswers] = useState([...answerData]);
+    const [answers, setAnswers] = useState([]);
 
-    /* When isAnswerUpdate === true: update data on server */ 
+    /* When to update data on server */ 
     const [isAnswerUpdate, setIsAnswerUpdate] = useState(false);
-    const [testcnt, settestcnt] = useState(0);
-    let getTestCnt = () => {
-        return testcnt;
-    }
-    useEffect(() =>{
-        getTestCnt = () => {
-            return testcnt;
+    // Reference: https://overreacted.io/making-setinterval-declarative-with-react-hooks/
+    const savedUpdateAnswerInterval = useRef();
+    const updateAnswerIntervalCallback = () => {
+        if(isAnswerUpdate === true){
+            const updateURL = getAPIURL("/viewset/assignment-answer/update_bulk/")
+            fetchWrapper.post(updateURL, answers).then((data) => {
+                console.log("Update server: ", data)
+                setIsAnswerUpdate(false);
+            })
         }
-    }, [testcnt])
+    }
+    useEffect(() => {
+        savedUpdateAnswerInterval.current = updateAnswerIntervalCallback;
+    })
     useEffect(() => {
         // will get the answer from server 
-        const RetrieveURL = "";
-
-        // setAnswers(answerData)
+        const RetrieveURL = getAPIURL(`/viewset/assignment-answer/${lessonId}/list_by_lesson/`);
+        fetchWrapper.get(RetrieveURL).then((answerData) => {
+            setAnswers(answerData)
+        })
+        console.log("Begin answers: ", answerData)
+        
         /* Set update interval for answer */
-        const updateDataInterval = setInterval(() => {
-            if(isAnswerUpdate === true){
-                console.log("Send data to server 1", isAnswerUpdate);
-                if(isAnswerUpdate === true)
-                    setIsAnswerUpdate(false);
-                console.log("Send data to server 2", isAnswerUpdate);
-            }
-            console.log("Interval send", getTestCnt()) // ???? 
-        }, 3000)
-
+        const updateDataInterval = setInterval(() => {savedUpdateAnswerInterval.current()}, 3000)
         return () => {
             clearInterval(updateDataInterval);
         }
     }, [])
 
-
-
     const createNewAssignment = () => {
-        const newAssignments = [...assignments];
-        newAssignments.push(
-            {
-                "assignment_questions": [
-                ],
-                "order": 1,
-                "deadline": null,
-                "is_closed": 0,
-                "lesson_id": 1,
-                "lecturer_id": 4
-            },
-        )
-        setAssignments(newAssignments)
+        const newAssignmentForm = {
+            "order": 1,
+            "deadline": null,
+            "is_closed": 0,
+            "lesson_id": 1,
+            "lecturer_id": 4
+        };
+        const createURL = getAPIURL("/viewset/assignment-form/")
+        fetchWrapper.post(createURL, newAssignmentForm).then(data => {
+            if(data){
+                const newAssignments = [...assignments];
+                newAssignments.push(
+                    data
+                )
+                setAssignments(newAssignments)
+                setCurrentAssignment(newAssignments.length - 1)
+                console.log("New assignment forms: ", assignments)
+            } else{
+                alert("Cannot create new assignment form. Please try again!")
+            }
+        })
+        
+        
     }
 
     // another useEffect to submit on answers state change
@@ -245,16 +226,22 @@ const Lesson = () => {
         if(save === true){            
             // update on server
             const updateData = newRawAssignmentQuestionsState
-            const UpdateURL =  getAPIURL("/viewset/assignment-question/update_bulk/")
-            fetchWrapper.post(UpdateURL, updateData).then(data => {
+            const updateURL =  getAPIURL("/viewset/assignment-question/update_bulk/")
+            fetchWrapper.post(updateURL, updateData).then(data => {
                 // update data on client
-                let newAssignments = [...assignments];
-                newAssignments[assignmentIndex] = {...newAssignments[assignmentIndex]}
-                // data has IDs of newly created questions
-                newAssignments[assignmentIndex].assignment_questions = data
-                setAssignments(newAssignments)
+                if(data){
+                    let newAssignments = [...assignments];
+                    newAssignments[assignmentIndex] = {...newAssignments[assignmentIndex]}
+                    // data has IDs of newly created questions
+                    newAssignments[assignmentIndex].assignment_questions = data
+                    setAssignments(newAssignments)
+                    setEditMode(editMode === true ? false : true);
+                }
+                else {
+                    // Dont update in this case.
+                    alert("Cannot update questions. Please try again.")
+                }
             })
-            setEditMode(editMode === true ? false : true);
         } else { // if users decide not to save it
             setEditMode(editMode === true ? false : true)
         }
@@ -269,15 +256,10 @@ const Lesson = () => {
     }
 
     /* Update answers of 1 Assignment in 1 Form*/
-    const onUpdateSglAsgnAnswer = (newSglAsgnAnswersState, answerIndex) => {
-        let newAnswers = [...answers]
-        newAnswers[answerIndex] = {...newAnswers[answerIndex]} // avoid implicit reference 
-        newAnswers[answerIndex].answersContent = newSglAsgnAnswersState
-        setAnswers(newAnswers)
+    const onUpdateAnswers = (newAnswersState) => {
+        setAnswers(newAnswersState)
         if(isAnswerUpdate === false)
             setIsAnswerUpdate(true);
-        settestcnt(testcnt => testcnt + 1)
-        console.log("Update new answers: ", answers, isAnswerUpdate)
     }
 
     return (
@@ -319,7 +301,7 @@ const Lesson = () => {
                             </Grid> 
                         </Grid>
                     </Grid>
-                    {/* List out assignments */}
+
                     
                     {/* Chang edit mode */}
                     <Grid item xs={3}>
@@ -329,6 +311,7 @@ const Lesson = () => {
                     </Grid>
                 </Grid>
                 
+                {/* List out assignments */}
                 <Grid container item xs={12}>
                     {/* <Grid item xs={1}></Grid> */}
                     {/* <Grid item xs={10}> */}
@@ -346,13 +329,13 @@ const Lesson = () => {
                             assignments.map((item, index) => {
                                 return (
                                 <div key={index}>
-                                    {currentAssignment == index ? (<AssignmentForm 
+                                    {currentAssignment === index ? (<AssignmentForm 
                                         /* on submitting the answer */
                                         onSubmit={(newEditorState) => {onSubmit(newEditorState, currentAssignment)}} 
                                         /* on updating the answer */ 
-                                        onUpdateAnswer={(newSglAsgnAnswersState) => {onUpdateSglAsgnAnswer(newSglAsgnAnswersState, index)}}
+                                        onUpdateAnswer={(newAnswersState) => {onUpdateAnswers(newAnswersState)}}
                                         content={item} 
-                                        answersState={answers[index].answersContent}
+                                        lessonAnswersState={answers}
                                          />) : (<></>)}
                                     
                                 </div>

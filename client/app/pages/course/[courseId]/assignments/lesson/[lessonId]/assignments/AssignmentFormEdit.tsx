@@ -63,7 +63,6 @@ const AssignmentFormEdit = ({ onSave, content, assignmentFormId }) => {
         const questionToDup = newAssignmentQuestions[index]
         newAssignmentQuestions.splice(index + 1, 0, {
             ...questionToDup,
-            "id": "t" + questionNumber.toString(),
         })
         // re-order and change order
         newAssignmentQuestions = newAssignmentQuestions.map((item, index) => {item.order = index; return item;})
@@ -83,12 +82,10 @@ const AssignmentFormEdit = ({ onSave, content, assignmentFormId }) => {
             <Grid item container key={'t1'} xs={12}>
                 <Grid item xs={1} />
                 <Grid item xs={10}>
+                    {/* Default question edit view  */}
                     <QuestionEdit 
                         onUpdate={(newRawQuestionState) => {
-                            const newAssignmentQuestions = [...assignmentQuestions]
-                            newAssignmentQuestions[index] = {...newAssignmentQuestions[index]}
-                            newAssignmentQuestions[index].question = newRawQuestionState
-                            setAssignmentQuestions(newAssignmentQuestions)
+                            /* Do nothing */
                         }} 
                         addNewQuestion = {() => {addNewQuestion(-1, PARAGRAPH)}}
                         duplicateQuestion = {() => {duplicateQuestion(-1)}}

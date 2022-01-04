@@ -22,26 +22,19 @@ from django.shortcuts import get_object_or_404
 from collections import namedtuple
 import inspect
 
+from drf_firebase_auth.authentication import FirebaseAuthentication
+
 
 # Assignment Views
 
 class AssignmentFormViewSet(viewsets.GenericViewSet):
     serializer_class = AssignmentFormSerializer 
+    queryset = AssignmentForm.objects.all()
     # permission_classes = []
 
     # only get assignment form of current teacher, and current lecture
     def get_queryset(self):
-        # queryset = AssignmentForm.objects.all()
-        # lecturer = Lecturer.objects.filter(user_id=self.request.user.id)
-        # lesson_id = self.pk
-        # print(lecturer)
-        # # if lecturer is not None and lesson is not None:
-        # if lesson_id is not None: # for now 
-        #     # queryset = AssignmentQuestion.objects.filter(lecturer__in=lecturer, lesson_id=lesson_id)
-        #     queryset = AssignmentForm.objects.filter(lesson_id=lesson_id)
-        #     queryset = AssignmentQuestion.objects.filter(assignment_form_id__in=queryset)
-        queryset = AssignmentForm.objects.all()
-        return queryset
+        pass
 
     def list(self, request):
         serializer = self.get_serializer(self.get_queryset(), many=True)
@@ -54,14 +47,16 @@ class AssignmentFormViewSet(viewsets.GenericViewSet):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.save(serializer)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        if serializer.is_valid():
+            instance = serializer.create(validated_data=serializer.data, lecturer_id=request.user.id)
+            serializer = self.get_serializer(instance=instance)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            print(serializer.errors)
+            return Response({"Error: ": "Cannot create new assignment form."}, status=status.HTTP_201_CREATED)
     
     @action(detail=True, methods=['get'])
     def list_by_lesson(self, request, pk=None):
-        # print("---------------------------------")
-        # print(self.reverse_action('list-by-lesson', args=['1']))
-        # print("---------------------------------")
         queryset = AssignmentForm.objects.all()
         lecturer = Lecturer.objects.filter(user_id=self.request.user.id)
         lesson_id = pk
@@ -69,7 +64,6 @@ class AssignmentFormViewSet(viewsets.GenericViewSet):
         if lesson_id is not None: # for now 
             # queryset = AssignmentQuestion.objects.filter(lecturer__in=lecturer, lesson_id=lesson_id)
             queryset = AssignmentForm.objects.filter(lesson_id=lesson_id)
-            print(queryset)
             # queryset = AssignmentQuestion.objects.filter(assignment_form_id__in=queryset)
             serializer = self.get_serializer(queryset, many=True)
             return Response(serializer.data)
@@ -116,7 +110,8 @@ class AssignmentQuestionViewSet(viewsets.GenericViewSet):
 
 class AssignmentAnswerViewSet(viewsets.GenericViewSet):
     serializer_class = AssignmentAnswerSerializer 
-    # permission_classes = []
+    queryset = AssignmentAnswer.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
     
     def retrieve (self, request, pk ):
         instance = get_object_or_404(self.get_queryset(), pk = pk)
@@ -131,13 +126,10 @@ class AssignmentAnswerViewSet(viewsets.GenericViewSet):
     @action(detail=True, methods=['get'])
     def list_by_lesson(self, request, pk=None):
         queryset = AssignmentAnswer.objects.all()
-        print(request.user.id)
-        # try:
-        #     student = Student.objects.filter(user_id=request.user.id)[0]
-        # except Exception as e:
-        #     return Response({"error": str(e)}, status.HTTP_400_BAD_REQUEST)
-        students = Student.objects.filter(user_id__id=request.user.id)
-        student = students[0]
+        try:
+            student = Student.objects.filter(user_id__id=request.user.id)[0]
+        except Exception as e:
+            return Response({"error": str(e)}, status.HTTP_400_BAD_REQUEST)
         lesson_id = pk
         lesson = Lesson.objects.get(id=lesson_id)
         # if lecturer is not None and lesson is not None:
@@ -148,6 +140,24 @@ class AssignmentAnswerViewSet(viewsets.GenericViewSet):
             serializer = self.get_serializer(queryset, many=True)
             return Response(serializer.data)
         return Response({"error": "Data not found"}, status.HTTP_400_BAD_REQUEST)
+
+    # update with arrray
+    # update and create if not existed (no 'id' provided)
+    @action(detail=False, methods=['post'])
+    def update_bulk(self, request):
+        data = request.data
+        serializer = self.get_serializer(data=data, many=True)
+        if serializer.is_valid():
+            wrapping_data = {"data": serializer.data}
+            wrapping_data["student_id"] = request.user.id
+            instances = serializer.update(self.queryset, wrapping_data)
+            # re-serialize to response
+            serializer = self.get_serializer(instance=instances, many=True)
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED) 
+        else:
+            print(serializer.errors)
+            return Response({'error': 'Cannot UPDATE or CREATE'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
 
 class LessonAssignmentFormsViewSet(viewsets.GenericViewSet):
     """

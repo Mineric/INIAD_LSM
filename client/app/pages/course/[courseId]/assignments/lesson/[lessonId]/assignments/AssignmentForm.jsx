@@ -6,16 +6,42 @@ import Typography from "@mui/material/Typography"
 import Grid from "@mui/material/Grid"
 import styles from "./layouts.module.css"
 
-const AssignmentForm = ({ onSubmit, content, answersState, onUpdateAnswer}) => {
+const AssignmentForm = ({ onSubmit, content, lessonAnswersState, onUpdateAnswer}) => {
 
     const assignmentQuestions = [...content.assignment_questions];
-    const [answers, setAnswer] = useState([...answersState])
+    const [answers, setAnswer] = useState([...lessonAnswersState])
     const deadline = content.deadline;
     const is_closed = content.is_closed;
-    // const assignmentAnswerState = assignmentQuestions.map((e) => {return useState()})
 
     const submitButtonOnClick = () => {
-        onSubmit(assignmentQuestions)
+        onSubmit(assignmentQuestions);
+    }
+
+    const findAnswer = (question_id) => {
+        const answer = answers.find(answer => answer.question_id === question_id)
+        if(answer && answer.answer) return answer.answer;
+        else return undefined;
+    }
+
+    const replaceAnswer = (question_id, newAnswerState) => {
+        const answerIndex = answers.findIndex(answer => answer.question_id === question_id);
+        if(answerIndex !== -1){
+            let newAnswers = [...answers]
+            newAnswers[answerIndex] = {...newAnswers[answerIndex]} // avoid implicit reference
+            newAnswers[answerIndex].answer = newAnswerState
+            setAnswer(newAnswers)
+            onUpdateAnswer(answers)
+        } else{ // have not created the answer yet (both on client and server)
+            let newAnswers = [...answers]
+            // crate new answer
+            newAnswers.push({
+                "answer": "",
+                "score": -1,
+                "question_id": question_id,
+            })
+            setAnswer(newAnswers)
+            onUpdateAnswer(newAnswers)
+        }
     }
 
     return (
@@ -29,13 +55,9 @@ const AssignmentForm = ({ onSubmit, content, answersState, onUpdateAnswer}) => {
                                 <TextDisplay rawEditorState={question.question}/>
                             </div>
                             <TextEditor 
-                                // rawEditorState={} 
+                                rawEditorState={findAnswer(question.id)} 
                                 onUpdate={(newRawAnswerState) => {
-                                    let newAnswers = [...answers]
-                                    newAnswers[index] = {...newAnswers[index]}
-                                    newAnswers[index].answer = {...newRawAnswerState}
-                                    setAnswer(newAnswers)
-                                    onUpdateAnswer(answers)
+                                    replaceAnswer(question.id)                                    
                             }}/>
                         </Grid>
                         <Grid item xs={1} />

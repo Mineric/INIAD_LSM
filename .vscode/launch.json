@@ -13,7 +13,7 @@
                 "runserver"
             ],
             "django": true,
-            "pythonPath": "${workspaceFolder}/server/venv/bin/python3"
+            "python": "${workspaceFolder}/server/venv/bin/python3"
         }
     ]
 }

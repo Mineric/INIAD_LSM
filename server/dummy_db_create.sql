@@ -78,33 +78,33 @@ VALUES
 (1, 0, 2, 4),
 (2, 0, 2, 4)
 ;
-INSERT INTO api_assignmentquestion(question, [order], weight, assignment_form_id_id, type)
-VALUES
-('Definition of CPU', 1, 30, 1, 0),
-('CPU examples', 2, 30, 1, 0),
-('CPU prices research', 3, 30, 1, 0),
-('How CPU works', 1, 30, 2, 0),
-('How CPU was  created', 2, 30, 2, 0),
-('First CPU creation', 1, 30, 3, 0),
-('CPU stands for what?', 2, 30, 3, 0);
+-- INSERT INTO api_assignmentquestion(question, [order], weight, assignment_form_id_id, type)
+-- VALUES
+-- ('Definition of CPU', 1, 30, 1, 0),
+-- ('CPU examples', 2, 30, 1, 0),
+-- ('CPU prices research', 3, 30, 1, 0),
+-- ('How CPU works', 1, 30, 2, 0),
+-- ('How CPU was  created', 2, 30, 2, 0),
+-- ('First CPU creation', 1, 30, 3, 0),
+-- ('CPU stands for what?', 2, 30, 3, 0);
 
-INSERT INTO api_assignmentanswer (answer, score, question_id_id, student_id_id)
-VALUES 
-('Dummy answer for Definition of CPU', 10, 1, 1),
-('Dummy answer for CPU examples', 10, 2, 1),
-('Dummy answer for CPU prices research',10, 3, 1),
-('Dummy answer for How CPU works', 10, 4, 1),
-('Dummy answer for How CPU was  created',10, 5, 1),
-('Dummy answer for First CPU creation', 10, 6, 1),
-('Dummy answer for CPU stands for what?', 10, 7, 1),
+-- INSERT INTO api_assignmentanswer (answer, score, question_id_id, student_id_id)
+-- VALUES 
+-- ('Dummy answer for Definition of CPU', 10, 1, 1),
+-- ('Dummy answer for CPU examples', 10, 2, 1),
+-- ('Dummy answer for CPU prices research',10, 3, 1),
+-- ('Dummy answer for How CPU works', 10, 4, 1),
+-- ('Dummy answer for How CPU was  created',10, 5, 1),
+-- ('Dummy answer for First CPU creation', 10, 6, 1),
+-- ('Dummy answer for CPU stands for what?', 10, 7, 1),
 
-('(2)Dummy answer for Definition of CPU', 10, 1, 2),
-('(2)Dummy answer for CPU examples', 10, 2, 2),
-('(2)Dummy answer for CPU prices research',10, 3, 2),
-('(2)Dummy answer for How CPU works', 10, 4, 2),
-('(2)Dummy answer for How CPU was  created',10, 5, 2),
-('(2)Dummy answer for First CPU creation', 10, 6, 2),
-('(2)Dummy answer for CPU stands for what?', 10, 7, 2)
-;
+-- ('(2)Dummy answer for Definition of CPU', 10, 1, 2),
+-- ('(2)Dummy answer for CPU examples', 10, 2, 2),
+-- ('(2)Dummy answer for CPU prices research',10, 3, 2),
+-- ('(2)Dummy answer for How CPU works', 10, 4, 2),
+-- ('(2)Dummy answer for How CPU was  created',10, 5, 2),
+-- ('(2)Dummy answer for First CPU creation', 10, 6, 2),
+-- ('(2)Dummy answer for CPU stands for what?', 10, 7, 2)
+-- ;
 
 
