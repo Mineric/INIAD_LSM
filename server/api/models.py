@@ -26,7 +26,7 @@ class ExpandedUser(AbstractUser):
     def save(self, *args, **kwargs):
         if not self.id:
             super().save(self, *args, **kwargs)
-            current_user_role = self.USER_ROLE.choices.STUDENT
+            current_user_role = self.USER_ROLE.choices[0] # STUDENT
             user = ExpandedUser.objects.filter(id=self.id)
             student = Student.objects.create(user=user)
             lecturer = Lecturer.objects.create(user=user)

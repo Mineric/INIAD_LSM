@@ -17,8 +17,11 @@ from django.contrib import admin
 from django.conf.urls import url
 from django.urls import path, include
 
+from discuss import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
+    path ('discuss', views.CommentList.as_view()),
     path('', include ('api.urls')), # meant to be fixed
 ]
