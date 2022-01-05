@@ -1,9 +1,10 @@
+import LectureRoom from "../comps/LectureRoom";
 
 
 
 const course = () => {
     return (
-        <Lecture />
+        <LectureRoom />
     )
 }
 

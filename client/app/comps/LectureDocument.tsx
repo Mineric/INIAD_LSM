@@ -1,12 +1,5 @@
 import React, { Component } from 'react'
 
-// interface Props {
-    
-// }
-// interface State {
-    
-// }
-
 export default function LectureRoom() {
     const state = {};
     return (
