@@ -8,6 +8,7 @@ pytz==2021.1
 sqlparse==0.4.1
 gunicorn==20.1.0
 drf-firebase-auth==1.0.0
+<<<<<<< HEAD
  
 =======
 asgiref==3.3.4
@@ -51,3 +52,6 @@ sqlparse==0.4.1
 uritemplate==3.0.1
 urllib3==1.26.7
 >>>>>>> 2b9ae1411f3a179dba6d78ebaef6241f3786bcc7
+=======
+Pillow
+>>>>>>> f9ff65b2c29c2e534295c659d56c03502f7be1ee
