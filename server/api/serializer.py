@@ -1,3 +1,4 @@
+from drf_firebase_auth.authentication import User
 from .models import *
 
 from rest_framework import serializers
@@ -35,6 +36,28 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
             for field_name in exclude_fields:
                 self.fields.pop (field_name)
     
+class ProfileSerializer(serializers.ModelSerializer):
+    editable = serializers.SerializerMethodField(method_name="get_editable")
+    class Meta:
+        model = User
+        fields = ["id", "editable", "first_name", "last_name", "email"]
+        read_only = ["id", "editable"]
+
+    def __init__(self, *args, **kwargs):
+        if "user_id" in kwargs.keys():
+            self.user_id = kwargs.pop("user_id")
+        super().__init__(*args, **kwargs)
+
+    def get_editable(self, obj):
+        if self.user_id:
+            return self.user_id == obj.id
+        else:
+            return False
+    
+    def retrieve(self):
+        return User.objects.get(pk=self.id)   
+    
+
 class StudentSerializer (DynamicFieldsModelSerializer):
     class Meta:
         model = Student
