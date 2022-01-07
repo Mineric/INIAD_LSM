@@ -22,6 +22,9 @@ from discuss import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
-    path ('discuss', views.CommentList.as_view()),
+    path ('discuss/comments', views.CommentList.as_view()),
+    path ('discuss/comments/<int:pk>', views.CommentRetrieveDestroy.as_view()),
+    path ('discuss/comments/<int:pk>/vote', views.VoteCreate.as_view()),
+    path ('api-auth/', include('rest_framework.urls')),
     path('', include ('api.urls')), # meant to be fixed
 ]

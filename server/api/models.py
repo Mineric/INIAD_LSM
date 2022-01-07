@@ -1,6 +1,6 @@
 from datetime import time
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.db.models.enums import Choices
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -17,7 +17,17 @@ class OPEN_STATUS(models.IntegerChoices):
     YES = 1, "yes"
     NO = 0, "no"
 
+class ExpandedUserManager(UserManager):
+    def create_user(self, *args, **kwargs):
+        """
+        Create Student and Teacher role of an User
+        """
+        user = super().create_user(*args, **kwargs)
+        return user
+
 class ExpandedUser(AbstractUser):
+    objects = ExpandedUserManager()
+
     class USER_ROLE(models.TextChoices):
         STUDENT = "ST", "Student"
         LECTURER = "LT", "Lecturer"
@@ -27,10 +37,9 @@ class ExpandedUser(AbstractUser):
         if not self.id:
             super().save(self, *args, **kwargs)
             current_user_role = self.USER_ROLE.choices[0] # STUDENT
-            user = ExpandedUser.objects.filter(id=self.id)
-            student = Student.objects.create(user=user)
-            lecturer = Lecturer.objects.create(user=user)
-
+            user = ExpandedUser.objects.filter(id=self.id)[0] # [0] because of queryset 
+            student = Student.objects.create(user_id=user)
+            lecturer = Lecturer.objects.create(user_id=user)     
 
 class Student(models.Model):
     user_id = models.OneToOneField(
@@ -87,12 +96,11 @@ class Task(models.Model):
     lesson_id = models.ForeignKey(Lesson, on_delete=CASCADE)
     is_done = models.IntegerField(choices=OPEN_STATUS.choices, default=OPEN_STATUS.NO)
 
-
 class AssignmentForm(models.Model):
     lesson_id = models.ForeignKey(Lesson, on_delete=CASCADE)
     lecturer_id = models.ForeignKey(Lecturer, on_delete=CASCADE)
     order = models.IntegerField(blank=False)
-    deadline = models.DateTimeField(default=timezone.now)
+    deadline = models.DateTimeField(default=timezone.now, null= True)
     is_closed = models.IntegerField(choices=OPEN_STATUS.choices, default=OPEN_STATUS.NO)
 
 class AssignmentQuestion(models.Model):
@@ -106,9 +114,20 @@ class AssignmentQuestion(models.Model):
         CHECK_BOX = "CB", "Check box"
     type = models.TextField(choices=QUESTION_TYPE.choices, default=QUESTION_TYPE.PARAGRAPH)
     answer = models.TextField(default="", null=True)
+    
+    @property #
+    def answers (self): 
+        """
+        reverse relation to "child" model (question <- answer)
+        """
+        return self.assignment_answer.all()
+
 
 class AssignmentAnswer(models.Model):
-    question_id = models.ForeignKey(AssignmentQuestion, on_delete=CASCADE)
-    answer = models.TextField()
+    """
+    keeps a student's answer for a question (AssignmentQuestion Class)
+    """
+    question_id = models.ForeignKey(AssignmentQuestion, on_delete=CASCADE, related_name='assignment_answer')
+    answer = models.TextField(default="", null=True)
     student_id = models.ForeignKey(Student, on_delete=CASCADE)
     score = models.IntegerField() # score = question_weight * answer_score

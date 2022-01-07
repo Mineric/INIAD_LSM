@@ -16,30 +16,36 @@ class DmyCourse(models.Model):
 class DmyLesson (models.Model):
     lesson_name = models.CharField(max_length=NAME_MAX_LENGTH)
     course_id = models.ForeignKey(DmyCourse, on_delete=CASCADE)
-
-
-class Comment (models.Model):
+    body = models.TextField()
+    # doesnt need body here
+    
+class PostTxt (models.Model):
+    poster = models.ForeignKey(ExpandedUser, on_delete = models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    body = models.TextField()
+    
+class Comment (PostTxt):
     course = models.ForeignKey(DmyCourse, 
-                               null = True,
-                               # blank = False, form validation
-                               on_delete = models.CASCADE,
-                               related_name= 'comments'
-                               )
+                            null = False,
+                            blank = False, # form validation
+                            on_delete = models.CASCADE,
+                            related_name= 'comments'
+                            )
     lesson = models.ForeignKey(DmyLesson, 
                                null = True, 
+                               blank = True,
                                on_delete = models.CASCADE,
                                related_name= 'comments'
                                )
-    poster = models.ForeignKey(ExpandedUser, on_delete = models.CASCADE)
-    name = models.CharField(max_length= NAME_MAX_LENGTH)
-    body = models.TextField()
-    created = models.DateField(auto_now_add=True)
     active = models.BooleanField(default=True) # FOR DELETE OR DISABLE COMMENT
     class Meta:
         ordering = ('created',)
     def __str__(self):
-        return 'Comment by {} on {}'.format (self.name, self.lesson)
-    
+        return 'Comment by {} on course{}, lesson {}'.format (self.poster, self.course ,self.lesson)
+
+class Reply (PostTxt):
+    comment_entity = models.ForeignKey(Comment, on_delete = models.CASCADE, related_name= 'replies') #H: different field name to avoid clashing 
+
 class Vote (models.Model):
     voter = models.ForeignKey(ExpandedUser, on_delete = models.CASCADE)
-    comment = models.ForeignKey(Comment, on_delete = models.CASCADE)
+    postTxt = models.ForeignKey(PostTxt, on_delete = models.CASCADE, related_name= 'votes')
