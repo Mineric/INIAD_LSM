@@ -4,7 +4,7 @@ DELETE FROM api_school;
 DELETE FROM api_task;
 DELETE FROM api_expandeduser;
 DELETE FROM api_student;
-
+DELETE FROM api_lecturer;
 DELETE FROM sqlite_sequence 
 	where name in 
 		('api_course',
