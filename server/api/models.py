@@ -32,7 +32,10 @@ class ExpandedUser(AbstractUser):
         STUDENT = "ST", "Student"
         LECTURER = "LT", "Lecturer"
     current_user_role = models.CharField(max_length=2, choices=USER_ROLE.choices, default=USER_ROLE.STUDENT)
-
+    description = models.TextField(default="", null=True, blank=True)
+    job = models.TextField(default="", null=True, blank=True)
+    hobby = models.TextField(default="", null=True, blank=True)
+    
     def save(self, *args, **kwargs):
         if not self.id:
             super().save(self, *args, **kwargs)

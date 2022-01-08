@@ -25,7 +25,6 @@ const AssignmentForm = ({ onSubmit, content, lessonAnswersState, onUpdateAnswer}
 
     const replaceAnswer = (question_id, newAnswerState) => {
         const answerIndex = answers.findIndex(answer => answer.question_id === question_id);
-        console.log("Answer index: ", answerIndex)
         if(answerIndex !== -1){
             let newAnswers = [...answers]
             newAnswers[answerIndex] = {...newAnswers[answerIndex]} // avoid implicit reference

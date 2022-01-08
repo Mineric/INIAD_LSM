@@ -19,9 +19,6 @@ from rest_framework import mixins
 from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
 
-from collections import namedtuple
-import inspect
-
 class CourseViewSet (viewsets.ViewSet):
     visible_fields = ('id','course_name','date_start','date_end')
     

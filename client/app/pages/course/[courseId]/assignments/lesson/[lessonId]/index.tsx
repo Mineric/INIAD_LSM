@@ -128,6 +128,39 @@ const answerData = [
     }
 ]
 
+const assignmentsData = [
+    {
+        "id": 23,
+        "answer": "{\"blocks\":[{\"key\":\"5inkj\",\"text\":\"HiHi but no h\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}",
+        "score": -1,
+        "question_id": 9
+    },
+    {
+        "id": 91,
+        "answer": "{\"blocks\":[{\"key\":\"bsulo\",\"text\":\"answer\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}",
+        "score": -1,
+        "question_id": 9
+    },
+    {
+        "id": 24,
+        "answer": "{\"blocks\":[{\"key\":\"7pp6e\",\"text\":\"I love tea too bro wiat just kidding\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}",
+        "score": -1,
+        "question_id": 10
+    },
+    {
+        "id": 92,
+        "answer": "{\"blocks\":[{\"key\":\"2opg8\",\"text\":\"answer of second answer\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}",
+        "score": -1,
+        "question_id": 10
+    },
+    {
+        "id": 90,
+        "answer": "{\"blocks\":[{\"key\":\"bc5b2\",\"text\":\"Hi mark\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}",
+        "score": -1,
+        "question_id": 11
+    }
+]
+
 const Lesson = () => {
     const router = useRouter();
     const { lessonId, courseId } = router.query;
@@ -188,8 +221,12 @@ const Lesson = () => {
         if(isAnswerUpdate === true){
             const updateURL = getAPIURL("/viewset/assignment-answer/update_bulk/")
             fetchWrapper.post(updateURL, answers).then((data) => {
-                setAnswers(getMergeAnswers(data))
-                setIsAnswerUpdate(false);
+                if(data){
+                    setAnswers(getMergeAnswers(data))
+                    setIsAnswerUpdate(false);
+                } else{
+                    console.log("Cannot update in server (3).")
+                }
             })
         }
     }
@@ -293,7 +330,7 @@ const Lesson = () => {
                 <Grid item container xs={12}>
                     <Grid item xs={4}></Grid>
                     <Grid item xs={4}>
-                        <Typography variant="h5" color="white" marginLeft="5%">{`Lesson 1${lessonId} Assignments`}</Typography>
+                        <Typography variant="h5" color="white" marginLeft="5%">{`Lesson ${lessonId} Assignments`}</Typography>
                     </Grid>
                     <Grid item xs={4}></Grid>
                 </Grid>

@@ -3,6 +3,7 @@ from django.conf.urls import url
 from django.urls import path, include
 from .views import *
 from .view_groups.assignment_views import * 
+from .view_groups.personal_views import *
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -12,6 +13,7 @@ router.register ('Lessons', LessonViewSet, basename = 'lessons')
 router.register('assignment-form', AssignmentFormViewSet, basename='assignment-form')
 router.register('assignment-question', AssignmentQuestionViewSet, basename='assignment-question')
 router.register('assignment-answer', AssignmentAnswerViewSet, basename='assignment-question')
+router.register('profile', ProfileViewSet, basename="profile")
 
 urlpatterns = [
     path ('viewset/', include(router.urls)),

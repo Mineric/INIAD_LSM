@@ -9,7 +9,11 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Layout>
           <Component {...pageProps} />
       </Layout>
+<<<<<<< HEAD
    </AuthProvider>
+=======
+    </AuthProvider>
+>>>>>>> 4e7326a97b435e5706043f631464b76aedb4ff04
   )
 }
 export default MyApp;
