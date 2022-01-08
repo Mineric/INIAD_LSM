@@ -1,8 +1,8 @@
+from drf_firebase_auth.authentication import User
 from .models import *
 
 from rest_framework import serializers
 
-import inspect
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     """
     A ModelSerializer that 
@@ -36,6 +36,46 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
             for field_name in exclude_fields:
                 self.fields.pop (field_name)
     
+class ProfileSerializer(serializers.ModelSerializer):
+    editable = serializers.SerializerMethodField(method_name="get_editable")
+    additional_fields = ["editable"] # fields that not in model
+
+    class Meta:
+        model = User
+        fields = ["id", "editable", "first_name", "last_name", "email", "description", "job"]
+        read_only = ["id"]
+        # created_only_fields = ["editable"]
+
+    def __init__(self, *args, **kwargs):
+        if "user_id" in kwargs.keys():
+            self.user_id = kwargs.pop("user_id")
+        super().__init__(*args, **kwargs)
+
+    # def to_internal_value(self, data):
+    #     data = super().to_internal_value(data)
+    #     if self.instance:
+    #         # update
+    #         for x in self.create_only_fields:
+    #             data.pop(x)
+    #     return data
+
+    def get_editable(self, obj):
+        if hasattr(self,"user_id"):
+            return self.user_id == obj.id
+        else:
+            return False
+    
+    def retrieve(self):
+        return User.objects.get(pk=self.id)   
+
+    def update(self, pk):
+        data = self.data
+        for field in self.additional_fields:
+            data.pop(field)
+        User.objects.filter(id=pk).update(**data)
+        return User.objects.get(pk=pk)
+    
+
 class StudentSerializer (DynamicFieldsModelSerializer):
     class Meta:
         model = Student
@@ -47,10 +87,10 @@ class SchoolSerializer (DynamicFieldsModelSerializer):
         fields = "__all__"
     
 class CourseSerializer (DynamicFieldsModelSerializer):
+    # date_start = serializers.DateField()
     class Meta:
         model = Course
         fields = "__all__"
-        
         
 class LessonSerializer (DynamicFieldsModelSerializer):
     class Meta:
@@ -72,12 +112,14 @@ class DashBoardSerializer (serializers.Serializer):
             "course_description",
             "lecturers",
             "date_start",
-            "date_end"
+            "date_end",
+            "course_image"
             )
         )
     lessons = LessonSerializer (
         many = True,
         fields = (
+            "id",
             "lesson_name",
             "date_start",
             "date_end"
@@ -86,6 +128,7 @@ class DashBoardSerializer (serializers.Serializer):
     tasks  = TaskSerializer (
         many=True,
         exclude_fields = (
-            "student",
+            "student_id",
             )
         )
+
