@@ -5,11 +5,11 @@ import { AuthProvider } from '../firebase/contexts/AuthContext'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    // <AuthProvider>
+    <AuthProvider>
       <Layout>
           <Component {...pageProps} />
       </Layout>
-    // </AuthProvider>
+    </AuthProvider>
   )
 }
 export default MyApp
