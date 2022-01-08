@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "nexttype",
   "version": "0.1.0",
   "private": true,
@@ -51,3 +52,43 @@
     "typescript": "4.4.3"
   }
 }
+=======
+    "name": "nexttype",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@babel/core": "^7.16.0",
+        "@emotion/react": "^11.4.1",
+        "@emotion/styled": "^11.3.0",
+        "@firebase/app-types": "^0.7.0",
+        "@firebase/util": "^1.4.2",
+        "@hookform/resolvers": "^2.8.2",
+        "@mui/icons-material": "^5.0.3",
+        "@mui/material": "^5.0.3",
+        "helper": "^0.0.13",
+        "helpers": "^0.0.6",
+        "immutable": "^4.0.0",
+        "next": "11.1.2",
+        "react": "17.0.2",
+        "react-dom": "17.0.2",
+        "react-hook-form": "^7.17.4",
+        "rxjs": "^7.4.0",
+        "yup": "^0.32.11"
+    },
+    "devDependencies": {
+        "@mui/styles": "^5.2.3",
+        "@types/react": "17.0.27",
+        "draft-js": "^0.11.7",
+        "eslint": "7.32.0",
+        "eslint-config-next": "11.1.2",
+        "react-draft-wysiwyg": "^1.14.7",
+        "typescript": "4.4.3"
+    }
+}
+>>>>>>> 3ece0f594e5a0941819c633402317ce207ddd9df

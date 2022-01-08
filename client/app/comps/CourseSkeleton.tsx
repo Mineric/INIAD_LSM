@@ -42,7 +42,10 @@ function Media(props: MediaProps) {
         <Box key={index} sx={{ width: 210, marginRight: 0.5, my: 5 }}>
           {item ? (
             <Image
-              style={{ width: 210, height: 118 }}
+              loader={() => item.src}
+              width={210}
+              height={118}
+              // style={{ width: 210, height: 118 }}
               alt={item.title}
               src={item.src}
             />

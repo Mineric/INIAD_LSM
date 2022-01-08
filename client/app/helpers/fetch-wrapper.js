@@ -11,15 +11,29 @@ export const fetchWrapper = {
     delete: _delete
 };
 
+export function getAPIDomain() {
+    const local = process.env.NEXT_PUBLIC_ENV === 'local'
+    if (local) {
+        return "127.0.0.1:8000"
+    } else {
+        return ""
+    }
+}
+
+export function getAPIURL(uri) {
+    let protocol = (location.protocol === "https:") ? "https://" : "http://";
+    return protocol + getAPIDomain() + uri;
+}
+
 function get(url) {
     return getAuthHeader().then(headers => {
-    const requestOptions = {
-        method: 'GET',
-        headers: headers,
-    };
-    console.log(requestOptions)
-    return fetch(url, requestOptions).then(handleResponse).catch(error => {
-        console.log(error);
+        const requestOptions = {
+            method: 'GET',
+            headers: headers,
+        };
+        console.log(requestOptions)
+        return fetch(url, requestOptions).then(handleResponse).catch(error => {
+            console.log(error);
         })
     });
 }
@@ -39,7 +53,9 @@ function post(url, body) {
             credentials: 'include',
             body: JSON.stringify(body)
         };
-        return fetch(url, requestOptions).then(handleResponse);
+        return fetch(url, requestOptions).then(handleResponse).catch(error => {
+            console.log(error);
+        });
     });
 }
 
@@ -56,7 +72,9 @@ function put(url, body) {
             headers: { 'Content-Type': 'application/json', ...headers },
             body: JSON.stringify(body)
         };
-        return fetch(url, requestOptions).then(handleResponse);  
+        return fetch(url, requestOptions).then(handleResponse).catch(error => {
+            console.log(error);
+        });
     });
 }
 
@@ -72,7 +90,9 @@ function _delete(url) {
             method: 'DELETE',
             headers: headers
         };
-        return fetch(url, requestOptions).then(handleResponse);
+        return fetch(url, requestOptions).then(handleResponse).catch(error => {
+            console.log(error);
+        });
     });
 }
 
@@ -80,28 +100,19 @@ function _delete(url) {
 
 async function getAuthHeader() {
     let token;
-    // try {
-    //     token = localStorage.getItem("idToken"); // remember to remove in on logout
-    // } catch(error){
-    //     console.log("Cannot get idToken");
-    // }
-    if(!token){
-        token = await firebase.auth().currentUser.getIdToken(/* forceRefresh */ true);
+    if (!token) {
+        try {
+            token = await firebase.auth().currentUser.getIdToken( /* forceRefresh */ true);
+        } catch (e) {
+            alert(e);
+            return {};
+        }
     }
-    if(token) {
+    if (token) {
         return { 'Authorization': `JWT ${token}` };
     } else {
         return {};
     }
-    // const user = userService.userValue;
-    // const isLoggedIn = user && user.token;
-    // // const isApiUrl = url.startsWith(publicRuntimeConfig.apiUrl);
-    // if (isLoggedIn && isApiUrl ) {
-    //     return { Authorization: `JWT ${token}` };
-    // } else {
-    //     return {};
-    // }
-    
 }
 
 function handleResponse(response) {

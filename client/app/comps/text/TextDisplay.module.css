@@ -1,0 +1,31 @@
+.wrapperClass {
+    /* margin: 1rem; */
+    /* padding: 1rem; */
+    /* border: 1px solid white; */
+    /* background-color: #EEEEEE; */
+}
+
+.editorClass {
+    /* background-color: #EEEEEE; */
+    color: white;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border: 3px solid #ccc;
+    min-height: 150px;
+    width: 100%;
+    /* border-radius: 5px; */
+}
+
+.toolbarClass {
+    border: 1px solid #ccc;
+}
+
+.whiteText {
+    color: white;
+}

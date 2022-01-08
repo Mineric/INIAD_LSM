@@ -1,14 +1,16 @@
+from django.db.models import query
 from django.shortcuts import render
-from rest_framework import generics
+from django.utils.translation import deactivate_all
 from rest_framework import permissions
 from rest_framework.views import APIView
 
 from .models import *
 from django.forms.models import model_to_dict
 from .serializer import *
-from .serializers import *
+from .assignment_serializer import *
 
-from rest_framework.decorators import api_view
+
+from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -22,6 +24,13 @@ from django.shortcuts import get_object_or_404
 
 from collections import namedtuple
 import inspect
+
+# import of differernt view groups
+
+from api.view_groups.course_views import *
+from api.view_groups.assignment_views import *
+# import of differernt view groups
+
 # Create your views here.
 class CreateCourseView(generics.CreateAPIView):
     queryset = Course.objects.all()
@@ -41,14 +50,15 @@ def get_declared_fields (SerializerClass):
     attributes = tuple ([a[1] for a in attributes if a[0] == '_declared_fields'])
     
     return list (attributes[0].keys())
+
 class DashBoardViewSet (viewsets.ViewSet):
+    
     def return_tuple_fields(self):
         tuple_fields = get_declared_fields(DashBoardSerializer)
         return (namedtuple (
             'DashBoard', tuple_fields)
         )
-    def list(self, request):
-        
+    def list(self, request):      
         dashboard = self.return_tuple_fields()(
             students = Student.objects.all(),
             schools = School.objects.all(),
@@ -57,15 +67,35 @@ class DashBoardViewSet (viewsets.ViewSet):
             tasks = Task.objects.all()
         )
         serializer = DashBoardSerializer(dashboard)
-        print (get_declared_fields(DashBoardSerializer))
+        
         return Response(serializer.data)
-    
-class CourseViewSet (viewsets.ViewSet):
+        
+class LessonViewSet (viewsets.GenericViewSet):
+    visible_fields =  ('id','lesson_name','date_start', 'date_end', 'course_id') # used for editing fields in all methods 
+    serializer_class = LessonSerializer
+    queryset = Lesson.objects.all()
     def list (self, request):
-        courses = Course.objects.all()
-        serializer = CourseSerializer(courses, many = True, fields = ('course_name',))
+        objects = Lesson.objects.all()
+        serializer = LessonSerializer(objects, many = True, fields = self.visible_fields)
         return Response (serializer.data)
-
+        
+    def list_all (self):
+        """
+        (HIEU)list all the objects after editing something
+        maybe used after create(), destroy(), update(), etc
+        """
+        objects = Lesson.objects.all()
+        serializer = LessonSerializer(objects, many = True, fields = self.visible_fields)
+        return Response (serializer.data)
+    
+    def create (self, request):
+        serializer = LessonSerializer(data = request.data)
+        
+        if serializer.is_valid ():
+            serializer.save()
+            return self.list_all () 
+        return Response(serializer.errors)
+    
 # Users
 class WhoAmIView(APIView):
     """ Simple endpoint to test auth """
