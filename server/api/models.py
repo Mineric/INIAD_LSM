@@ -8,6 +8,8 @@ from django.utils.translation import gettext_lazy as _
 from django.db.models.deletion import CASCADE
 # Create your models here.
 
+from taggit.managers import TaggableManager
+
 NAME_MAX_LENGTH = 100
 URL_MAX_LENGTH = 200
 
@@ -35,6 +37,7 @@ class ExpandedUser(AbstractUser):
     description = models.TextField(default="", null=True, blank=True)
     job = models.TextField(default="", null=True, blank=True)
     hobby = models.TextField(default="", null=True, blank=True)
+    interest_tags = TaggableManager()
     
     def save(self, *args, **kwargs):
         if not self.id:

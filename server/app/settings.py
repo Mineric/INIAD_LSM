@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'drf_firebase_auth',
     'corsheaders',
     'api',
+    'taggit',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
