@@ -12,7 +12,7 @@ const CourseContainter = () => {
     console.log(c);
     return (
         <Grid container wrap="nowrap">
-            <section className="container">
+            <section className="..\..\..\public\assets\python.png">
                 <CourseCard/>    
                 <CourseCard/>   
                 <CourseCard/>           
