@@ -2,7 +2,11 @@ from .models import *
 from rest_framework import serializers
 from api.serializer import DynamicFieldsModelSerializer
 
-
+class VoteSerializer (DynamicFieldsModelSerializer):
+    class Meta:
+        model = Vote
+        # fields = "__all__"
+        fields = ["id"]
             
 class ReplySerializer(DynamicFieldsModelSerializer):
     poster = serializers.ReadOnlyField (source = 'poster.username')
@@ -26,9 +30,9 @@ class CommentSerializer (DynamicFieldsModelSerializer):
     
     def get_votes (self, comment):
         return Vote.objects.filter (postTxt = comment).count()
-class VoteSerializer (DynamicFieldsModelSerializer):
-    class Meta:
-        model = Vote
-        # fields = "__all__"
-        fields = ["id"]
-            
+
+class DmyCourseSerializer (DynamicFieldsModelSerializer):
+    class Meta: 
+        model = DmyCourse
+        fields = "__all__"
+    comments =  CommentSerializer (many = True)

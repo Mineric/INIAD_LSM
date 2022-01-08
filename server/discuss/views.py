@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from .models import *
 from .serializer import *
-from rest_framework import generics
 from rest_framework.exceptions import ValidationError
 from rest_framework import permissions
 from rest_framework import mixins, status
 from rest_framework.response import Response
+
+from rest_framework import generics
+from rest_framework import viewsets
 # Create your views here.
 
 class CommentList (generics.ListCreateAPIView):
@@ -53,3 +55,17 @@ class VoteCreate (generics.CreateAPIView, mixins.DestroyModelMixin):
             return Response (status=status.HTTP_204_NO_CONTENT)
         else :
             return  ValidationError ('You never voted for this comment')
+        
+# changing to Generic Viewset
+
+class DmyCourseViewSet (viewsets.ViewSet):
+    def list (self, request):
+        objects = DmyCourse.objects.all()
+        serializer = DmyCourseSerializer(objects, many = True)
+        return Response(serializer.data)
+    
+    # def retrieve(self, request, pk=None):
+    #     queryset = DmyCourse.objects.all()
+    #     instance = get_object_or_404(queryset, pk=pk)
+    #     serializer = DmyCourseSerializer(instance)
+    #     return Response(serializer.data)

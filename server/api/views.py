@@ -65,7 +65,10 @@ class DashBoardViewSet (viewsets.ViewSet):
 class CourseViewSet (viewsets.ViewSet):
     def list (self, request):
         courses = Course.objects.all() #query set
-        serializer = CourseSerializer(courses, many = True, fields = ('course_name','date_start','date_end', 'course_id'))
+        serializer = CourseSerializer(courses, many = True, fields = ('course_name','date_start','date_end', 'course_id', 'course_image'))
+        attributes = inspect.getmembers(CourseSerializer, lambda a:not(inspect.isroutine(a)))
+        attributes = tuple ([a[1] for a in attributes if a[0] == '_declared_fields'])
+        
         return Response (serializer.data)
         
 class LessonViewSet (viewsets.GenericViewSet):
