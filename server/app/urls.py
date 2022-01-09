@@ -23,7 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
     path ('discuss/comments', discuss_views.CommentList.as_view()),
-    path ('discuss/comments/<int:pk>', discuss_views.CommentRetrieveDestroy.as_view()),
+    path ('discuss/comments/<int:pk>', discuss_views.CommentUpdateRetrieveDestroy.as_view()),
     path ('discuss/comments/<int:pk>/vote', discuss_views.VoteCreate.as_view()),
     path ('api-auth/', include('rest_framework.urls')),
     path('', include ('api.urls')), # meant to be fixed

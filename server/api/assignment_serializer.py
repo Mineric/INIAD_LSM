@@ -6,7 +6,6 @@ from .models import *
 from rest_framework import serializers
 
 from .serializer import DynamicFieldsModelSerializer
-
 class AssignmentQuestionListSerializer(serializers.ListSerializer):
     # update
     # create if not exist

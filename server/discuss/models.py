@@ -40,6 +40,7 @@ class Comment (PostTxt):
     active = models.BooleanField(default=True) # FOR DELETE OR DISABLE COMMENT
     class Meta:
         ordering = ('created',)
+    
     def __str__(self):
         return 'Comment by {} on course{}, lesson {}'.format (self.poster, self.course ,self.lesson)
 
