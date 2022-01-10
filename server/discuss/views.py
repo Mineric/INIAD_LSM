@@ -62,6 +62,7 @@ class VoteCreate (generics.CreateAPIView, mixins.DestroyModelMixin):
 class DmyCourseViewSet (viewsets.GenericViewSet):
     serializer_class = DmyCourseSerializer
     queryset = DmyCourse.objects.all()
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     def get_serializer_class(self):
         if self.action in ["create_comment", "update_comment"]:
             return CommentSerializer
@@ -71,8 +72,7 @@ class DmyCourseViewSet (viewsets.GenericViewSet):
 
         elif self.action in ["create_vote"]:
             return VoteSerializer
-        
-        else: 
+        else: # important!
             return DmyCourseSerializer
     
     def list (self, request):
@@ -89,6 +89,7 @@ class DmyCourseViewSet (viewsets.GenericViewSet):
     def create_comment(self, request, pk = None):
         serializer = CommentSerializer(data = request.data)
         poster = self.request.user
+        print (request.data)
         if serializer.is_valid():
             serializer.save (poster = poster, course_id = pk)
             return Response(serializer.data)
@@ -115,7 +116,7 @@ class DmyCourseViewSet (viewsets.GenericViewSet):
         serializer = ReplySerializer(data = request.data)
         poster = self.request.user
         if serializer.is_valid():
-            serializer.save (poster = poster)
+            serializer.save (poster = poster, comment_entity_id = request.data["comment_entity"])
             return Response(serializer.data)
         return Response(serializer.errors,
                         status=status.HTTP_400_BAD_REQUEST)
