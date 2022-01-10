@@ -138,8 +138,16 @@ class DmyCourseViewSet (viewsets.GenericViewSet):
     def create_vote(self, request, pk = None):
         serializer = VoteSerializer(data = request.data)
         voter = self.request.user
+        """
+        if the vote instance already exists, it will return the existing instance
+        return created instance otherwise
+        """
         if serializer.is_valid():
-            serializer.save (voter = voter)
+            if Vote.objects.filter(voter = voter, postTxt_id= request.data["postTxt"]).exists():
+                instance = Vote.objects.get (voter = voter, postTxt_id= request.data["postTxt"])
+                serializer = VoteSerializer(instance)
+            else: 
+                serializer.save (voter = voter)
             return Response(serializer.data)
-        return Response(serializer.errors,
-                        status=status.HTTP_400_BAD_REQUEST)
+        return Response (serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
