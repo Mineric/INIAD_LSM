@@ -41,6 +41,40 @@ class CreateSchoolView(generics.CreateAPIView):
     queryset = School.objects.all()
     serializer_class = SchoolSerializer
 
+class StudentCourseView(APIView):
+    # Register a course
+    def post(self, request, pk, format=None):
+        user = request.user
+        try:
+            student = Student.objects.get(pk=user.id)
+        except Exception as e:
+            print(e)
+            return Response({"error": "You are not a student"}, status=status.HTTP_401_UNAUTHORIZED)
+        try:
+            course = Course.objects.get(pk=pk)
+        except Exception as e:
+            print(e)
+            return Response({"error": "This course does not exist."}, status=status.HTTP_400_BAD_REQUEST)
+        course.students.add(student)
+        return Response({"message": "Registration completed."}, status=status.HTTP_201_CREATED)
+
+    # Unregister a course
+    def delete(self, request, pk, format=None):
+        user = request.user
+        try:
+            student = Student.objects.get(pk=user.id)
+        except Exception as e:
+            print(e)
+            return Response({"error": "You are not a student"}, status=status.HTTP_401_UNAUTHORIZED)
+        try:
+            course = Course.objects.get(pk=pk)
+        except Exception as e:
+            print(e)
+            return Response({"error": "This course does not exist."}, status=status.HTTP_400_BAD_REQUEST)
+        course.students.remove(student)
+        return Response({"message": "Unregistration completed."}, status=status.HTTP_201_CREATED)
+
+
 def get_declared_fields (SerializerClass):
     '''
     a function that return a tuple of  (declared) attributes/fields of a multi-model serializer class)
