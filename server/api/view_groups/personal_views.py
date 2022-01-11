@@ -34,6 +34,8 @@ class ProfileViewSet(viewsets.GenericViewSet):
             # user_id = request.user.id
             user_id = 1
             serializer = self.get_serializer(instance, user_id=user_id)
+            if editable == True:
+                return Response ({**serializer.data, "suggestions": Tag.INTEREST_TAGS}, status=status.HTTP_200_OK)
             return Response (serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({"errors": "User not found."}, status=status.HTTP_404_NOT_FOUND)

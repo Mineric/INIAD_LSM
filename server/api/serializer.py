@@ -50,7 +50,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["id", "editable", "first_name", "last_name", "email", "description", "job", "interest_tags"]
+        fields = ["id", "editable", "first_name", "last_name", "email", "description", "job", "interest_tags", "profile_image"]
         read_only = ["id"]
         # created_only_fields = ["editable"]
 
