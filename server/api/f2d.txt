@@ -1,0 +1,7 @@
+db.personal.aggregate([
+    {$lookup: {from: “area”, localField: “area”, forei nField: “areaid”,as: “pa”}}, 
+    $match { $and: 
+        [{age: {$gte:30}}, 
+        {“pa.area”: “tokyo”}]}}, 
+    {$projectz {_id:0,
+    name:1, email:1, “pa.e1ectric”:1}}])

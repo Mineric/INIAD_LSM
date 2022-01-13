@@ -66,11 +66,9 @@ class DmyCourseViewSet (viewsets.GenericViewSet):
     def get_serializer_class(self):
         if self.action in ["create_comment", "update_comment"]:
             return CommentSerializer
-        
         elif self.action in ["create_reply", "update_reply"]:
             return ReplySerializer
-
-        elif self.action in ["create_vote"]:
+        elif self.action in ["create_vote", "delete_vote"]:
             return VoteSerializer
         else: # important!
             return DmyCourseSerializer
@@ -85,6 +83,8 @@ class DmyCourseViewSet (viewsets.GenericViewSet):
         serializer = DmyCourseSerializer(instance)
         return Response(serializer.data)
     
+    
+    # discussion APIs
     @action (detail = True,  methods=['post'])
     def create_comment(self, request, pk = None):
         serializer = CommentSerializer(data = request.data)
@@ -139,7 +139,7 @@ class DmyCourseViewSet (viewsets.GenericViewSet):
         serializer = VoteSerializer(data = request.data)
         voter = self.request.user
         """
-        if the vote instance already exists, it will return the existing instance
+        if the vote instance already exists, return the existing instance
         return created instance otherwise
         """
         if serializer.is_valid():
@@ -151,3 +151,12 @@ class DmyCourseViewSet (viewsets.GenericViewSet):
             return Response(serializer.data)
         return Response (serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    @action (detail = True, methods = ['delete'])
+    def delete_vote (self, request, pk = None):
+        serializer = VoteSerializer(data = request.data)
+        voter = self.request.user
+        if serializer.is_valid():
+            if Vote.objects.filter(voter = voter, postTxt_id= request.data["postTxt"]).exists():
+                Vote.objects.get (voter = voter, postTxt_id= request.data["postTxt"]).delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response (serializer.errors, status=status.HTTP_400_BAD_REQUEST)
