@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import Board from '@asseinfo/react-kanban'
-import '@asseinfo/react-kanban/dist/styles.css'
+import dynamic from 'next/dynamic'
+const UncontrolledKanbanBoard = dynamic(() => import("../../comps/UncontrolledKanbanBoard"), {ssr: false})
 
-const board = {
+const boardData = {
     columns: [
       {
         id: 1,
@@ -30,7 +30,9 @@ const board = {
   }
 
 const ToDoBoard = () => {
-    return <Board>{board}</Board>
+    const [board, setBoard] = useState(boardData)
+    
+    return <UncontrolledKanbanBoard onBoardChange={(board) => {console.log("Update", board)}} initialBoard={board}></UncontrolledKanbanBoard>
 }
 
 export default ToDoBoard;
