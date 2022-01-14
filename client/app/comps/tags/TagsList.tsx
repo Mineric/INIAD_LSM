@@ -1,7 +1,7 @@
 import {useState, useEffect} from "react"
 import TagBox from "./TagBox"
 
-const TagsList = ({selectedTags, suggestions, handleTagClick, classNames}) => {
+const TagsList = ({selectedTags, suggestions, handleTagClick=undefined, classNames}) => {
     const [tags, setTags] = useState([])
     const [tagsList, setTagsList] = useState([])
     useEffect(() => {
@@ -34,7 +34,7 @@ const TagsList = ({selectedTags, suggestions, handleTagClick, classNames}) => {
                             selectedClassName={classNames.selectedBox}
                             unselectedClassName={classNames.unselectedBox}
                         handleTagClick={() => {
-                            if(tag.selected === false) 
+                            if(tag.selected === false && handleTagClick) 
                                 handleTagClick(tag.text)
                             }
                         }

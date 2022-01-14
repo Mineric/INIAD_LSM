@@ -29,11 +29,13 @@ class ProfileViewSet(viewsets.GenericViewSet):
 
     def retrieve (self, request, pk ):
         instance = ExpandedUser.objects.get(pk=pk)
-        editable = True
         if instance:
-            # user_id = request.user.id
-            user_id = 1
-            serializer = self.get_serializer(instance, user_id=user_id)
+            user_id = request.user.id
+            if user_id:
+                serializer = self.get_serializer(instance, user_id=user_id)
+            else:
+                serializer = self.get_serializer(instance)
+            editable = serializer.data["editable"]
             if editable == True:
                 return Response ({**serializer.data, "suggestions": Tag.INTEREST_TAGS}, status=status.HTTP_200_OK)
             return Response (serializer.data, status=status.HTTP_200_OK)
@@ -41,8 +43,8 @@ class ProfileViewSet(viewsets.GenericViewSet):
             return Response({"errors": "User not found."}, status=status.HTTP_404_NOT_FOUND)
 
     def update(self, request, pk):
-        # if request.user.id != pk:
-        #     return Response({"error": "Not allowed to update user' profile."}, status=status.HTTP_401_UNAUTHORIZED)
+        if request.user.id != pk:
+            return Response({"error": "Not allowed to update user' profile."}, status=status.HTTP_401_UNAUTHORIZED)
         data = request.data
         serializer = self.get_serializer(data=data, partial=True)
         if serializer.is_valid():
