@@ -137,119 +137,102 @@ const ProfilePage = () => {
 
     /* Design Reference: https://www.pinterest.jp/pin/690317449128829116/ */
     return !loading && (
-        <Grid container>
-            <Grid item xs={12} className={styles.wrapperPage}>
-                <Grid container>
-                    {/* <Grid item xs={4}></Grid>
+        <Grid container className={styles.wrapperPage}>
+            <Grid container className={styles.insideWrapper}>
+                {/* <Grid item xs={4}></Grid>
                     <Grid item xs={4}><h2 className={styles.title}>Profiles Settings</h2></Grid>
                     <Grid item xs={4}></Grid> */}
-                    <Grid item xs={3}>
-                        <Image className={styles.roundedImage} src={profileImage} width={300} height={300} />
+                <Grid item xs={3}>
+                    <Image className={styles.roundedImage} src={profileImage} width={300} height={300} />
+                </Grid>
+                <Grid item xs={9} className={styles.rightColumn}>
+                    <Grid item xs={12} container>
+                        {editable ?
+                            <>
+                                <Grid item xs={5}>
+                                    <TextField
+                                        error={false}
+                                        id="first_name"
+                                        label="First Name"
+                                        variant="standard"
+                                        fullWidth
+                                        value={uncommitInfo.first_name !== undefined ? uncommitInfo.first_name : information.first_name}
+                                        onChange={(e) => onChangeInput(e)}
+                                    ></TextField>
+                                </Grid>
+                                <Grid item xs={1} />
+                                <Grid item xs={5}>
+                                    <TextField
+                                        error={false}
+                                        id="last_name"
+                                        label="Last Name"
+                                        variant="standard"
+                                        fullWidth
+                                        value={uncommitInfo.last_name !== undefined ? uncommitInfo.last_name : information.last_name}
+                                        onChange={(e) => onChangeInput(e)}
+                                    ></TextField>
+                                </Grid>
+                            </>
+                            :
+                            <>
+                                <Grid item xs={9}>
+                                    <span className={`${styles.name}`}>{information.first_name}</span>
+                                    <span className={styles.name}>{information.last_name}</span>
+                                </Grid>
+                                {
+                                    isEditable ?
+                                        <Grid item>
+                                            <Button variant="outlined" onClick={() => changeEditMode()} className={styles.editButton}>Edit profile</Button>
+                                        </Grid> : <></>
+                                }
+
+
+                            </>
+                        }
+
                     </Grid>
-                    <Grid item xs={9} className={styles.rightColumn}>
-                        <Grid item xs={12} container>
-                            {editable ?
-                                <>
-                                    <Grid item xs={5}>
-                                        <TextField
-                                            error={false}
-                                            id="first_name"
-                                            label="First Name"
-                                            variant="standard"
-                                            fullWidth
-                                            value={uncommitInfo.first_name !== undefined ? uncommitInfo.first_name : information.first_name}
-                                            onChange={(e) => onChangeInput(e)}
-                                        ></TextField>
-                                    </Grid>
-                                    <Grid item xs={1} />
-                                    <Grid item xs={5}>
-                                        <TextField
-                                            error={false}
-                                            id="last_name"
-                                            label="Last Name"
-                                            variant="standard"
-                                            fullWidth
-                                            value={uncommitInfo.last_name !== undefined ? uncommitInfo.last_name : information.last_name}
-                                            onChange={(e) => onChangeInput(e)}
-                                        ></TextField>
-                                    </Grid>
-                                </>
-                                :
-                                <>
-                                    <Grid item xs={9}>
-                                        <span className={`${styles.name}`}>{information.first_name}</span>
-                                        <span className={styles.name}>{information.last_name}</span>
-                                    </Grid>
-                                    {
-                                        isEditable ?
-                                            <Grid item>
-                                                <Button variant="outlined" onClick={() => changeEditMode()} className={styles.editButton}>Edit profile</Button>
-                                            </Grid> : <></>
-                                    }
-
-
-                                </>
-                            }
-
-                        </Grid>
-                        <Grid item xs={12}>
-                            {editable ?
-                                <TextField
-                                    error={false}
-                                    id="job"
-                                    label="Job"
-                                    variant="standard"
-                                    fullWidth
-                                    value={uncommitInfo.job !== undefined ? uncommitInfo.job : information.job}
-                                    onChange={(e) => onChangeInput(e)}
-                                ></TextField>
-                                : <span className={styles.jobText}>{information.job ? information.job : "Nothing yet."}</span>
-                            }
-                        </Grid>
-                        <Grid item xs={12} className={styles.tagsArea}>
-                            {editable ?
-                                <div>
-                                    <ReactTags
-                                        classNames={{
-                                            tag: `${styles.tagBox} ${styles.selectedBox}`,
-                                            tagInput: 'tagInputClass',
-                                            tagInputField: `${styles.tagInputField}`,
-                                            remove: 'removeClass',
-                                            suggestions: `${styles.ReactTags__suggestions}`,
-                                            activeSuggestion: 'activeSuggestionClass'
-                                        }}
-                                        inline
-                                        allowDragDrop={false}
-                                        autoComplete={true}
-                                        tags={tags}
-                                        handleDelete={tagsManager.handleDelete}
-                                        handleAddition={tagsManager.handleAddition}
-                                        handleTagClick={tagsManager.handleDelete}
-                                        handleInputFocus={() => { }}
-                                        renderSuggestion={tagsManager.renderSuggestion}
-                                        handleFilterSuggestions={tagsManager.filterSuggestion}
-                                        suggestions={suggestions}
-                                        delimiters={[Keys.TAB, Keys.SPACE, Keys.COMMA]}
-                                        placeholder={"Add a new interest"}
-                                        removeComponent={(index) => (<></>)} /* Remove the x button */
-                                    />
-                                    <TagsList
-                                        classNames={{
-                                            tagsList: `${styles.tagsList}`,
-                                            tags: `${styles.tagBox}`,
-                                            selectedBox: `${styles.selectedBox}`,
-                                            unselectedBox: `${styles.unselectedBox}`,
-                                        }}
-                                        selectedTags={tags}
-                                        suggestions={currentSuggestions ? currentSuggestions : suggestions}
-                                        handleTagClick={(tagText) => {
-                                            console.log(tagText)
-                                            tagsManager.handleAdditionWText(tagText)
-                                        }}
-                                    />
-                                </div>
-
-                                : <TagsList
+                    <Grid item xs={12}>
+                        {editable ?
+                            <TextField
+                                error={false}
+                                id="job"
+                                label="Job"
+                                variant="standard"
+                                fullWidth
+                                value={uncommitInfo.job !== undefined ? uncommitInfo.job : information.job}
+                                onChange={(e) => onChangeInput(e)}
+                            ></TextField>
+                            : <span className={styles.jobText}>{information.job ? information.job : "Nothing yet."}</span>
+                        }
+                    </Grid>
+                    <Grid item xs={12} className={styles.tagsArea}>
+                        {editable ?
+                            <div>
+                                <ReactTags
+                                    classNames={{
+                                        tag: `${styles.tagBox} ${styles.selectedBox}`,
+                                        tagInput: 'tagInputClass',
+                                        tagInputField: `${styles.tagInputField}`,
+                                        remove: 'removeClass',
+                                        suggestions: `${styles.ReactTags__suggestions}`,
+                                        activeSuggestion: 'activeSuggestionClass'
+                                    }}
+                                    inline
+                                    allowDragDrop={false}
+                                    autoComplete={true}
+                                    tags={tags}
+                                    handleDelete={tagsManager.handleDelete}
+                                    handleAddition={tagsManager.handleAddition}
+                                    handleTagClick={tagsManager.handleDelete}
+                                    handleInputFocus={() => { }}
+                                    renderSuggestion={tagsManager.renderSuggestion}
+                                    handleFilterSuggestions={tagsManager.filterSuggestion}
+                                    suggestions={suggestions}
+                                    delimiters={[Keys.TAB, Keys.SPACE, Keys.COMMA]}
+                                    placeholder={"Add a new interest"}
+                                    removeComponent={(index) => (<></>)} /* Remove the x button */
+                                />
+                                <TagsList
                                     classNames={{
                                         tagsList: `${styles.tagsList}`,
                                         tags: `${styles.tagBox}`,
@@ -257,42 +240,57 @@ const ProfilePage = () => {
                                         unselectedBox: `${styles.unselectedBox}`,
                                     }}
                                     selectedTags={tags}
-                                    suggestions={tags}
+                                    suggestions={currentSuggestions ? currentSuggestions : suggestions}
+                                    handleTagClick={(tagText) => {
+                                        console.log(tagText)
+                                        tagsManager.handleAdditionWText(tagText)
+                                    }}
                                 />
-                            }
-                        </Grid>
-                        <Grid item xs={12}>
-                            <div>
-                                {
-                                    editable && !loading ?
-                                        ( () => { return <>
+                            </div>
+
+                            : <TagsList
+                                classNames={{
+                                    tagsList: `${styles.tagsList}`,
+                                    tags: `${styles.tagBox}`,
+                                    selectedBox: `${styles.selectedBox}`,
+                                    unselectedBox: `${styles.unselectedBox}`,
+                                }}
+                                selectedTags={tags}
+                                suggestions={tags}
+                            />
+                        }
+                    </Grid>
+                    <Grid item xs={12}>
+                        <div>
+                            {
+                                editable && !loading ?
+                                    (() => {
+                                        return <>
                                             <div>
                                                 <Typography>Description</Typography>
                                             </div>
                                             <TextEditor onUpdate={(newDescriptionState) => { updateDescription(newDescriptionState) }} rawEditorState={(uncommitInfo.description ? uncommitInfo.description : information.description)} />
 
-                                        </>})() 
-                                        : ( () => { console.log("When reach here", information.description); return <TextDisplay
+                                        </>
+                                    })()
+                                    : (() => {
+                                        console.log("When reach here", information.description); return <TextDisplay
                                             editorClassName={styles.textDisplayEditor}
-                                            rawEditorState={information.description}></TextDisplay>})()
-                                }
+                                            rawEditorState={information.description}></TextDisplay>
+                                    })()
+                            }
 
-                            </div>
-                        </Grid>
-                        {editable ?
-                            <Grid item xs={4}>
-                                <Button variant="outlined" onClick={() => { UPDATEInformation() }}>Save</Button>
-                            </Grid>
-                            : <></>
-                        }
+                        </div>
                     </Grid>
-
-
+                    {editable ?
+                        <Grid item xs={4}>
+                            <Button variant="outlined" onClick={() => { UPDATEInformation() }}>Save</Button>
+                        </Grid>
+                        : <></>
+                    }
                 </Grid>
             </Grid>
         </Grid>
-
-
     )
 }
 

@@ -1,8 +1,12 @@
    .wrapperPage {
-       background-color: white;
-       border: 1px solid white;
-       border-radius: 5px;
-       padding: 2rem;
+       
+       padding: 1rem;
+   }
+
+   .insideWrapper{
+     background-color: white;
+    border: 3px solid purple;
+    padding: 2rem;
    }
    
     .rightColumn {
