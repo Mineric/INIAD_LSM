@@ -27,7 +27,8 @@ class ProfileViewSet(viewsets.GenericViewSet):
     def get_queryset(self):
         return ExpandedUser.objects.all()
 
-    def retrieve (self, request, pk ):
+    def retrieve (self, request, pk):
+        pk = int(pk)
         instance = ExpandedUser.objects.get(pk=pk)
         if instance:
             user_id = request.user.id
@@ -43,12 +44,14 @@ class ProfileViewSet(viewsets.GenericViewSet):
             return Response({"errors": "User not found."}, status=status.HTTP_404_NOT_FOUND)
 
     def update(self, request, pk):
+        pk = int(pk)
         if request.user.id != pk:
             return Response({"error": "Not allowed to update user' profile."}, status=status.HTTP_401_UNAUTHORIZED)
         data = request.data
         serializer = self.get_serializer(data=data, partial=True)
         if serializer.is_valid():
-            serializer.update(pk=pk)
+            updated_user = serializer.update(pk=pk)
+            serializer = self.get_serializer(instance=updated_user)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             print(serializer.errors)

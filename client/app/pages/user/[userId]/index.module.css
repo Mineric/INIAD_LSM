@@ -5,6 +5,10 @@
        padding: 2rem;
    }
    
+    .rightColumn {
+        padding-left: 2rem;
+    }
+
    .row {
        margin: 0.6rem;
    }
@@ -17,9 +21,25 @@
        border-radius: 50%;
    }
 
+   .name {
+       font-size: 2.5rem;
+       font-weight: 900;
+       padding-right: 1.5rem;
+   }
+
+   .editButton{
+       
+   }
+
+   .jobText {
+        font-size: 1.2rem;
+        font-weight: 800;
+        opacity: 0.8;
+   }
+
    .tagsArea::before, .tagsArea::after {
-       content: " ";
-       margin: 0rem 1rem 0rem 1rem;
+       /* content: " ";
+       margin: 0rem 0.5rem 0rem 0.5rem; */
    }
    
    .ReactTags__suggestions ul {
@@ -32,12 +52,9 @@
        margin: 5px 5px 5px 5px;
    }
    
-   .tagsList {
-}
 
    .tagBox {
-       border: solid 4px black;
-       border-radius: 20px;
+       border: solid 2px gray;
        padding-left: 1rem;
        padding-right: 1rem;
        margin: 0.5rem 0.5rem 0.5rem 0.5rem;
@@ -49,7 +66,7 @@
    }
    
    .selectedBox.tagBox {
-       border-color: green;
+       border-color: gray;
    }
    
    .unselectedBox {
@@ -62,4 +79,8 @@
    .tagInputField {
        margin-top: 0.5rem;
        margin-bottom: 0.5rem;
+   }
+
+   .textDisplayEditor {
+
    }

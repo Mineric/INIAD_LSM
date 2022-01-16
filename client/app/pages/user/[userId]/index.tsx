@@ -22,40 +22,77 @@ const Keys = {
     COMMA: 188,
 };
 
+
+
 const ProfilePage = () => {
     const { userId } = router.query;
     const [editable, setEditable] = useState(false);
+    // Only editable if is owner of the profile
+    const [isEditable, setIsEditable] = useState(false)
     const [information, setInformation] = useState({
         'profile_image': getAPIURL("/media/user/default.jfif")
     });
+    /*
+    UncommitInfo is the not-yet-updated-on-server information.
+    It is used in edit mode, is cleared on closing edit mode.
+    When updated, we update uncommitInfo and only update Information when we update on server.
+    In another word: UncommitInfo = client-side information, information = server-side information 
+    */
+    const [uncommitInfo, setUncommitInfo] = useState({});
     const [tags, setTags] = useState([])
     const [suggestions, setSuggestions] = useState([]);
+    const [currentSuggestions, setCurrentSuggestions] = useState([]);
     const [profileImage, setProfileImage] = useState(getAPIURL("/media/user/default.jfif"))
+    const [descriptionChanged, setDescriptionChanged] = useState(false)
     useEffect(() => {
         const { userId } = router.query;
-        const getURL = getAPIURL(`/viewset/profile/${userId}/`)
-        fetchWrapper.get(getURL).then((data) => {
-            if (data) {
-                console.log("Get data", data)
-                setInformation(data)
-                setTags(data.interest_tags.map(tag => { return { "id": tag, "text": tag } }))
-                setSuggestions(data.suggestions.map(tag => { return { "id": tag, "text": tag } }))
-                setEditable(data.editable);
-                setProfileImage(data.profile_image);
-            }
-        })
-    }, [])
+        if (!userId)
+            return;
+        else {
+            const getURL = getAPIURL(`/viewset/profile/${userId}/`)
+            fetchWrapper.get(getURL).then((data) => {
+                if (data) {
+                    console.log("Get data", data)
+                    setInformation(data)
+                    setTags(data.interest_tags.map(tag => { return { "id": tag, "text": tag } }))
+                    setSuggestions(data.suggestions ? data.suggestions.map(tag => { return { "id": tag, "text": tag } }) : [])
+                    setIsEditable(data.editable);
+                    setProfileImage(data.profile_image);
+                    setDescriptionChanged(true)
+                } else {
+                    alert("Get data unsuccessfully.")
+                }
+            })
+        }
+
+    }, [userId])
 
     const UPDATEInformation = () => {
         const { userId } = router.query;
         const updateURL = getAPIURL(`/viewset/profile/${userId}/`)
-        fetchWrapper.put(updateURL, { ...information, tags: (tags.map(tag => tag.text)) }).then((data) => {
+        fetchWrapper.put(updateURL, { ...uncommitInfo, interest_tags: (tags.map(tag => tag.text)) }).then((data) => {
             if (data) {
                 setInformation(data)
+                setTags(data.interest_tags.map(tag => { return { "id": tag, "text": tag } }))
+                setProfileImage(data.profile_image);
+                setDescriptionChanged(true)
+                setUncommitInfo({})
+                changeEditMode();
             } else {
                 console.log("Update information unsuccessfuly.")
             }
         })
+    }
+
+    const changeEditMode = () => {
+        if (!editable && isEditable) {
+            setEditable(true);
+        }
+        else if (editable) {
+            setEditable(false);
+            setUncommitInfo({})
+        }
+
     }
 
     let tagsManager = class {
@@ -75,20 +112,27 @@ const ProfilePage = () => {
                 selected={(tags.find(tag => tag.text === text) !== undefined)}
                 handleTagClick={() => { this.handleAdditionWText(text) }} />
         }
+        static filterSuggestion(textInput, possibleSugegstionArray){
+            // we do not use possibleSugegstionArray because we want the already-selected is also suggested
+            const nextSuggestions = suggestions.filter(suggestion => suggestion.text.toLowerCase().includes(textInput.toLowerCase()))
+            setCurrentSuggestions(nextSuggestions)
+            return nextSuggestions
+        }
     }
 
     const onChangeInput = (event) => {
-        const newInfo = { ...information }
+        const newInfo = { ...uncommitInfo }
         newInfo[event.target.id] = event.target.value
-        setInformation(newInfo)
+        setUncommitInfo(newInfo)
     }
 
     const updateDescription = (newDescriptionState) => {
-        const newInfo = { ...information }
+        const newInfo = { ...uncommitInfo }
         newInfo.description = newDescriptionState;
-        setInformation(newInfo)
+        setUncommitInfo(newInfo)
     }
 
+    /* Design Reference: https://www.pinterest.jp/pin/690317449128829116/ */
     return (
         <Grid container>
             <Grid item xs={12} className={styles.wrapperPage}>
@@ -99,39 +143,51 @@ const ProfilePage = () => {
                     <Grid item xs={3}>
                         <Image className={styles.roundedImage} src={profileImage} width={300} height={300} />
                     </Grid>
-                    <Grid item xs={9}>
+                    <Grid item xs={9} className={styles.rightColumn}>
                         <Grid item xs={12} container>
-                            <Grid item xs={5}>
-                                {editable ?
-                                    <TextField
-                                        error={false}
-                                        id="first_name"
-                                        label="First Name"
-                                        variant="standard"
-                                        fullWidth
-                                        value={information.first_name}
-                                        onChange={(e) => onChangeInput(e)}
-                                    ></TextField>
-                                    : <Typography>{information.first_name}</Typography>
-                                }
-                            </Grid>
-                            <Grid item xs={1}>
+                            {editable ?
+                                <>
+                                    <Grid item xs={5}>
+                                        <TextField
+                                            error={false}
+                                            id="first_name"
+                                            label="First Name"
+                                            variant="standard"
+                                            fullWidth
+                                            value={uncommitInfo.first_name !== undefined ? uncommitInfo.first_name : information.first_name}
+                                            onChange={(e) => onChangeInput(e)}
+                                        ></TextField>
+                                    </Grid>
+                                    <Grid item xs={1} />
+                                    <Grid item xs={5}>
+                                        <TextField
+                                            error={false}
+                                            id="last_name"
+                                            label="Last Name"
+                                            variant="standard"
+                                            fullWidth
+                                            value={uncommitInfo.last_name !== undefined ? uncommitInfo.last_name : information.last_name}
+                                            onChange={(e) => onChangeInput(e)}
+                                        ></TextField>
+                                    </Grid>
+                                </>
+                                :
+                                <>
+                                    <Grid item xs={9}>
+                                        <span className={`${styles.name}`}>{information.first_name}</span>
+                                        <span className={styles.name}>{information.last_name}</span>
+                                    </Grid>
+                                    {
+                                        isEditable ?
+                                            <Grid item>
+                                                <Button variant="outlined" onClick={() => changeEditMode()} className={styles.editButton}>Edit profile</Button>
+                                            </Grid> : <></>
+                                    }
 
-                            </Grid>
-                            <Grid item xs={5}>
-                                {editable ?
-                                    <TextField
-                                        error={false}
-                                        id="last_name"
-                                        label="Last Name"
-                                        variant="standard"
-                                        fullWidth
-                                        value={information.last_name}
-                                        onChange={(e) => onChangeInput(e)}
-                                    ></TextField>
-                                    : <Typography>{information.last_name}</Typography>
-                                }
-                            </Grid>
+
+                                </>
+                            }
+
                         </Grid>
                         <Grid item xs={12}>
                             {editable ?
@@ -141,10 +197,10 @@ const ProfilePage = () => {
                                     label="Job"
                                     variant="standard"
                                     fullWidth
-                                    value={information.job}
+                                    value={uncommitInfo.job !== undefined ? uncommitInfo.job : information.job}
                                     onChange={(e) => onChangeInput(e)}
                                 ></TextField>
-                                : <Typography>{information.job}</Typography>
+                                : <span className={styles.jobText}>{information.job ? information.job : "Nothing yet."}</span>
                             }
                         </Grid>
                         <Grid item xs={12} className={styles.tagsArea}>
@@ -168,6 +224,7 @@ const ProfilePage = () => {
                                         handleTagClick={tagsManager.handleDelete}
                                         handleInputFocus={() => { }}
                                         renderSuggestion={tagsManager.renderSuggestion}
+                                        handleFilterSuggestions={tagsManager.filterSuggestion}
                                         suggestions={suggestions}
                                         delimiters={[Keys.TAB, Keys.SPACE, Keys.COMMA]}
                                         placeholder={"Add a new interest"}
@@ -181,7 +238,7 @@ const ProfilePage = () => {
                                             unselectedBox: `${styles.unselectedBox}`,
                                         }}
                                         selectedTags={tags}
-                                        suggestions={suggestions}
+                                        suggestions={currentSuggestions ? currentSuggestions : suggestions}
                                         handleTagClick={(tagText) => {
                                             console.log(tagText)
                                             tagsManager.handleAdditionWText(tagText)
@@ -203,23 +260,29 @@ const ProfilePage = () => {
                         </Grid>
                         <Grid item xs={12}>
                             <div>
-                                <Typography>Description</Typography>
-                            </div>
-                            <div>
-                                {editable ?
-                                    <TextEditor onUpdate={(newDescriptionState) => { updateDescription(newDescriptionState) }} rawEditorState={information.description} />
-                                    : <TextDisplay rawEditorState={information.description}></TextDisplay>
+                                {editable && descriptionChanged ?
+                                    <>
+                                        <div>
+                                            <Typography>Description</Typography>
+                                        </div>
+                                        <TextEditor onUpdate={(newDescriptionState) => { updateDescription(newDescriptionState) }} rawEditorState={(uncommitInfo.description ? uncommitInfo.description : information.description)} />
+
+                                    </>
+                                    : <TextDisplay
+                                        editorClassName={styles.textDisplayEditor}
+                                        rawEditorState={information.description}></TextDisplay>
                                 }
 
                             </div>
                         </Grid>
+                        {editable ?
+                            <Grid item xs={4}>
+                                <Button variant="outlined" onClick={() => { UPDATEInformation() }}>Save</Button>
+                            </Grid>
+                            : <></>
+                        }
                     </Grid>
-                    {editable ?
-                        <Grid item xs={4}>
-                            <Button variant="contained" onClick={() => { UPDATEInformation() }}>UPDATE</Button>
-                        </Grid>
-                        : <></>
-                    }
+
 
                 </Grid>
             </Grid>

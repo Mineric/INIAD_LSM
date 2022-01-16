@@ -57,6 +57,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
         if "user_id" in kwargs.keys():
             self.user_id = kwargs.pop("user_id")
+        if "partial" in kwargs.keys():
+            self.partial = kwargs["partial"]
         super().__init__(*args, **kwargs)
 
     # def to_internal_value(self, data):
@@ -88,6 +90,11 @@ class ProfileSerializer(serializers.ModelSerializer):
         interest_tags = data["interest_tags"]
         for field in self.additional_fields:
             data.pop(field)
+        # delete empty fields
+        if self.partial:
+            for field in self.fields:
+                if field in data.keys() and not data[field]:
+                    data.pop(field)
         User.objects.filter(pk=pk).update(**data)
         user = User.objects.get(pk=pk)
         user.interest_tags.add(*interest_tags)
