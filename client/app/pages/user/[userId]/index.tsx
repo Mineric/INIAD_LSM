@@ -26,7 +26,7 @@ const Keys = {
 
 const ProfilePage = () => {
     const { userId } = router.query;
-    const [editable, setEditable] = useState(false);
+    const [editable, setEditable] = useState();
     // Only editable if is owner of the profile
     const [isEditable, setIsEditable] = useState(false)
     const [information, setInformation] = useState({
@@ -43,7 +43,7 @@ const ProfilePage = () => {
     const [suggestions, setSuggestions] = useState([]);
     const [currentSuggestions, setCurrentSuggestions] = useState([]);
     const [profileImage, setProfileImage] = useState(getAPIURL("/media/user/default.jfif"))
-    const [descriptionChanged, setDescriptionChanged] = useState(false)
+    const [loading, setLoading] = useState(true)
     useEffect(() => {
         const { userId } = router.query;
         if (!userId)
@@ -52,16 +52,20 @@ const ProfilePage = () => {
             const getURL = getAPIURL(`/viewset/profile/${userId}/`)
             fetchWrapper.get(getURL).then((data) => {
                 if (data) {
-                    console.log("Get data", data)
+                    console.log("Get data", information)
                     setInformation(data)
                     setTags(data.interest_tags.map(tag => { return { "id": tag, "text": tag } }))
                     setSuggestions(data.suggestions ? data.suggestions.map(tag => { return { "id": tag, "text": tag } }) : [])
                     setIsEditable(data.editable);
                     setProfileImage(data.profile_image);
-                    setDescriptionChanged(true)
                 } else {
-                    alert("Get data unsuccessfully.")
+                    throw ("Get data unsuccessfully.")
                 }
+            }).then(() => {
+                setEditable(false)
+                setLoading(false)
+            }).catch((e) => {
+                alert(e)
             })
         }
 
@@ -75,7 +79,6 @@ const ProfilePage = () => {
                 setInformation(data)
                 setTags(data.interest_tags.map(tag => { return { "id": tag, "text": tag } }))
                 setProfileImage(data.profile_image);
-                setDescriptionChanged(true)
                 setUncommitInfo({})
                 changeEditMode();
             } else {
@@ -112,7 +115,7 @@ const ProfilePage = () => {
                 selected={(tags.find(tag => tag.text === text) !== undefined)}
                 handleTagClick={() => { this.handleAdditionWText(text) }} />
         }
-        static filterSuggestion(textInput, possibleSugegstionArray){
+        static filterSuggestion(textInput, possibleSugegstionArray) {
             // we do not use possibleSugegstionArray because we want the already-selected is also suggested
             const nextSuggestions = suggestions.filter(suggestion => suggestion.text.toLowerCase().includes(textInput.toLowerCase()))
             setCurrentSuggestions(nextSuggestions)
@@ -133,7 +136,7 @@ const ProfilePage = () => {
     }
 
     /* Design Reference: https://www.pinterest.jp/pin/690317449128829116/ */
-    return (
+    return !loading && (
         <Grid container>
             <Grid item xs={12} className={styles.wrapperPage}>
                 <Grid container>
@@ -260,17 +263,18 @@ const ProfilePage = () => {
                         </Grid>
                         <Grid item xs={12}>
                             <div>
-                                {editable && descriptionChanged ?
-                                    <>
-                                        <div>
-                                            <Typography>Description</Typography>
-                                        </div>
-                                        <TextEditor onUpdate={(newDescriptionState) => { updateDescription(newDescriptionState) }} rawEditorState={(uncommitInfo.description ? uncommitInfo.description : information.description)} />
+                                {
+                                    editable && !loading ?
+                                        ( () => { return <>
+                                            <div>
+                                                <Typography>Description</Typography>
+                                            </div>
+                                            <TextEditor onUpdate={(newDescriptionState) => { updateDescription(newDescriptionState) }} rawEditorState={(uncommitInfo.description ? uncommitInfo.description : information.description)} />
 
-                                    </>
-                                    : <TextDisplay
-                                        editorClassName={styles.textDisplayEditor}
-                                        rawEditorState={information.description}></TextDisplay>
+                                        </>})() 
+                                        : ( () => { console.log("When reach here", information.description); return <TextDisplay
+                                            editorClassName={styles.textDisplayEditor}
+                                            rawEditorState={information.description}></TextDisplay>})()
                                 }
 
                             </div>
