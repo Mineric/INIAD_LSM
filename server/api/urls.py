@@ -19,6 +19,7 @@ urlpatterns = [
     path ('viewset/', include(router.urls)),
     path('create-course/', CreateCourseView.as_view()),
     path('create-school/', CreateSchoolView.as_view()),
+    path('student-course/<int:pk>', StudentCourseView.as_view()),
     path('whoami/', WhoAmIView.as_view(), name='whoami'), # for testing
 ]
 # H: dev process for media files
