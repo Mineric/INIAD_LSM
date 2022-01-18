@@ -74,7 +74,7 @@ export default function CourseCard() {
                             component="img"
                             alt="course-bg-wallpaper"
                             width="400"
-                            height="120"
+                            height="200"
                             image="./assets/python.png"
                         />
                         <CardContent>
@@ -89,12 +89,12 @@ export default function CourseCard() {
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
                            
-                            </Typography>
+                           </Typography>
                         </CardContent> 
 
 
                         <Box sx={{
-                                width: 200,
+                                width: 400,
                                 display: 'flex',
                                 alignItems: 'center',
                             }}
@@ -119,20 +119,9 @@ export default function CourseCard() {
                         </Box>
 
 
-                        <AvatarGroup max={3}>
-                            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                            <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-                            <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-                            <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-                            <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
-                            <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-                            <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-                            <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
-                        </AvatarGroup>
-
                         <CardActions>
                             <Button size="small" style={{color:"red"}}>Share</Button>
-                            <Button size="small">Learn More</Button>
+                            {/* <Button size="small">Learn More</Button> */}
                         </CardActions>
 
 
