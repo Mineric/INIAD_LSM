@@ -91,10 +91,8 @@ class AssignmentQuestionWithAnswersSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = AssignmentQuestion
         fields = "__all__"
- 
 
 class AssignmentFormSerializer(DynamicFieldsModelSerializer):
-    
     """
     Hieu: This class serializes:
     (1) All the assignments, and 

@@ -1,0 +1,90 @@
+   .wrapperPage {
+       
+       padding: 1rem;
+   }
+
+   .insideWrapper{
+     background-color: white;
+    border: 3px solid purple;
+    padding: 2rem;
+   }
+   
+    .rightColumn {
+        padding-left: 2rem;
+    }
+
+   .row {
+       margin: 0.6rem;
+   }
+   
+   .title {
+       text-align: center;
+   }
+   
+   .roundedImage {
+       border-radius: 50%;
+   }
+
+   .name {
+       font-size: 2.5rem;
+       font-weight: 900;
+       padding-right: 1.5rem;
+   }
+
+   .editButton{
+       
+   }
+
+   .jobText {
+        font-size: 1.2rem;
+        font-weight: 800;
+        opacity: 0.8;
+   }
+
+   .tagsArea::before, .tagsArea::after {
+       /* content: " ";
+       margin: 0rem 0.5rem 0rem 0.5rem; */
+   }
+   
+   .ReactTags__suggestions ul {
+       list-style: none;
+       display: none;
+   }
+   
+   .ReactTags__suggestions li {
+       display: inline;
+       margin: 5px 5px 5px 5px;
+   }
+   
+
+   .tagBox {
+       border: solid 2px gray;
+       padding-left: 1rem;
+       padding-right: 1rem;
+       margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+       display: inline-block;
+   }
+   
+   .tagBox:hover {
+       cursor: pointer;
+   }
+   
+   .selectedBox.tagBox {
+       border-color: gray;
+   }
+   
+   .unselectedBox {
+       border-color: gray;
+       opacity: 0.5;
+   }
+   
+   
+   
+   .tagInputField {
+       margin-top: 0.5rem;
+       margin-bottom: 0.5rem;
+   }
+
+   .textDisplayEditor {
+
+   }

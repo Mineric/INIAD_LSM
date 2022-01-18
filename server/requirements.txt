@@ -42,3 +42,6 @@ typing-extensions==3.10.0.2
 uritemplate==3.0.1
 urllib3==1.26.7
 zipp==3.6.0
+Pillow
+django-taggit
+

@@ -2,6 +2,13 @@ from drf_firebase_auth.authentication import User
 from .models import *
 
 from rest_framework import serializers
+from taggit.serializers import (TagListSerializerField,
+                                TaggitSerializer)
+
+# Static data for various type of tags
+class Tag:
+    INTEREST_TAGS = ["Math", "Physics", "Chemistry", "Geography", "History", "Music", "Arts", "Programming", 
+                        "Biology"]
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     """
@@ -38,17 +45,20 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     
 class ProfileSerializer(serializers.ModelSerializer):
     editable = serializers.SerializerMethodField(method_name="get_editable")
-    additional_fields = ["editable"] # fields that not in model
+    interest_tags = TagListSerializerField()
+    additional_fields = ["editable", "interest_tags"] # fields that not in model
 
     class Meta:
         model = User
-        fields = ["id", "editable", "first_name", "last_name", "email", "description", "job"]
+        fields = ["id", "editable", "first_name", "last_name", "email", "description", "job", "interest_tags", "profile_image"]
         read_only = ["id"]
         # created_only_fields = ["editable"]
 
     def __init__(self, *args, **kwargs):
         if "user_id" in kwargs.keys():
             self.user_id = kwargs.pop("user_id")
+        if "partial" in kwargs.keys():
+            self.partial = kwargs["partial"]
         super().__init__(*args, **kwargs)
 
     # def to_internal_value(self, data):
@@ -65,17 +75,31 @@ class ProfileSerializer(serializers.ModelSerializer):
         else:
             return False
     
+    # will be called by is_valid() to validate interest_tags 
+    def validate_interest_tags(self, values):
+        for value in values:
+            if value not in Tag.INTEREST_TAGS:
+                raise serializers.ValidationError("Invalid Interest Tag values.")
+        return values
+
     def retrieve(self):
         return User.objects.get(pk=self.id)   
 
     def update(self, pk):
         data = self.data
+        interest_tags = data["interest_tags"]
         for field in self.additional_fields:
             data.pop(field)
-        User.objects.filter(id=pk).update(**data)
-        return User.objects.get(pk=pk)
+        # delete empty fields
+        if self.partial:
+            for field in self.fields:
+                if field in data.keys() and not data[field]:
+                    data.pop(field)
+        User.objects.filter(pk=pk).update(**data)
+        user = User.objects.get(pk=pk)
+        user.interest_tags.add(*interest_tags)
+        return user        
     
-
 class StudentSerializer (DynamicFieldsModelSerializer):
     class Meta:
         model = Student

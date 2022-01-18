@@ -8,11 +8,17 @@ from django.utils.translation import gettext_lazy as _
 from django.db.models.deletion import CASCADE
 # Create your models here.
 
+from taggit.managers import TaggableManager
+
 NAME_MAX_LENGTH = 100
 URL_MAX_LENGTH = 200
 
 def upload_to (instance, filename):
     return 'course/{filename}'.format(filename = filename) #filename instead of post id because the post id is initialized after posting 
+
+def profile_upload_to(instance, filename):
+    return 'user/{filename}'.format(filename=filename)
+
 class OPEN_STATUS(models.IntegerChoices):
     YES = 1, "yes"
     NO = 0, "no"
@@ -35,6 +41,13 @@ class ExpandedUser(AbstractUser):
     description = models.TextField(default="", null=True, blank=True)
     job = models.TextField(default="", null=True, blank=True)
     hobby = models.TextField(default="", null=True, blank=True)
+    interest_tags = TaggableManager()
+    profile_image = models.ImageField(
+        _("Image"), 
+        upload_to = profile_upload_to, 
+        default = 'user/default.jfif', 
+        null = True
+    )
     
     def save(self, *args, **kwargs):
         if not self.id:
