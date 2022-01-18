@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import Head from 'next/head';
 import Footer from "./Footer";
 import Navbar from "./Navbar";
+import Sectionbar from './Sectionbar';
 
 const Layout = props => (
     <Fragment>
@@ -14,6 +15,7 @@ const Layout = props => (
 
         <div className="content">
             <Navbar/>
+            <Sectionbar/>
                 {props.children}
             <Footer/>
         </div>

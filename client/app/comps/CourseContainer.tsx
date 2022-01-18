@@ -5,17 +5,36 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Skeleton from '@mui/material/Skeleton';
 import coursesData from '../pages/api/courses';
+import DifferntCard from './DifferentCard';
 
 const c = [1,2,3];
 
 const CourseContainter = () => {
     console.log(c);
     return (
-        <Grid container >
+        <Grid container 
+ 
+        alignItems="center"
+        justify="center"
+        style={{ minHeight: '100vh' }}>
 
-                <CourseCard/>    
+                {/* <CourseCard/>    
                 <CourseCard/>   
-                <CourseCard/>           
+                <CourseCard/>  */}
+                <DifferntCard/>     
+                <DifferntCard/>  
+                <DifferntCard/>  
+                <DifferntCard/>      
+
+                <DifferntCard/>     
+                <DifferntCard/>  
+                <DifferntCard/>  
+                <DifferntCard/>    
+
+                <DifferntCard/>     
+                <DifferntCard/>  
+                <DifferntCard/>  
+                <DifferntCard/>     
 
         </Grid>
            

@@ -26,8 +26,23 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import { makeStyles } from "@material-ui/core/styles";
-import { createTheme } from '@mui/material/styles';
-const drawerWidth = 240;
+
+import Paper from '@mui/material/Paper';
+
+import Grid from '@mui/material/Grid';const drawerWidth = 240;
+import NavigationButton from './buttons/NavigationButton';
+
+// const useStyles = makeStyles((theme) => ({
+//   sectionbar: {
+//     position: "fixed",
+    
+//   },
+
+//   sectionnavi : {
+//     position: "fixed",
+//     textAlign: "center",
+//   }
+// }));
 
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -48,6 +63,8 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
       }),
     }),
   );
+
+
 
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -99,7 +116,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function NavBar() {
+export default function SectionBar() {
 
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -200,7 +217,7 @@ export default function NavBar() {
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
-          color="primary"
+          color="inherit"
         >
           <AccountCircle />
         </IconButton>
@@ -209,87 +226,21 @@ export default function NavBar() {
     </Menu>
   );
 
+
+  
   return (
-    <Box sx={{ flexGrow: 1 }} >
-      <AppBar position="static" style={{ background: '#fff' }}>
-        <Toolbar>
-          {/* <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon /> */}
-          <IconButton
-            color="primary"
-            aria-label="open drawer"
-            edge="end"
-            onClick={handleDrawerOpen}
-            // sx={{ ...(open && { display: 'none' }) }}
-            sx={{"color": "black"}}
-          >
-            <MenuIcon />
+    <Box sx={{ flexGrow: 1 }} style={{ position: "sticky", top: "0"}}>
+      <AppBar position="static" style={{ background: '#333333', height: '44px'}}>
+        <Grid container spacing={0} justifyContent="center">
+          <Grid item xs style={{ display:"flex", justifyContent:"center", alignItems:"center", height:"40px"}}>
+            <div> Please Come Join Here. </div>
+          </Grid>
 
-            <Typography variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
-                Persistent drawer
-            </Typography>
-          </IconButton>
-
-    
-          <Search >
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
-          <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              sx={{"color": "black"}}
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              // color="primary"
-              sx={{"color": "black"}}
-            >
-              <AccountCircle />
-            </IconButton>
-          </Box>
-          <Box  style={{fill: "green"}} sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              // color="primary"
-              sx={{"color": "black"}}
-             
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
-        </Toolbar>
+          <Grid item style={{ display:"flex", justifyContent:"center", alignItems:"center", height:"40px"}}>
+            <NavigationButton />
+          </Grid>
+         
+        </Grid>
       </AppBar>
 
       {renderMobileMenu}

@@ -10,7 +10,7 @@ import { Container, Grid, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   footer: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: '#f5f5f7',
     width: `100%`,
     position: "relative",
     overflow: "hidden",
