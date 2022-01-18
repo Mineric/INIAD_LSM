@@ -93,12 +93,12 @@ class Lesson(models.Model):
     date_start = models.DateField(default=timezone.now)
     date_end = models.DateField(default=timezone.now)
 
-class Task(models.Model):
-    task_name = models.CharField(max_length=NAME_MAX_LENGTH)
-    deadline = models.DateTimeField(default=timezone.now)
-    student_id = models.ForeignKey(Student, on_delete=CASCADE)
-    lesson_id = models.ForeignKey(Lesson, on_delete=CASCADE)
-    is_done = models.IntegerField(choices=OPEN_STATUS.choices, default=OPEN_STATUS.NO)
+# class Task(models.Model):
+#     task_name = models.CharField(max_length=NAME_MAX_LENGTH)
+#     deadline = models.DateTimeField(default=timezone.now)
+#     student_id = models.ForeignKey(Student, on_delete=CASCADE)
+#     lesson_id = models.ForeignKey(Lesson, on_delete=CASCADE)
+#     is_done = models.IntegerField(choices=OPEN_STATUS.choices, default=OPEN_STATUS.NO)
 
 class AssignmentForm(models.Model):
     lesson_id = models.ForeignKey(Lesson, on_delete=CASCADE)
