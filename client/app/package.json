@@ -9,6 +9,7 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@asseinfo/react-kanban": "git+https://github.com/AFatWolf/react-kanban.git",
         "@babel/core": "^7.16.0",
         "@emotion/react": "^11.4.1",
         "@emotion/styled": "^11.3.0",
@@ -19,6 +20,7 @@
         "@hookform/resolvers": "^2.8.2",
         "@mui/icons-material": "^5.0.3",
         "@mui/material": "^5.0.3",
+        "firebase": "^7.24.0",
         "helper": "^0.0.13",
         "helpers": "^0.0.6",
         "immutable": "^4.0.0",

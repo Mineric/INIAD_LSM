@@ -17,8 +17,17 @@ from django.contrib import admin
 from django.conf.urls import url
 from django.urls import path, include
 
+from discuss import views as discuss_views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
+    path ('discuss/comments', discuss_views.CommentList.as_view()),
+    path ('discuss/comments/<int:pk>', discuss_views.CommentUpdateRetrieveDestroy.as_view()),
+    path ('discuss/comments/<int:pk>/vote', discuss_views.VoteCreate.as_view()),
+    path ('api-auth/', include('rest_framework.urls')),
     path('', include ('api.urls')), # meant to be fixed
+    path('', include ('discuss.urls')), # meant to be fixed
+    path('', include ('todo.urls')), # meant to be fixed
+
 ]

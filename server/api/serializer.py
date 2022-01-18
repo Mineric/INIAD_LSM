@@ -121,10 +121,10 @@ class LessonSerializer (DynamicFieldsModelSerializer):
         model = Lesson
         fields = "__all__"
         
-class TaskSerializer (DynamicFieldsModelSerializer):
-    class Meta:
-        model = Task
-        fields = "__all__"
+# class TaskSerializer (DynamicFieldsModelSerializer):
+#     class Meta:
+#         model = Task
+#         fields = "__all__"
         
 class DashBoardSerializer (serializers.Serializer):
     students = StudentSerializer(many=True)
@@ -149,10 +149,10 @@ class DashBoardSerializer (serializers.Serializer):
             "date_end"
         )
     )
-    tasks  = TaskSerializer (
-        many=True,
-        exclude_fields = (
-            "student_id",
-            )
-        )
+    # tasks  = TaskSerializer (
+    #     many=True,
+    #     exclude_fields = (
+    #         "student_id",
+    #         )
+    #     )
 
