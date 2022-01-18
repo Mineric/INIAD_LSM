@@ -76,15 +76,19 @@ const TabsList = styled(TabsListUnstyled)`
 
 const tabListData = [{}, {}, {}, {}, {}, {}]
 
-export default function LessonTab({tabList=tabListData, allowAddTab=false, onAddTab=undefined}) {
+export default function LessonTab({
+      tabList=tabListData, 
+      currentTab=1,
+      onClickTab=(() => { return undefined;}), 
+      allowAddTab=false, 
+      onAddTab=(() => { return undefined;})}) {
   const [tabListState, setTabListState] = React.useState(tabList);
 
   return (
     <TabsUnstyled defaultValue={0}>
       <TabsList>
-        {tabListState.map((tab, index) => <Tab key={index}>{index + 1}</Tab>)
-        }
-        {allowAddTab && onAddTab && <Tab key="add"><AddIcon fontSizeInherit/></Tab>}
+        {tabListState.map((tab, index) => <Tab selected={index === currentTab ? true : false} key={index} onClick={(e) => {onClickTab(index)}}>{index + 1}</Tab>)}
+        {allowAddTab && onAddTab && <Tab key="add" onClick={() => {onAddTab()}}><AddIcon fontSizeInherit/></Tab>}
 
       </TabsList>
       {/* <TabPanel value={0}>First content</TabPanel>

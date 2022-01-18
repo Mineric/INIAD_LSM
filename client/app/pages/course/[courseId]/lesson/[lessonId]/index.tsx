@@ -27,7 +27,15 @@ export const getStaticProps = async () => {
     const data = await res.text();
 
     return {
-        props: { lessons: data }
+        props: {
+            lessons: {
+                index: "1",
+                content: [
+                    { id: 1, title: "Getting Started with Lorem Ipsum", text: data },
+                    { id: 2, title: "Getting Started with Lorem Ipsum", text: data },
+                ]
+            }
+        }
     }
 }
 
@@ -52,11 +60,39 @@ const myLoader = ({ src, width, quality }) => {
 //   )
 // }
 
-const lecture = ({ lessons }) => {
-    const [editable, setEditable] = useState(false);
+/*
+    lessons: 
+    {
+        index: "1",
+        content: [
+            {id: 1, text: ""}, {id: 2, text: ""}
+        ]
+    }
+*/
 
+const lecture = ({ lessons }) => {
+    const lessonsIndex = lessons.index;
+    const [editable, setEditable] = useState(true);
+    const [currentTab, setCurrentTab] = useState(lessons.length > 0 ? 0 : -1);
+    const [currentContent, setCurrentContent] = useState({});
+    const [uncommitLesson, setUncommitLesson] = useState(lessons);
     const changeEditMode = () => {
         setEditable(editable ? false : true);
+    }
+
+    const addTab = () => {
+        const newUncommitLesson = {...uncommitLesson}
+        newUncommitLesson.content.push({
+            title: "",
+            text: "",
+        })
+        setCurrentTab(newUncommitLesson.content.length - 1);
+        setCurrentContent(newUncommitLesson.content);
+        setUncommitLesson(newUncommitLesson);
+    }
+    const onClickTab = (index) => {
+        setCurrentTab(index);
+        setCurrentContent(lessons.content[index]);
     }
 
     return (
@@ -71,22 +107,25 @@ const lecture = ({ lessons }) => {
 
                                 <div className='lessonTab'>
                                     <LessonTab
+                                        tabList={lessons.content}
                                         className="tab"
                                         allowAddTab={editable}
-                                        onAddTab={() => { console.log("Add tab") }} />
+                                        currentTab={currentTab}
+                                        onAddTab={() => { addTab() }}
+                                        onClickTab={(index) => { onClickTab(index) }} />
                                 </div>
 
                                 <div className={useStyles.slide}>
 
                                     <div className="px-5 mt-5 pt-5 mx-5 ">
-                                        <span className="d-block px-5 mx-5 pt-5 h5 text-uppercase text-primary font-weight-bold mb-3">Lesson-01</span>
-                                        <span className="d-block px-5 mx-5 pb-5 h1 text-dark border-bottom border-gray">Getting Started with Lorem Ipsum</span>
+                                        <span className="d-block px-5 mx-5 pt-5 h5 text-uppercase text-primary font-weight-bold mb-3">Lesson-{lessonsIndex}.{currentTab + 1}</span>
+                                        <span className="d-block px-5 mx-5 pb-5 h1 text-dark border-bottom border-gray">{currentContent.title}</span>
                                     </div>
 
                                     <div className="d-block h-50 px-5 mt-5 pt-3 mx-5 position-relative" style={{ overflowY: 'auto' }}>
-                                        <Markdown editable={true}>{"Just a code: `git add .`"}</Markdown>
+                                        <Markdown editable={editable}>{"Just a code: `git add .`"}</Markdown>
                                         <span className="d-block px-5 mx-5 text-secondary text-justify" style={{ fontSize: '1rem', whiteSpace: 'pre-line' }}>
-                                           
+
                                         </span>
                                     </div>
 
@@ -105,10 +144,10 @@ const lecture = ({ lessons }) => {
 
                         </section>
 
-                        <section className="col-md-4 position-relative d-flex flex-wrap h-100 align-items-start align-content-between bg-light px-0">
+                        {/* <section className="col-md-4 position-relative d-flex flex-wrap h-100 align-items-start align-content-between bg-light px-0"> */}
                             {/* { <LessonProgressBar value={32} />} */}
-                            {<Comments />}
-                        </section>
+                            {/* {<Comments />}
+                        </section> */}
 
                     </div>
                 </main>
