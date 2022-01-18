@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 // import dynamic from 'next/dynamic'
 import Board from "@asseinfo/react-kanban"
-import '@asseinfo/react-kanban/dist/styles.css'
+// import '@asseinfo/react-kanban/dist/styles.css'
 import { update } from "immutable";
 
 const UncontrolledKanbanBoard = ({initialBoard, onBoardChange}) => {

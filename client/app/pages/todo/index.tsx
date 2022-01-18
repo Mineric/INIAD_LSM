@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import dynamic from 'next/dynamic'
-const UncontrolledKanbanBoard = dynamic(() => import("../../comps/UncontrolledKanbanBoard"), {ssr: false})
+const UncontrolledKanbanBoard = dynamic(() => import("../../comps/UncontrolledKanbanBoard/UncontrolledKanbanBoard"), {ssr: false})
+import styles from "./layout.module.css"
 
 const boardData = {
     columns: [
@@ -32,7 +33,11 @@ const boardData = {
 const ToDoBoard = () => {
     const [board, setBoard] = useState(boardData)
     
-    return <UncontrolledKanbanBoard onBoardChange={(board) => {console.log("Update", board)}} initialBoard={board}></UncontrolledKanbanBoard>
+    return (
+      <div className={styles.page}>
+        <UncontrolledKanbanBoard onBoardChange={(board) => {console.log("Update", board)}} initialBoard={board}></UncontrolledKanbanBoard>
+      </div>
+    )
 }
 
 export default ToDoBoard;
