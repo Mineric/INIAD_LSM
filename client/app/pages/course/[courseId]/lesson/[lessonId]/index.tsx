@@ -9,25 +9,8 @@ import LessonProgressBar from '../../../../../comps/lecture/LessonProgress';
 import { StylesContext } from '@mui/styles';
 import Comments from '../../../../../comps/discussions/Comment';
 import { makeStyles } from "@material-ui/core/styles";
-import dynamic from 'next/dynamic'
-// const ReactMarkdown = dynamic(
-//     () => import('react-markdown/react-markdown.min'),
-//     { ssr: false }
-//   )
-// const ReactMarkdown = import('react-markdown/react-markdown.min')
-import ReactMarkdown from 'react-markdown'
-// import gfm  from 'remark-gfm'
+import Markdown from "../../../../../comps/Markdown"
 
-// export const getStaticProps = async () => {
-//   const res = await fetch('https://baconipsum.com/api/?type=meat-and-filler&paras=4&format=text')
-//   const data = await res.text();
-
-//   return {
-//     props: {lessons: data}
-//   }
-
-
-// }
 
 const useStyles = makeStyles((theme) => ({
 
@@ -70,7 +53,7 @@ const myLoader = ({ src, width, quality }) => {
 // }
 
 const lecture = ({ lessons }) => {
-    const markdown = `Just a link: https://reactjs.com.`;
+    
 
     return (
         <>
@@ -97,8 +80,9 @@ const lecture = ({ lessons }) => {
                                     </div>
 
                                     <div className="d-block h-50 px-5 mt-5 pt-3 mx-5 position-relative" style={{ overflowY: 'auto' }}>
+                                        <Markdown editable={false}>{"Just a code: `git add .`"}</Markdown>
                                         <span className="d-block px-5 mx-5 text-secondary text-justify" style={{ fontSize: '1rem', whiteSpace: 'pre-line' }}>
-                                            <ReactMarkdown>{markdown}</ReactMarkdown>
+                                           
                                         </span>
                                     </div>
 

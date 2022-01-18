@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
-const withTM = require('next-transpile-modules')(['react-markdown', "remark-gfm"]);
+const withTM = import('next-transpile-modules')(['@uiw/react-markdown-preview'], debug=true);
 
 module.exports = ({
   // reactStrictMode: true,
-  experimental: { esmExternals: true }
+  // experimental: { esmExternals: true }
 })
 
 // module.exports = ({
