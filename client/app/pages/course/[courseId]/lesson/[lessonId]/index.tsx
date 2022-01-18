@@ -81,7 +81,7 @@ const lecture = ({ lessons }) => {
     }
 
     const addTab = () => {
-        const newUncommitLesson = {...uncommitLesson}
+        const newUncommitLesson = { ...uncommitLesson }
         newUncommitLesson.content.push({
             title: "",
             text: "",
@@ -123,9 +123,8 @@ const lecture = ({ lessons }) => {
                                     </div>
 
                                     <div className="d-block h-50 px-5 mt-5 pt-3 mx-5 position-relative" style={{ overflowY: 'auto' }}>
-                                        <Markdown editable={editable}>{"Just a code: `git add .`"}</Markdown>
                                         <span className="d-block px-5 mx-5 text-secondary text-justify" style={{ fontSize: '1rem', whiteSpace: 'pre-line' }}>
-
+                                            <Markdown editable={editable}>{"Just a code: `git add .`"}</Markdown>
                                         </span>
                                     </div>
 
@@ -145,8 +144,8 @@ const lecture = ({ lessons }) => {
                         </section>
 
                         {/* <section className="col-md-4 position-relative d-flex flex-wrap h-100 align-items-start align-content-between bg-light px-0"> */}
-                            {/* { <LessonProgressBar value={32} />} */}
-                            {/* {<Comments />}
+                        {/* { <LessonProgressBar value={32} />} */}
+                        {/* {<Comments />}
                         </section> */}
 
                     </div>
