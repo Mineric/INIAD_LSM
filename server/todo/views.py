@@ -20,11 +20,10 @@ class  TaskViewSet (viewsets.GenericViewSet):
         serializer = self.get_serializer(self.get_queryset(), many = True)
         return Response(serializer.data)
     
-    # def create (self, request):
     def create (self, request):
         serializer = TaskSerializer(data = request.data)
         user = self.request.user
-        if serializer.is_valid ():
+        if serializer.is_valid():
             serializer.save (user = user)
             return Response(serializer.data)
         return Response (serializer.errors, status=status.HTTP_400_BAD_REQUEST )

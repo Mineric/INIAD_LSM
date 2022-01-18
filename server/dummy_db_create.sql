@@ -22,11 +22,7 @@ VALUES
 INSERT INTO api_lesson (lesson_name, date_start, date_end, course_id_id)
 VALUES 
 	('01-CPU', '2012-06-18','2013-06-18', 1),
-<<<<<<< HEAD
 	('02-Memory', '2012-06-18', '2013-06-18', 1),
-=======
-	('02-Memory', '2012-06-18', '2012-06-18', 1),
->>>>>>> 44de2d0322eecd8c8fe5147df81b3fcc10a608b0
 	('03-Race Condition', '2012-06-18','2013-06-18', 1),
 	('Visualization', '2012-06-18','2013-06-18', 2),
 	('Statistical Test Review', '2012-06-18','2013-06-18', 2),
@@ -63,7 +59,7 @@ VALUES (1),(2),(3);
 INSERT into api_lecturer
 VALUES (4);
 
-INSERT INTO api_task(task_name, deadline, is_done, lesson_id_id, student_id_id)
+INSERT INTO todo_task(task_name, deadline, is_done, lesson_id_id, student_id_id)
 VALUES 
 ('CPU assignment','2013-06-18',1,1,1 ),
 ('Memory assignment','2013-06-18',1,2,1 ),
@@ -76,23 +72,6 @@ VALUES
 
 INSERT INTO api_assignmentform([order], is_closed, lesson_id_id, lecturer_id_id)
 VALUES 
-<<<<<<< HEAD
-(1, 0, 1, 4),
-(2, 0, 1, 4),
-(3, 0, 1, 4),
-(1, 0, 2, 4),
-(2, 0, 2, 4)
-;
--- INSERT INTO api_assignmentquestion(question, [order], weight, assignment_form_id_id, type)
--- VALUES
--- ('Definition of CPU', 1, 30, 1, 0),
--- ('CPU examples', 2, 30, 1, 0),
--- ('CPU prices research', 3, 30, 1, 0),
--- ('How CPU works', 1, 30, 2, 0),
--- ('How CPU was  created', 2, 30, 2, 0),
--- ('First CPU creation', 1, 30, 3, 0),
--- ('CPU stands for what?', 2, 30, 3, 0);
-=======
 (1, '2012-06-18', 0, 1, 4),
 (2, '2012-06-18', 0, 1, 4),
 (3, '2012-06-18', 0, 1, 4),
@@ -109,7 +88,6 @@ VALUES
 ('How CPU was  created', 2, 30, 2, 0),
 ('First CPU creation', 1, 30, 3, 0),
 ('CPU stands for what?', 2, 30, 3, 0);
->>>>>>> 44de2d0322eecd8c8fe5147df81b3fcc10a608b0
 
 -- INSERT INTO api_assignmentanswer (answer, score, question_id_id, student_id_id)
 -- VALUES 

@@ -16,7 +16,7 @@ class TaskSerializer (DynamicFieldsModelSerializer):
         instance.description = validated_data.get('description', instance.description)
         instance.status = validated_data.get('status', instance.status)
         instance.deadline = validated_data.get('deadline', instance.deadline)
-        instance.lesson = validated_data.get ('lesson', instance.lesson)
+        # instance.lesson = validated_data.get ('lesson', instance.lesson)
         instance.save()
         return instance
     

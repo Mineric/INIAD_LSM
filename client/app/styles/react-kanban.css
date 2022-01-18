@@ -2,14 +2,13 @@
 
 .react-kanban-board {
     padding: 1rem;
-
 }
 
 .react-kanban-card {
     border-radius: 10px;
     background-color: #fff;
     padding: 10px;
-    margin-bottom: 7px
+    margin-bottom: 7px;
 }
 
 .react-kanban-card-skeleton,.react-kanban-card,.react-kanban-card-adder-form {
@@ -24,6 +23,13 @@
 
 .react-kanban-card__description {
     padding-top: 10px
+}
+
+.react-kanban-card__deadline {
+    font-style: italic;
+    color: gray;
+    font-size: 0.8rem;
+    text-align: right;
 }
 
 .react-kanban-card__title {
