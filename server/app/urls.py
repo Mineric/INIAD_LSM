@@ -28,5 +28,6 @@ urlpatterns = [
     path ('api-auth/', include('rest_framework.urls')),
     path('', include ('api.urls')), # meant to be fixed
     path('', include ('discuss.urls')), # meant to be fixed
+    path('', include ('todo.urls')), # meant to be fixed
 
 ]

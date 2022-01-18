@@ -80,5 +80,3 @@ class LessonAssignmentFormsSerializer(serializers.Serializer):
         fields = (
             'id'
         ))
-
-    
