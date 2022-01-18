@@ -70,7 +70,7 @@ export default function CourseCard() {
 
     return (
             <section >
-                    <Card style={{ backgroundColor: "#5039D9" }} sx={{ maxWidth: 350, padding: 1, borderRadius:"15px"}}>
+                    <Card  style={{ }}sx={{ backgroundColor: "#5039D9", maxWidth: 350, padding: 1, borderRadius:"15px"}}>
 
                         {/* <CardMedia
                             component="img"

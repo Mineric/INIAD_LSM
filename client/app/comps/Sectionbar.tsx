@@ -28,7 +28,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import { makeStyles } from "@material-ui/core/styles";
 
 import Paper from '@mui/material/Paper';
-
+import Tags from './buttons/Tags.tsx'
 import Grid from '@mui/material/Grid';const drawerWidth = 240;
 import NavigationButton from './buttons/NavigationButton';
 
@@ -226,17 +226,19 @@ export default function SectionBar() {
     </Menu>
   );
 
-
+ 
   
   return (
     <Box sx={{ flexGrow: 1 }} style={{ position: "sticky", top: "0"}}>
-      <AppBar position="static" style={{ background: '#333333', height: '44px'}}>
-        <Grid container spacing={0} justifyContent="center">
-          <Grid item xs style={{ display:"flex", justifyContent:"center", alignItems:"center", height:"40px"}}>
-            <div> Please Come Join Here. </div>
+      <AppBar position="static" style={{ background: '#333333', height: '60px', padding:'0px 70px 0px 60px'}}>
+      <Grid container
+        justifyContent="center"
+        style={{margin: "0px 30px 0px 30px"}}>
+          <Grid item xs style={{ display:"flex", justifyContent:"center", alignItems:"center", height:"60px"}}>
+            <Tags/>
           </Grid>
 
-          <Grid item style={{ display:"flex", justifyContent:"center", alignItems:"center", height:"40px"}}>
+          <Grid item style={{ position: "sticky", display:"flex", justifyContent:"center", alignItems:"center", height:"60px"}}>
             <NavigationButton />
           </Grid>
          

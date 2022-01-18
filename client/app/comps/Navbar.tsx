@@ -27,6 +27,8 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import { makeStyles } from "@material-ui/core/styles";
 import { createTheme } from '@mui/material/styles';
+import AvatarButton from './buttons/AvatarButton'
+
 const drawerWidth = 240;
 
 
@@ -211,7 +213,7 @@ export default function NavBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }} >
-      <AppBar position="static" style={{ background: '#fff' }}>
+      <AppBar position="static" style={{ background: '#fff' , padding:'0px 160px 0px 160px'}}>
         <Toolbar>
           {/* <IconButton
             size="large"
@@ -229,11 +231,11 @@ export default function NavBar() {
             // sx={{ ...(open && { display: 'none' }) }}
             sx={{"color": "black"}}
           >
-            <MenuIcon />
-
-            <Typography variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
-                Persistent drawer
-            </Typography>
+            {/* <MenuIcon /> */}
+            <img src="../assets/logo.png" alt="logo" style={{height:'30px', }} />
+            {/* <Typography variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
+                
+            </Typography> */}
           </IconButton>
 
     
@@ -249,9 +251,9 @@ export default function NavBar() {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
+              {/* <Badge badgeContent={4} color="error">
+                 <MailIcon /> 
+              </Badge> */}
             </IconButton>
             <IconButton
               size="large"
@@ -272,7 +274,7 @@ export default function NavBar() {
               // color="primary"
               sx={{"color": "black"}}
             >
-              <AccountCircle />
+              <AvatarButton/>
             </IconButton>
           </Box>
           <Box  style={{fill: "green"}} sx={{ display: { xs: 'flex', md: 'none' } }}>

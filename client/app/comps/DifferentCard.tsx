@@ -15,6 +15,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Box } from '@mui/system';
+import "@fontsource/nunito";
 
 export default function DifferentCard() {
   const [expanded, setExpanded] = React.useState(false);
@@ -25,13 +26,13 @@ export default function DifferentCard() {
 
   return (
 
-    <Box sx={{ width: 300 }} style={{ align:"center", padding:"6px"}}>
+    <Box sx={{ width: 300 }} style={{ marginBottom:"20px", align:"center", padding:"8px"}}>
 
-        <Card sx={{ maxWidth: 345, borderRadius:"15px"}}>
+        <Card sx={{ color:"white", backgroundColor: "white", maxWidth: 345, borderRadius:"15px"}}>
             <CardHeader
                 avatar={
-                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                    R
+                <Avatar sx={{ bgcolor:"rgb(0, 127, 255)" }} aria-label="recipe">
+                    T
                 </Avatar>
                 }
                 action={
@@ -39,16 +40,21 @@ export default function DifferentCard() {
                     <MoreVertIcon />
                 </IconButton>
                 }
-                title="Shrimp and Chorizo Paella"
-                subheader="September 14, 2016"
+                title="Thant Min Htet"
+                subheader="September 14, 2021"
             />
+
             <CardMedia
                 component="img"
                 height="194"
-                image="../assets/gitlogo.png"
+                width ="20"
+                image = "../assets/gitlogo.png"
                 alt="Paella dish"
+                style={{ backgroundColor : 'black', align:'center', height:"200px", width:"230px"}}
             />
+
             {/* <CardContent>
+
                 <Typography variant="body2" color="text.secondary">
                 This impressive paella is a perfect party dish and a fun meal to cook
                 together with your guests. Add 1 cup of frozen peas along with the mussels,
@@ -56,11 +62,11 @@ export default function DifferentCard() {
                 </Typography>
             </CardContent> */}
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
+                <IconButton aria-label="add to favorites" >
+                <FavoriteIcon style={{color:"rgb(0, 127, 255)"}} />
                 </IconButton>
                 <IconButton aria-label="share">
-                <ShareIcon />
+                <ShareIcon style={{color:"rgb(0, 127, 255)"}} />
                 </IconButton>
                 {/* <ExpandMore
                 expand={expanded}
@@ -103,6 +109,9 @@ export default function DifferentCard() {
             </Collapse> */}
 
             </Card>
+            <Typography variant="h6" component="h6" style={{padding:"8px"}}>
+                Git For Collaboration
+            </Typography>
 
     </Box>
     
