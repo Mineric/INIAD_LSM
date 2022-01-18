@@ -35,7 +35,7 @@
         "react-markdown": "^6.0.0",
         "remark-gfm": "^1.0.0",
         "rxjs": "^7.4.0",
-        "yup": "^0.32.11",
+        "yup": "^0.32.11"
     },
     "devDependencies": {
         "@mui/styles": "^5.2.3",

@@ -27,6 +27,12 @@ const DisplayEditor = ({ rawEditorState, wrapperClassName = "", editorClassName 
       }
   })()
 
+  useEffect(() => {
+    if(rawEditorState !== undefined && rawEditorState !== ""){
+      setDisplayEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(rawEditorState))));
+    }
+  }, [rawEditorState])
+
   return (
     <>
       {/* <div className="preview" dangerouslySetInnerHTML={createMarkup(convertedContent)}></div> */}
