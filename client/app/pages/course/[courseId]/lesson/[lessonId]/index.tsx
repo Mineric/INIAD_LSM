@@ -80,6 +80,7 @@ const lecture = ({ lessons }) => {
     const [currentContentTitle, setCurrentContentTitle] = useState("");
     const [currentContentText, setCurrentContentText] = useState("");
     // for changes that we might or might not save
+    const [lessonState, setLessonState] = useState(lessons);
     const [uncommitLesson, setUncommitLesson] = useState(lessons);
     const [changed, setChanged] = useState(true);
 
@@ -87,11 +88,20 @@ const lecture = ({ lessons }) => {
         const tab = lessons.content.length > 0 ? 0 : -1;
         setCurrentTab(tab);
         setCurrentDisplayContent(tab);
-        
+        setLessonState(lessons);
     }, [])
 
     const changeEditMode = () => {
         setEditable(editable ? false : true);
+    }
+
+    const onClickEditBtn = () => {
+        if(!editable){
+            setUncommitLesson(lessonState);
+        } else {
+            setLessonState(uncommitLesson);
+        }
+        changeEditMode();
     }
 
     const addTab = () => {
@@ -101,8 +111,13 @@ const lecture = ({ lessons }) => {
             text: "",
         })
         setCurrentTab(newUncommitLesson.content.length - 1);
-        setCurrentDisplayContent(newUncommitLesson.content.length - 1);
+        setCurrentDisplayContent(newUncommitLesson.content.length - 1, newUncommitLesson);
         setUncommitLesson(newUncommitLesson);
+    }
+    const onClickTab = (index) => {
+        setCurrentTab(index);
+        setCurrentDisplayContent(index, uncommitLesson);
+        setChanged((changed) => changed ? false: true)
     }
     const setCurrentDisplayContent = (index, tuncommitLesson={}) => {
         // Edit mode
@@ -111,17 +126,11 @@ const lecture = ({ lessons }) => {
             setCurrentContentTitle(tuncommitLesson.content[index].title)
             setCurrentContentText(tuncommitLesson.content[index].text)
         } else {
-            setCurrentContent(lessons.content[index]);
-            setCurrentContentTitle(lessons.content[index].title)
-            setCurrentContentText(lessons.content[index].text)
+            setCurrentContent(lessonState.content[index]);
+            setCurrentContentTitle(lessonState.content[index].title)
+            setCurrentContentText(lessonState.content[index].text)
         }
     }
-    const onClickTab = (index) => {
-        setCurrentTab(index);
-        setCurrentDisplayContent(index);
-        setChanged((changed) => changed ? false: true)
-    }
-
     const updateLessonText = (rawEditorState) => {
         const newLesson = {...uncommitLesson};
         const newPart = {...currentContent};
@@ -140,12 +149,12 @@ const lecture = ({ lessons }) => {
                     <div className="row position-absolute w-100 h-100">
 
                         <section className="col-md-8 d-flex flex-row flex-wrap align-items-center align-content-center border-right border-gray px-0">
-                            <Button onClick={(e) => changeEditMode()}>Edit</Button>
-                            {lessons && <div className="position-relative h-100">
+                            <Button onClick={(e) => changeEditMode()}>{editable ? "Save" : "Edit"}</Button>
+                            {lessonState && <div className="position-relative h-100">
 
                                 <div className='lessonTab'>
                                     <LessonTab
-                                        tabList={lessons.content}
+                                        tabList={lessonState.content}
                                         className="tab"
                                         allowAddTab={editable}
                                         currentTab={currentTab}
@@ -164,9 +173,9 @@ const lecture = ({ lessons }) => {
                                         <span className="d-block px-5 mx-5 text-secondary text-justify" style={{ fontSize: '1rem', whiteSpace: 'pre-line' }}>
                                             {/* <Markdown editable={editable}>{"Just a code: `git add .`"}</Markdown> */}
                                             {!editable && 
-                                                <TextDisplay rawEditorState={currentContentText}></TextDisplay> }
+                                                <TextDisplay key={'D' + currentTab} rawEditorState={currentContentText}></TextDisplay> }
                                             {editable &&    
-                                                <TextEditor rawEditorState={currentContentText} onUpdate={(rawEditorState) => updateLessonText(rawEditorState)}></TextEditor>
+                                                <TextEditor key={'E' + currentTab} rawEditorState={currentContentText} onUpdate={(rawEditorState) => updateLessonText(rawEditorState)}></TextEditor>
                                             }
                                         </span>
                                     </div>
