@@ -21,7 +21,7 @@ const CourseContainter = () => {
                 {/* <CourseCard/>    
                 <CourseCard/>   
                 <CourseCard/>  */}
-                <DifferntCard/>     
+                <DifferntCard className="course-card"/>     
                 <DifferntCard/>  
                 <DifferntCard/>  
                 <DifferntCard/>      

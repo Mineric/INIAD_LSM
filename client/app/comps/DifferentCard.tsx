@@ -27,7 +27,7 @@ export default function DifferentCard() {
 
     <Box sx={{ width: 300 }} style={{ align:"center", padding:"6px"}}>
 
-        <Card style={{ backgroundColor: "#5039D9" }} sx={{ maxWidth: 345, borderRadius:"15px"}}>
+        <Card sx={{ maxWidth: 345, borderRadius:"15px"}}>
             <CardHeader
                 avatar={
                 <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
