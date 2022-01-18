@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 // import dynamic from 'next/dynamic'
 import Board from "@asseinfo/react-kanban"
 // import '@asseinfo/react-kanban/dist/styles.css'
-import { update } from "immutable";
 import Card from "./Card"
 
 const UncontrolledKanbanBoard = ({initialBoard, onBoardChange, 
@@ -20,15 +19,15 @@ const UncontrolledKanbanBoard = ({initialBoard, onBoardChange,
           initialBoard={initialBoard}
           allowAddCard={{ on: "top" }}
           onNewCardConfirm={draftCard => ({
+            ...draftCard,
             id: new Date().getTime(),
-            name: draftCard.title,
-            ...draftCard
+            deadline: draftCard.deadline.toISOString().split('T')[0],
           })}
-          onCardNew={(board, card) => {
+          onCardNew={(board, column, card) => {
             if(onCardNew){
-              onCardNew(board, card);
+              onCardNew(board, column, card);
             }
-            console.log("New card", board, card);
+            console.log("New card", board, column, card);
           }}
           onCardDragEnd={(board, card, source, destination) => {
             if(onCardDragEnd){
@@ -37,10 +36,11 @@ const UncontrolledKanbanBoard = ({initialBoard, onBoardChange,
             console.log("Drag card", board, card);
           }}
           onCardRemove={(board, card, column) => {
+            console.log("Remove card", board, card);
             if(onCardRemove){
               onCardRemove(board, card, column);
             }
-            console.log("Remove card", board, card);
+            
           }}
           renderCard={(card, {removeCard, dragging}) => (
             <Card card={card} allowRemoveCard={true} onCardRemove={removeCard} dragging={dragging}></Card>

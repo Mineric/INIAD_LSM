@@ -68,15 +68,34 @@ const ToDoBoard = () => {
   useEffect(() => {
     const getURL = getAPIURL("/todo-viewset/TodoList/");
     fetchWrapper.get(getURL).then((data) => {
-      console.log(data)
+      if(data){
+        console.log(data)
       setBoard(transformData(data));
       setLoading(false);
+      } else{
+        alert("unable to connect to server")
+      }
+      
     })
   }, [])
 
-  const onCardNew = (board, card) => {
+  const onCardNew = (board, column, card) => {
     const createURL = getAPIURL(`/todo-viewset/TodoList/`)
-    fetchWrapper.post(createURL, card)
+    console.log("Creating new ", {...card, status: (column.id - 1)})
+    fetchWrapper.post(createURL, {...card, status: (column.id - 1)}).then((newCard) => {
+      if(newCard){
+        setLoading(true);
+        const nboard = {...board};
+        // update is always the top
+        nboard.columns[column.id - 1].cards[0] = {...newCard}
+        setBoard(nboard);
+        setLoading(false);
+      } else{
+        console.log("Create unsuccessfully.")
+      }
+      
+      console.log("OnCardNew Board", board);
+    })
   }
   
   const onCardDragEnd = (board, card, source, destination) => {
@@ -87,7 +106,7 @@ const ToDoBoard = () => {
     })
   }
 
-  const onCardRemove= (board, card, column) => {
+  const onCardRemove= (board, column, card) => {
     const deleteURL = getAPIURL(`/todo-viewset/TodoList/${card.id}/`)
     console.log(deleteURL)
     fetchWrapper.delete(deleteURL);
@@ -99,6 +118,7 @@ const ToDoBoard = () => {
         !loading &&
         <div className={styles.page}>
           <UncontrolledKanbanBoard  
+            onCardNew={onCardNew}
             onCardDragEnd={onCardDragEnd}
             onCardRemove={onCardRemove}
             onBoardChange={(board) => { console.log("Update", board) }} 

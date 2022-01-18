@@ -11,6 +11,19 @@
     margin-bottom: 7px;
 }
 
+.react-kanban-card-adder-form__description {
+    display: flex;
+    padding-bottom: 0.4rem;
+    border: 1px solid gray;
+}
+
+.react-kanban-card-adder-form__deadline__header{
+    border-top: 1px solid #eee;
+    display: flex;
+    font-style: italic;
+    font-size: 0.8rem;
+}
+
 .react-kanban-card-skeleton,.react-kanban-card,.react-kanban-card-adder-form {
     box-sizing: border-box;
     max-width: 250px;

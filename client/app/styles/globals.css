@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
 @import "react-kanban.css";
+@import "react-datepicker.css";
 
 body {
   background: #f2f2f2;
