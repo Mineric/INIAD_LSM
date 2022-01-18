@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, Component } from 'react';
 import axios from 'axios';
 import Layout from '../../../../../comps/discussions/DiscussionLayout';
 import CommentsWidget from '../../../../../comps/discussions/CommentsWidget';
@@ -53,7 +53,11 @@ const myLoader = ({ src, width, quality }) => {
 // }
 
 const lecture = ({ lessons }) => {
-    
+    const [editable, setEditable] = useState(false);
+
+    const changeEditMode = () => {
+        setEditable(editable ? false : true);
+    }
 
     return (
         <>
@@ -68,7 +72,7 @@ const lecture = ({ lessons }) => {
                                 <div className='lessonTab'>
                                     <LessonTab
                                         className="tab"
-                                        allowAddTab={true}
+                                        allowAddTab={editable}
                                         onAddTab={() => { console.log("Add tab") }} />
                                 </div>
 
@@ -80,7 +84,7 @@ const lecture = ({ lessons }) => {
                                     </div>
 
                                     <div className="d-block h-50 px-5 mt-5 pt-3 mx-5 position-relative" style={{ overflowY: 'auto' }}>
-                                        <Markdown editable={false}>{"Just a code: `git add .`"}</Markdown>
+                                        <Markdown editable={true}>{"Just a code: `git add .`"}</Markdown>
                                         <span className="d-block px-5 mx-5 text-secondary text-justify" style={{ fontSize: '1rem', whiteSpace: 'pre-line' }}>
                                            
                                         </span>
