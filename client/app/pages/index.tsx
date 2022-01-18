@@ -12,10 +12,15 @@ const Home: NextPage = () => {
   return (
 
     <>
-       <h1 className={styles.head}>Welcome From INIAD LMS</h1>
-       <div className={styles.text}>
-         Welcome from our service
-       </div>
+      <Head>
+        <title> Course List | Home</title>
+        <meta></meta>
+      </Head>
+        <h1 className={styles.head}>Welcome From INIAD LMS</h1>
+        <div className={styles.text}>
+          Welcome from our service
+        </div>
+     
     </>
     
   )

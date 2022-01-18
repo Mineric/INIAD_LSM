@@ -20,6 +20,7 @@ import * as React from 'react';
 import coursesData from '../pages/api/courses';
 import courses from '../pages/api/courses';
 
+
 interface Courses {
     name: string;
     lecturer: string;
@@ -69,18 +70,26 @@ export default function CourseCard() {
 
     return (
             <section >
-                    <Card sx={{ maxWidth: 650, padding: 1}}>
-                        <CardMedia
+                    <Card  style={{ }}sx={{ backgroundColor: "#5039D9", maxWidth: 350, padding: 1, borderRadius:"15px"}}>
+
+                        {/* <CardMedia
                             component="img"
                             alt="course-bg-wallpaper"
-                            width="400"
-                            height="120"
+                            width="300"
+                            height="300"
                             image="./assets/python.png"
-                        />
-                        <CardContent>
+                            borderradius = "15px"
+                        /> */}
+                      
+
+                     
+                        <CardContent >
                             <Typography gutterBottom variant="h5" component="div">
-                            {courses.name}
+                                {courses.name}
                             </Typography>
+
+                            <img src="./assets/python.png" width="400" height="100"/>
+                         
                             <Typography variant="body2" color="text.secondary">
                             {course.lecturer}
                             </Typography>
@@ -89,12 +98,14 @@ export default function CourseCard() {
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
                            
-                            </Typography>
+                           </Typography>
+
+                
                         </CardContent> 
 
 
                         <Box sx={{
-                                width: 200,
+                                width: 400,
                                 display: 'flex',
                                 alignItems: 'center',
                             }}
@@ -103,6 +114,7 @@ export default function CourseCard() {
                                 name="hover-feedback"
                                 value={value}
                                 precision={0.5}
+
                                 // onChange={(event, newValue) => {
                                 // setValue(newValue);
                                 // }}
@@ -119,24 +131,13 @@ export default function CourseCard() {
                         </Box>
 
 
-                        <AvatarGroup max={3}>
-                            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                            <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-                            <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-                            <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-                            <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
-                            <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-                            <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-                            <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
-                        </AvatarGroup>
-
                         <CardActions>
                             <Button size="small" style={{color:"red"}}>Share</Button>
-                            <Button size="small">Learn More</Button>
+                            {/* <Button size="small">Learn More</Button> */}
                         </CardActions>
 
 
-                        <Link href="/CourseSkeleton"><a> To Course Skeleton</a></Link>
+                        <Link href="/CourseSkeleton"><a> To Course </a></Link>
 
                         
                     </Card>
