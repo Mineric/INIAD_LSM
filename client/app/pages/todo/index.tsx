@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic'
 const UncontrolledKanbanBoard = dynamic(() => import("../../comps/UncontrolledKanbanBoard/UncontrolledKanbanBoard"), { ssr: false })
 import styles from "./layout.module.css"
 import { fetchWrapper, getAPIURL } from "../../helpers";
+import createTypography from "@mui/material/styles/createTypography";
 
 const boardData = {
   columns: [
@@ -68,25 +69,38 @@ const ToDoBoard = () => {
     const getURL = getAPIURL("/todo-viewset/TodoList/");
     fetchWrapper.get(getURL).then((data) => {
       console.log(data)
-      setBoard(transformData(boardData));
+      setBoard(transformData(data));
       setLoading(false);
     })
   }, [])
 
+  const onCardNew = (board, card) => {
+    const createURL = getAPIURL(`/todo-viewset/TodoList/`)
+    fetchWrapper.post(createURL, card)
+  }
+  
   const onCardDragEnd = (board, card, source, destination) => {
     card.status = getStatus(destination.toColumnId);
-    transformData(board);
-    const updateURL = getAPIURL(`http://127.0.0.1:8000/todo-viewset/TodoList/${card.id}`);
+    const updateURL = getAPIURL(`/todo-viewset/TodoList/${card.id}/`);
     fetchWrapper.put(updateURL, card).then((data) => {
-
+      console.log("Update card server", card);
     })
   }
+
+  const onCardRemove= (board, card, column) => {
+    const deleteURL = getAPIURL(`/todo-viewset/TodoList/${card.id}/`)
+    console.log(deleteURL)
+    fetchWrapper.delete(deleteURL);
+  }
+
   return (
     <>
       {
         !loading &&
         <div className={styles.page}>
-          <UncontrolledKanbanBoard 
+          <UncontrolledKanbanBoard  
+            onCardDragEnd={onCardDragEnd}
+            onCardRemove={onCardRemove}
             onBoardChange={(board) => { console.log("Update", board) }} 
             initialBoard={board}
             ></UncontrolledKanbanBoard>

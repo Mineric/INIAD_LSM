@@ -21,6 +21,7 @@ const UncontrolledKanbanBoard = ({initialBoard, onBoardChange,
           allowAddCard={{ on: "top" }}
           onNewCardConfirm={draftCard => ({
             id: new Date().getTime(),
+            name: draftCard.title,
             ...draftCard
           })}
           onCardNew={(board, card) => {
