@@ -8,9 +8,12 @@ const Editor = dynamic(
   )
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import styles from  "./TextEditor.module.css"
+import { red } from '@mui/material/colors';
+import styleMap from './StyleMap';
 
 // onUpdate: Update function to call everytime Editor State is updated
 //      return: raw JSON of Editor State
+
 const TextEditor = ({ onUpdate, rawEditorState}) => {
     const [editorState, setEditorState] = (() => {
         if(rawEditorState !== undefined && rawEditorState !== ""){
@@ -102,6 +105,7 @@ const TextEditor = ({ onUpdate, rawEditorState}) => {
             <Editor
                 editorState={editorState}
                 onEditorStateChange={handleEditorChange}
+                customStyleMap={styleMap}
                 wrapperClassName={styles.wrapperClass}
                 editorClassName={styles.editorClass}
                 toolbarClassName={styles.toolbarClass}

@@ -28,6 +28,7 @@ const AssignmentFormEdit = ({ onSave, content, assignmentFormId }) => {
 
     const onUpdate = (newEditorState) => {
         setAssignmentQuestions(newEditorState);
+        console.log(newEditorState)
     }
 
     const openDialog = () => {
@@ -107,6 +108,7 @@ const AssignmentFormEdit = ({ onSave, content, assignmentFormId }) => {
                                     newAssignmentQuestions[index] = {...newAssignmentQuestions[index]}
                                     newAssignmentQuestions[index].question = newRawQuestionState
                                     setAssignmentQuestions(newAssignmentQuestions)
+                                    console.log(newAssignmentQuestions)
                                 }} 
                                 addNewQuestion = {() => {addNewQuestion(index, PARAGRAPH)}}
                                 duplicateQuestion = {() => {duplicateQuestion(index)}}
