@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
 import Head from 'next/head';
+import Footer from "./Footer";
+import Navbar from "./Navbar";
 
 const Layout = props => (
     <Fragment>
@@ -9,7 +11,13 @@ const Layout = props => (
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossOrigin="anonymous" />
             <title>{props.pageTitle || 'Realtime Comments'}</title>
         </Head>
-        {props.children}
+
+        <div className="content">
+            <Navbar/>
+                {props.children}
+            <Footer/>
+        </div>
+        
     </Fragment>
 );
 

@@ -8,6 +8,8 @@ import { AccountLayout } from '../../comps/accounts/AccountLayout';
 import { userService, alertService } from '../../services';
 import { useAuth } from "../../firebase/contexts/AuthContext"
 import { fetchWrapper } from "../../helpers"
+import styles from "./layout.module.css"
+import { style } from '@mui/system';
 
 export default Login;
 
@@ -51,28 +53,29 @@ function Login() {
 
     return (
         <AccountLayout>
-            <div className="card">
-                <h4 className="card-header">Login</h4>
-                <div className="card-body">
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="form-group">
-                            <label>Username</label>
-                            <input name="username" type="text" {...register('username')} className={`form-control ${errors.username ? 'is-invalid' : ''}`} />
-                            <div className="invalid-feedback">{errors.username?.message}</div>
-                        </div>
-                        <div className="form-group">
-                            <label>Password</label>
-                            <input name="password" type="password" {...register('password')} className={`form-control ${errors.password ? 'is-invalid' : ''}`} />
-                            <div className="invalid-feedback">{errors.password?.message}</div>
-                        </div>
-                        <button disabled={formState.isSubmitting} className="btn btn-primary">
-                            {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                            Login
-                        </button>
-                        <LinkNext href="/accounts/RegisterForm" className="btn btn-link">Register</LinkNext>
-                    </form>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label>
+                    Email: <input type="text" ref={emailInput} />
+                    </label>
                 </div>
-            </div>
+                <div>
+                    <label>
+                    Password: <input type="password" ref={passwordInput} />
+                    </label>
+                </div>
+                <div>
+                    <button type="submit">Sign in</button>
+                </div>
+            </form>
         </AccountLayout>
     );
 }
+
+
+
+
+
+
+
+

@@ -1,17 +1,27 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-class Comment extends Component {
+export default class Comments extends Component {
+    constructor(props) {
+        super(props);
+        this.commentBox = React.createRef();
+    }
 
-  render() {
-    const { text } = this.props;
+    componentDidMount() {
+        let scriptEl = document.createElement("script");
+        scriptEl.setAttribute("src", "https://utteranc.es/client.js")
+        scriptEl.setAttribute("crossorigin", "anonymous")
+        scriptEl.setAttribute("async", true)
+        scriptEl.setAttribute("repo", "Mineric/LSM_Comments.git")
+        scriptEl.setAttribute("issue-term", "title")
+        scriptEl.setAttribute("theme", "github-light")
+        this.commentBox.current.appendChild(scriptEl)
+    }
 
-    return <div className="w-100 mx-4 d-flex">
-      <div className="w-100 px-2">
-        <span className="d-block text-secondary" style={{ fontSize: '0.9rem', fontWeight: 500, lineHeight: 1.5, whiteSpace: 'pre-wrap' }}>{text}</span>
-      </div>
-    </div>
-  }
-
+    render() {
+        return (
+            <div style={{ width: '100%', padding: '40px' }} id="comments">
+                <div ref={this.commentBox}></div>
+            </div>
+        )
+    }
 }
-
-export default Comment;

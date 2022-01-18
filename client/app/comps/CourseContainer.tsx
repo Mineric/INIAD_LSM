@@ -11,12 +11,12 @@ const c = [1,2,3];
 const CourseContainter = () => {
     console.log(c);
     return (
-        <Grid container wrap="nowrap">
-            <section className="..\..\..\public\assets\python.png">
+        <Grid container >
+
                 <CourseCard/>    
                 <CourseCard/>   
                 <CourseCard/>           
-            </section>
+
         </Grid>
            
     )

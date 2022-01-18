@@ -6,7 +6,6 @@ import Drawer from '../comps/Drawer';
 const dashboard = () => {
     return (
         <>  
-            <Drawer/>
             <CourseContainter />
             
         </>
