@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   footer: {
     backgroundColor: '#333',
     width: `100%`,
-    position: "block",
+    // position: "block",
     overflow: "hidden",
     // marginTop: "6em",
     padding: "2em 0 ",
@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Footer = () => {
   const classes = useStyles();
-//   const path = routes;
   const router = useRouter();
   return (
     <footer className={classes.footer}>

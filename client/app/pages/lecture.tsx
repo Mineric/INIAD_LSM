@@ -68,7 +68,7 @@ const lecture = ({lessons}) =>  {
         <Layout pageTitle="Realtime Comments">
 
           <main className="container-fluid position-absolute h-100 bg-white">
-            <div className="row position-absolute w-100 h-100">
+            {/* <div className="row position-absolute w-100 h-100"> */}
 
               <section className="col-md-8 d-flex flex-row flex-wrap align-items-center align-content-center border-right border-gray px-0">
                     { lessons &&  <div className="position-relative h-100">
@@ -108,11 +108,9 @@ const lecture = ({lessons}) =>  {
                 {<Comments/> }
               </section>
 
-            </div>
+            {/* </div> */}
           </main>
-
-       
-
+          
         </Layout>
       </>
     );

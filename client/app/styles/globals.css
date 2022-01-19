@@ -106,9 +106,12 @@ section {
   padding: 2px 16px;
 }
 
+.lesson-page{
+  margin-top: 1rem;
+  z-index: 5;
+}
+
 .lessonTab{
-  margin: 20px 0px 0px 580px;
-  max-width: 50%;
   text-align: center;
 
   position: absolute;

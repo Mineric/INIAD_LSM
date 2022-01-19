@@ -229,7 +229,7 @@ export default function SectionBar() {
  
   
   return (
-    <Box sx={{ flexGrow: 1 }} style={{ position: "sticky", top: "0"}}>
+    <Box sx={{ flexGrow: 1 , zIndex: 100}} style={{ position: "sticky", top: "0"}}>
       <AppBar position="static" style={{ background: '#333333', height: '60px', padding:'0px 70px 0px 60px'}}>
       <Grid container
         justifyContent="center"

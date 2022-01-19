@@ -11,15 +11,15 @@ export default class Comments extends Component {
         scriptEl.setAttribute("src", "https://utteranc.es/client.js")
         scriptEl.setAttribute("crossorigin", "anonymous")
         scriptEl.setAttribute("async", true)
-        scriptEl.setAttribute("repo", "Mineric/LSM_Comments.git")
-        scriptEl.setAttribute("issue-term", "title")
+        scriptEl.setAttribute("repo", "Mineric/lsm_discussion")
+        scriptEl.setAttribute("issue-term", "url")
         scriptEl.setAttribute("theme", "github-light")
         this.commentBox.current.appendChild(scriptEl)
     }
 
     render() {
         return (
-            <div style={{ width: '100%', padding: '40px' }} id="comments">
+            <div style={{ width: '100%', padding: '1rem', zIndex: "10"}} id="comments">
                 <div ref={this.commentBox}></div>
             </div>
         )
