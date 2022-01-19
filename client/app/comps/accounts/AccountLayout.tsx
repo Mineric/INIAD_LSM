@@ -5,6 +5,8 @@ import { userService } from '../../services';
 
 export { AccountLayout };
 
+import bg from "../../public/assets/login-bg.png";
+
 function AccountLayout({ children }) {
     const router = useRouter();
 
@@ -17,11 +19,21 @@ function AccountLayout({ children }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const bgURL = "../../public/assets/login-bg.png";
-    console.log(`url(${bgURL})`)
+    console.log(`url(${bg})`)
+
     return (
-        <div className="offset-md-3 mt-5" styles={{backgroundImage: `${bgURL}` }}>
-            {children}
+        <div style={{
+            backgroundImage: `url(${require("../../public/assets/login-bg.png")})`,
+            // backgroundPosition: 'center',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            position: "absolute",
+            width: "250vh"
+        }}>
+            <div className="offset-md-3 mt-5" >
+                {children}
+            </div>
         </div>
+
     );
 }

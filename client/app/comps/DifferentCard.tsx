@@ -29,7 +29,7 @@ export default function DifferentCard() {
 
         <Box sx={{ width: 300 }} style={{ marginBottom: "20px", align: "center", padding: "8px" }}>
 
-            <Card sx={{ color: "white", backgroundColor: "white", maxWidth: 345, borderRadius: "15px" }}>
+            <Card sx={{ color: "black", backgroundColor: "white", maxWidth: 345, borderRadius: "15px" }}>
                 <CardHeader
                     avatar={
                         <Avatar sx={{ bgcolor: "rgb(0, 127, 255)" }} aria-label="recipe">
@@ -52,7 +52,7 @@ export default function DifferentCard() {
                         width="20"
                         image="../assets/gitlogo.png"
                         alt="Paella dish"
-                        style={{ backgroundColor: 'black', align: 'center', height: "200px", width: "230px" }}
+                        style={{ backgroundColor: 'black', align: 'center', height: "200px", width: "230px"}}
                     />
                 </Link>
 

@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack';
 export default function AvatarButton() {
   return (
     <Stack direction="row" spacing={1}>
-      <Chip avatar={<Avatar style={{backgroundColor: 'rgb(0, 127, 255)', color:'white'}}>M</Avatar>} label="Avatar" />
+      <Chip avatar={<Avatar style={{backgroundColor: 'rgb(0, 127, 255)', color:'white'}}>M</Avatar>} label="Min Htet" />
     </Stack>
   );
 }
