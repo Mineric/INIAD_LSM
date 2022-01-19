@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Link from 'next/link';
 import { styled, alpha, useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -223,20 +224,23 @@ export default function NavBar() {
             sx={{ mr: 2 }}
           >
             <MenuIcon /> */}
-          <IconButton
+          <Link href="/dashboard">
+            <IconButton
             color="primary"
             aria-label="open drawer"
             edge="end"
             onClick={handleDrawerOpen}
             // sx={{ ...(open && { display: 'none' }) }}
             sx={{"color": "black"}}
-          >
+            >
             {/* <MenuIcon /> */}
             <img src="../assets/logo.png" alt="logo" style={{height:'30px', }} />
             {/* <Typography variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
                 
             </Typography> */}
-          </IconButton>
+            </IconButton>
+          </Link>
+          
 
     
           <Search >

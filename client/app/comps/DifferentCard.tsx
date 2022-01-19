@@ -16,44 +16,48 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Box } from '@mui/system';
 import "@fontsource/nunito";
+import Link from "next/link"
 
 export default function DifferentCard() {
-  const [expanded, setExpanded] = React.useState(false);
+    const [expanded, setExpanded] = React.useState(false);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    };
 
-  return (
+    return (
 
-    <Box sx={{ width: 300 }} style={{ marginBottom:"20px", align:"center", padding:"8px"}}>
+        <Box sx={{ width: 300 }} style={{ marginBottom: "20px", align: "center", padding: "8px" }}>
 
-        <Card sx={{ color:"white", backgroundColor: "white", maxWidth: 345, borderRadius:"15px"}}>
-            <CardHeader
-                avatar={
-                <Avatar sx={{ bgcolor:"rgb(0, 127, 255)" }} aria-label="recipe">
-                    T
-                </Avatar>
-                }
-                action={
-                <IconButton aria-label="settings">
-                    <MoreVertIcon />
-                </IconButton>
-                }
-                title="Thant Min Htet"
-                subheader="September 14, 2021"
-            />
+            <Card sx={{ color: "white", backgroundColor: "white", maxWidth: 345, borderRadius: "15px" }}>
+                <CardHeader
+                    avatar={
+                        <Avatar sx={{ bgcolor: "rgb(0, 127, 255)" }} aria-label="recipe">
+                            T
+                        </Avatar>
+                    }
+                    action={
+                        <IconButton aria-label="settings">
+                            <MoreVertIcon />
+                        </IconButton>
+                    }
+                    title="Thant Min Htet"
+                    subheader="September 14, 2021"
+                />
 
-            <CardMedia
-                component="img"
-                height="194"
-                width ="20"
-                image = "../assets/gitlogo.png"
-                alt="Paella dish"
-                style={{ backgroundColor : 'black', align:'center', height:"200px", width:"230px"}}
-            />
+                <Link href="/course/1/lesson/1">
+                    <CardMedia
+                        component="img"
+                        height="194"
+                        width="20"
+                        image="../assets/gitlogo.png"
+                        alt="Paella dish"
+                        style={{ backgroundColor: 'black', align: 'center', height: "200px", width: "230px" }}
+                    />
+                </Link>
 
-            {/* <CardContent>
+
+                {/* <CardContent>
 
                 <Typography variant="body2" color="text.secondary">
                 This impressive paella is a perfect party dish and a fun meal to cook
@@ -61,14 +65,14 @@ export default function DifferentCard() {
                 if you like.
                 </Typography>
             </CardContent> */}
-            <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites" >
-                <FavoriteIcon style={{color:"rgb(0, 127, 255)"}} />
-                </IconButton>
-                <IconButton aria-label="share">
-                <ShareIcon style={{color:"rgb(0, 127, 255)"}} />
-                </IconButton>
-                {/* <ExpandMore
+                <CardActions disableSpacing>
+                    <IconButton aria-label="add to favorites" >
+                        <FavoriteIcon style={{ color: "rgb(0, 127, 255)" }} />
+                    </IconButton>
+                    <IconButton aria-label="share">
+                        <ShareIcon style={{ color: "rgb(0, 127, 255)" }} />
+                    </IconButton>
+                    {/* <ExpandMore
                 expand={expanded}
                 onClick={handleExpandClick}
                 aria-expanded={expanded}
@@ -76,9 +80,9 @@ export default function DifferentCard() {
                 >
                 <ExpandMoreIcon />
                 </ExpandMore> */}
-            </CardActions>
+                </CardActions>
 
-            {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
+                {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                 <Typography paragraph>Method:</Typography>
                 <Typography paragraph>
@@ -109,11 +113,11 @@ export default function DifferentCard() {
             </Collapse> */}
 
             </Card>
-            <Typography variant="h6" component="h6" style={{padding:"8px"}}>
+            <Typography variant="h6" component="h6" style={{ padding: "8px" }}>
                 Git For Collaboration
             </Typography>
 
-    </Box>
-    
-  );
+        </Box>
+
+    );
 }

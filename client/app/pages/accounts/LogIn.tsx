@@ -29,24 +29,23 @@ function Login() {
     function onSubmit({ username, password }: {username: string, password: string}) {
         try {
             login(username, password);
-            const URL = "http://127.0.0.1:8000/api/whoami/";
-            fetchWrapper.get(URL).then(data => {
-                console.log("Done fetching data");
-                console.log(data);
-            });
-            const returnUrl = router.query.returnUrl || '/';
-            router.push(returnUrl[0]); // why [0] ?
-        } catch {
-            alertService.error("Failed to login")
-          }
-        /*    
-        userService.login(username, password)
-            .then(() => {
-                // get return url from query parameters or default to '/'
+            
+            const returnUrl = '/dashboard';
+            console.log("Return url: ", returnUrl);
+            console.log(router.query.returnUrl);
+            router.push(returnUrl); // why [0] ?
+            // const URL = "http://127.0.0.1:8000/api/whoami/";
+            // fetchWrapper.get(URL).then(data => {
+            //     console.log("Done fetching data");
+            //     console.log(data);
                 
-            })
-            .catch(alertService.error);
-        */ 
+            // });
+            
+            // const returnUrl = router.query.returnUrl || '/dashboard';
+            
+        } catch {
+            alertService.error("Failed to login");
+          }
     }
 
     return (
