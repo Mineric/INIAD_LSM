@@ -17,8 +17,10 @@ function AccountLayout({ children }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const bgURL = "../../public/assets/login-bg.png";
+    console.log(`url(${bgURL})`)
     return (
-        <div className="col-md-6 offset-md-3 mt-5">
+        <div className="offset-md-3 mt-5" styles={{backgroundImage: `${bgURL}` }}>
             {children}
         </div>
     );

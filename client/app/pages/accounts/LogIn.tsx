@@ -49,7 +49,7 @@ function Login() {
     }
 
     return (
-        <AccountLayout style={{backgroundColor:'black'}}>
+        <AccountLayout >
             <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
             <Grid  item xs={3} > 
                 <div className="card">
@@ -76,9 +76,9 @@ function Login() {
                 </div>
             </Grid>
 
-                <Grid sx={{alignItem:'left', marginTop: '0px'}} item xs={3} style={{alignItem:'left', marginTop: '0px'}}>
-                    <img src="../assets/logo.png" alt="logo" style={{height:'150px'}} />
-                </Grid>
+                {/* <Grid sx={{alignItem:'left', marginTop: '0px'}} item xs={3} style={{alignItem:'left', marginTop: '0px'}}>
+                    <img src="../assets/login-bg.png" alt="logo" style={{height:'150px'}} />
+                </Grid> */}
 
 
             </Grid>
