@@ -1,7 +1,7 @@
 const styleMap = {
     'CODE': {
         color: "red",
-        "font-family": "monospace, monospace",
+        "fontFamily": "monospace, monospace",
     }
 };
 

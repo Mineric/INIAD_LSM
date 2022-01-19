@@ -14,7 +14,7 @@ import styleMap from './StyleMap';
 // onUpdate: Update function to call everytime Editor State is updated
 //      return: raw JSON of Editor State
 
-const TextEditor = ({ onUpdate, rawEditorState}) => {
+const TextEditor = ({ wrapperClass="", editorClass="", toolbarClass="", onUpdate, rawEditorState}) => {
     const [editorState, setEditorState] = (() => {
         if(rawEditorState !== undefined && rawEditorState !== ""){
             return useState(
@@ -106,9 +106,9 @@ const TextEditor = ({ onUpdate, rawEditorState}) => {
                 editorState={editorState}
                 onEditorStateChange={handleEditorChange}
                 customStyleMap={styleMap}
-                wrapperClassName={styles.wrapperClass}
-                editorClassName={styles.editorClass}
-                toolbarClassName={styles.toolbarClass}
+                wrapperClassName={wrapperClass ? wrapperClass : styles.wrapperClass}
+                editorClassName={editorClass ? editorClass : styles.editorClass}
+                toolbarClassName={toolbarClass ? toolbarClass : styles.toolbarClass}
                 toolbar={{
                     textAlign: { inDropdown: true },
                     image: {

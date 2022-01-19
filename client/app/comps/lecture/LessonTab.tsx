@@ -88,7 +88,7 @@ export default function LessonTab({
     <TabsUnstyled defaultValue={0}>
       <TabsList>
         {tabListState.map((tab, index) => <Tab selected={index === currentTab ? true : false} key={index} onClick={(e) => {onClickTab(index)}}>{index + 1}</Tab>)}
-        {allowAddTab && onAddTab && <Tab key="add" onClick={() => {onAddTab()}}><AddIcon fontSizeInherit/></Tab>}
+        {allowAddTab && onAddTab && <Tab key="add" onClick={() => {onAddTab()}}><AddIcon/></Tab>}
 
       </TabsList>
       {/* <TabPanel value={0}>First content</TabPanel>
