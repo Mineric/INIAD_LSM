@@ -12,4 +12,4 @@ function MyApp({ Component, pageProps }: AppProps) {
     </AuthProvider>
   )
 }
-export default MyApp
+export default MyApp;
