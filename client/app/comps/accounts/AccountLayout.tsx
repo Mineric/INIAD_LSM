@@ -28,7 +28,8 @@ function AccountLayout({ children }) {
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             position: "absolute",
-            width: "250vh"
+            width: "100vw",
+            height: "100vh"
         }}>
             <div className="offset-md-3 mt-5" >
                 {children}
