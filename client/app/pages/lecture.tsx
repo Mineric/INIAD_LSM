@@ -9,6 +9,7 @@ import LessonProgressBar from '../comps/lecture/LessonProgress';
 import { StylesContext } from '@mui/styles';
 import Comments from '../comps/discussions/Comment';
 import { makeStyles } from "@material-ui/core/styles";
+import Markdown from '../comps/Markdown';
 // export const getStaticProps = async () => {
 //   const res = await fetch('https://baconipsum.com/api/?type=meat-and-filler&paras=4&format=text')
 //   const data = await res.text();
@@ -35,7 +36,7 @@ export const getStaticProps = async () => {
   const data = await res.text();
 
   return {
-    props: {lessons: data}
+    props: {lessons: "Pariatur meatball kielbasa, tenderloin beef frankfurter dolore brisket minim pork loin pork hamburger. Fugiat alcatra sint, minim turkey ham hock labore consectetur biltong veniam reprehenderit. Filet mignon pig nulla, commodo doner qui voluptate irure ullamco enim short ribs. Nostrud culpa officia dolor adipisicing sed kielbasa ea irure ham sirloin rump meatloaf commodo short loin. Dolore leberkas duis, non pancetta proident swine in cupidatat lorem ea id boudin t-bone nisi."}
   }
 }
 
@@ -83,7 +84,7 @@ const lecture = ({lessons}) =>  {
                         <span className="d-block px-5 mx-5 pb-5 h1 text-dark border-bottom border-gray">Getting Started with Lorem Ipsum</span>
                       </div>
                   
-                      <div className="d-block h-50 px-5 mt-5 pt-3 mx-5 position-relative" style={{ overflowY: 'auto' }}>
+                      <div className="d-block h-50 px-5 mt-5 pt-3 mx-5 position-relative" >
                         <span className="d-block px-5 mx-5 text-secondary text-justify" style={{ fontSize: '1rem', whiteSpace: 'pre-line' }}>{ lessons }</span>
                       </div>
 

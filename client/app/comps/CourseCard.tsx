@@ -20,6 +20,7 @@ import * as React from 'react';
 import coursesData from '../pages/api/courses';
 import courses from '../pages/api/courses';
 
+
 interface Courses {
     name: string;
     lecturer: string;
@@ -69,18 +70,26 @@ export default function CourseCard() {
 
     return (
             <section >
-                    <Card sx={{ maxWidth: 650, padding: 1}}>
-                        <CardMedia
+                    <Card  style={{ }}sx={{ backgroundColor: "#5039D9", maxWidth: 350, padding: 1, borderRadius:"15px"}}>
+
+                        {/* <CardMedia
                             component="img"
                             alt="course-bg-wallpaper"
-                            width="400"
-                            height="200"
+                            width="300"
+                            height="300"
                             image="./assets/python.png"
-                        />
-                        <CardContent>
+                            borderradius = "15px"
+                        /> */}
+                      
+
+                     
+                        <CardContent >
                             <Typography gutterBottom variant="h5" component="div">
-                            {courses.name}
+                                {courses.name}
                             </Typography>
+
+                            <img src="./assets/python.png" width="400" height="100"/>
+                         
                             <Typography variant="body2" color="text.secondary">
                             {course.lecturer}
                             </Typography>
@@ -90,6 +99,8 @@ export default function CourseCard() {
                             <Typography variant="body2" color="text.secondary">
                            
                            </Typography>
+
+                
                         </CardContent> 
 
 
@@ -103,6 +114,7 @@ export default function CourseCard() {
                                 name="hover-feedback"
                                 value={value}
                                 precision={0.5}
+
                                 // onChange={(event, newValue) => {
                                 // setValue(newValue);
                                 // }}
@@ -125,7 +137,7 @@ export default function CourseCard() {
                         </CardActions>
 
 
-                        <Link href="/CourseSkeleton"><a> To Course Skeleton</a></Link>
+                        <Link href="/CourseSkeleton"><a> To Course </a></Link>
 
                         
                     </Card>

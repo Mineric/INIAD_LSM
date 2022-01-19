@@ -10,15 +10,15 @@ import { Container, Grid, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   footer: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: '#333',
     width: `100%`,
     position: "relative",
     overflow: "hidden",
     marginTop: "6em",
     padding: "2em 0 ",
-
-    position: "fixed",
-    bottom: "0"
+    position: 'fixed',
+    bottom:'0'
+    
   },
   link: {
     fontSize: "1.25em",
@@ -50,14 +50,14 @@ const Footer = () => {
           component={"a"}
           target="_blank"
           rel="noreferrer noopener"
-          href="https://satoruakiyama.com"
+          href="https://slideX.com"
           justify="center"
           style={{
             textDecoration: "none",
           }}
         >
           <Typography className={classes.copylight}>
-            &copy;Satoru Akiyama
+            &copy;slideX
           </Typography>
         </Grid>
       </Container>

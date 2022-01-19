@@ -2,6 +2,10 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
 
+.course-card {
+  background: #111010;
+}
+
 
 body {
   background: #f2f2f2;
@@ -27,6 +31,7 @@ nav {
   justify-content: flex-end;
   align-items: flex-end;
   border-bottom: 1px solid #ddd;
+
 }
 nav a {
   margin-left: 12px;
@@ -117,4 +122,10 @@ section {
   border-radius: 30px;
   background-color: #4979ff;
   padding: 50px;
+}
+
+
+.section-bar-text{
+  position: absolute;
+  text-align: center;
 }
