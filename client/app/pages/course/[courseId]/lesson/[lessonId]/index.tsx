@@ -181,7 +181,7 @@ const lecture = ({ lessons }) => {
                                         </span>
                                     </div>
 
-                                    <div>
+                                    {/* <div>
                                         <Image
                                             loader={myLoader}
                                             src="me.png"
@@ -189,7 +189,7 @@ const lecture = ({ lessons }) => {
                                             width={500}
                                             height={500}
                                         />
-                                    </div>
+                                    </div> */}
 
                                 </div>
                             </div>}

@@ -12,11 +12,10 @@ const useStyles = makeStyles((theme) => ({
   footer: {
     backgroundColor: '#333',
     width: `100%`,
-    position: "relative",
+    position: "block",
     overflow: "hidden",
-    marginTop: "6em",
+    // marginTop: "6em",
     padding: "2em 0 ",
-    position: 'fixed',
     bottom:'0'
     
   },
